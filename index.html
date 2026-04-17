@@ -6,7 +6,6 @@
     <title>EZWIN STUDIO | Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        
         /* GENEL TASARIM */
         :root {
             --bg: #050505;
@@ -22,70 +21,13 @@
             user-select: none;
         }
 
-     <script>
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    
-    // "LD" ÇIKARTILDI - Sadece senin istediğin kelimeler ve semboller kalacak
-    const words = ['EZWIN', 'NIM', 'STUDIO', '404', 'WIN', 'SAS', 'ROOT', '{}', '+', '666', 'EZ'];
-
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.onresize = resize;
-    resize();
-
-    class Particle {
-        constructor() {
-            this.init();
-            // Sayfa ilk açıldığında yazılar ekranın her yerinde olsun diye y koordinatını rastgele veriyoruz
-            this.y = Math.random() * canvas.height; 
+        /* ARKA PLAN KANVASI */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; z-index: -1;
+            opacity: 0.3; pointer-events: none;
         }
-        init() {
-            this.x = Math.random() * canvas.width;
-            this.y = canvas.height + 50; 
-            this.speed = 0.4 + Math.random() * 1.0; 
-            this.text = words[Math.floor(Math.random() * words.length)];
-            this.fontSize = 12 + Math.random() * 18; 
-            this.opacity = 0.1 + Math.random() * 0.4; 
-            this.rot = Math.random() * Math.PI * 2; 
-            this.rotSpeed = (Math.random() - 0.5) * 0.015; 
-        }
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.opacity;
-            ctx.fillStyle = "white";
-            ctx.font = `bold ${this.fontSize}px 'Arial Black', sans-serif`;
-            ctx.translate(this.x, this.y);
-            ctx.rotate(this.rot);
-            ctx.fillText(this.text, 0, 0);
-            ctx.restore();
 
-            this.y -= this.speed;
-            this.rot += this.rotSpeed;
-
-            if (this.y < -50) {
-                this.init();
-            }
-        }
-    }
-
-    // Parçacıkları oluştur
-    for(let i = 0; i < 65; i++) {
-        particles.push(new Particle());
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => p.draw());
-        requestAnimationFrame(animate);
-    }
-    animate();
-</script>
-
-        /* GEÇİŞLİ BAŞLIKLAR (ANIMATED GRADIENT) */
+        /* GEÇİŞLİ BAŞLIKLAR */
         .animated-text {
             background: var(--gradient);
             background-size: 200% auto;
@@ -100,16 +42,17 @@
             to { background-position: 200% center; }
         }
 
-        /* ANA KONTEYNER */
+        /* ANA İÇERİK */
         .main-content {
             display: flex; flex-direction: column; align-items: center;
             justify-content: center; height: 100vh; text-align: center;
+            position: relative; z-index: 10;
         }
 
         .header h1 { font-size: 4rem; margin: 0; letter-spacing: -2px; }
         .sub-header { font-size: 10px; letter-spacing: 4px; opacity: 0.4; margin-bottom: 40px; }
 
-        /* BUTONLAR (GRID) */
+        /* BUTONLAR */
         .links-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 15px; width: 90%; max-width: 850px;
@@ -135,12 +78,13 @@
         .btn.dark { background: rgba(0,0,0,0.8); }
         .btn.full { grid-column: span 3; border: 2px solid white; margin-top: 10px; }
 
-        /* MÜZİK ÇALAR (SOL ÜST) */
+        /* MÜZİK ÇALAR */
         .player {
             position: fixed; top: 30px; left: 30px;
             background: var(--glass); padding: 12px 20px;
             border-radius: 40px; display: flex; align-items: center; gap: 15px;
             border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            z-index: 100;
         }
 
         .player i { cursor: pointer; transition: 0.2s; opacity: 0.7; }
@@ -148,10 +92,10 @@
         
         input[type="range"] { accent-color: white; cursor: pointer; width: 60px; }
 
-        /* SAĞ ALT YAZI */
         .footer-text {
             position: fixed; bottom: 20px; right: 30px;
             font-size: 11px; letter-spacing: 2px;
+            z-index: 100;
         }
     </style>
 </head>
@@ -174,12 +118,12 @@
         <p class="sub-header">FOUNDER: EZWIN YASEN</p>
 
         <div class="links-grid">
-            <a href="https://music.youtube.com" target="_blank" class="btn">JOIN THE EZWIN MUSIC</a>
-            <a href="https://youtube.com" target="_blank" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN STUDIO</a>
+            <a href="#" class="btn">JOIN THE EZWIN MUSIC</a>
+            <a href="#" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN STUDIO</a>
             <a href="#" class="btn">EZWIN UNCOPYLOCKED</a>
             
             <a href="#" class="btn">EZWIN HESAP HİZMETLERİ</a>
-            <a href="https://youtube.com" target="_blank" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN MUSIC</a>
+            <a href="#" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN MUSIC</a>
             <a href="#" class="btn">JOIN THE EZWIN CHEAT</a>
 
             <a href="#" class="btn full">JOIN THE EZWIN STUDIO</a>
@@ -195,7 +139,8 @@
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const words = ['EZWIN', 'NIM', 'LD+', 'STUDIO', '404', 'WIN', 'SAS', 'ROOT', '{}', '+'];
+        // LD ve LD+ çıkartıldı
+        const words = ['EZWIN', 'NIM', 'STUDIO', '404', 'WIN', 'SAS', 'ROOT', '{}', '***', '666', 'EZ'];
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -204,17 +149,16 @@
         window.onresize = resize; resize();
 
         class Particle {
-            constructor() {
-                this.init();
-            }
+            constructor() { this.init(); this.y = Math.random() * canvas.height; }
             init() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 200;
+                this.y = canvas.height + 50;
                 this.speed = 0.5 + Math.random() * 1.5;
                 this.text = words[Math.floor(Math.random() * words.length)];
-                this.fontSize = 10 + Math.random() * 15;
-                this.opacity = 0.1 + Math.random() * 0.5;
+                this.fontSize = 12 + Math.random() * 15;
+                this.opacity = 0.1 + Math.random() * 0.4;
                 this.rot = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.01;
             }
             draw() {
                 ctx.save();
@@ -226,7 +170,7 @@
                 ctx.fillText(this.text, 0, 0);
                 ctx.restore();
                 this.y -= this.speed;
-                this.rot += 0.01;
+                this.rot += this.rotSpeed;
                 if (this.y < -50) this.init();
             }
         }
@@ -245,32 +189,28 @@
         const playBtn = document.getElementById('playBtn');
         const volSlider = document.getElementById('volume');
         
-        // BURAYA ŞARKI LİNKLERİNİ EKLE
         const playlist = [
             "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 
             "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
         ];
         let currentTrack = 0;
 
-        function loadTrack(idx) {
-            audio.src = playlist[idx];
-        }
+        function loadTrack(idx) { audio.src = playlist[idx]; }
         loadTrack(currentTrack);
 
         playBtn.onclick = () => {
-            if(audio.paused) {
-                audio.play();
-                playBtn.className = "fas fa-pause";
-            } else {
-                audio.pause();
-                playBtn.className = "fas fa-play";
-            }
+            if(audio.paused) { audio.play(); playBtn.className = "fas fa-pause"; }
+            else { audio.pause(); playBtn.className = "fas fa-play"; }
         };
 
         document.getElementById('next').onclick = () => {
             currentTrack = (currentTrack + 1) % playlist.length;
-            loadTrack(currentTrack);
-            audio.play();
+            loadTrack(currentTrack); audio.play(); playBtn.className = "fas fa-pause";
+        };
+
+        document.getElementById('prev').onclick = () => {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack); audio.play(); playBtn.className = "fas fa-pause";
         };
 
         volSlider.oninput = (e) => { audio.volume = e.target.value; };
