@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZWIN STUDIO | Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* GENEL TASARIM */
+        :root {
+            --bg: #050505;
+            --accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --gradient: linear-gradient(90deg, #fff, #666, #fff);
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: var(--bg); color: white;
+            font-family: 'Inter', sans-serif; overflow: hidden;
+            user-select: none;
+        }
+
+        /* ARKA PLAN ANİMASYONU */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; z-index: -1;
+            opacity: 0.3; pointer-events: none;
+        }
+
+        /* GEÇİŞLİ BAŞLIKLAR (ANIMATED GRADIENT) */
+        .animated-text {
+            background: var(--gradient);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* ANA KONTEYNER */
+        .main-content {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; height: 100vh; text-align: center;
+        }
+
+        .header h1 { font-size: 4rem; margin: 0; letter-spacing: -2px; }
+        .sub-header { font-size: 10px; letter-spacing: 4px; opacity: 0.4; margin-bottom: 40px; }
+
+        /* BUTONLAR (GRID) */
+        .links-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; width: 90%; max-width: 850px;
+        }
+
+        .btn {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 22px; border-radius: 10px;
+            color: white; text-decoration: none;
+            font-weight: bold; font-size: 13px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn:hover {
+            background: white; color: black;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+
+        .btn.dark { background: rgba(0,0,0,0.8); }
+        .btn.full { grid-column: span 3; border: 2px solid white; margin-top: 10px; }
+
+        /* MÜZİK ÇALAR (SOL ÜST) */
+        .player {
+            position: fixed; top: 30px; left: 30px;
+            background: var(--glass); padding: 12px 20px;
+            border-radius: 40px; display: flex; align-items: center; gap: 15px;
+            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+        }
+
+        .player i { cursor: pointer; transition: 0.2s; opacity: 0.7; }
+        .player i:hover { opacity: 1; transform: scale(1.2); }
+        
+        input[type="range"] { accent-color: white; cursor: pointer; width: 60px; }
+
+        /* SAĞ ALT YAZI */
+        .footer-text {
+            position: fixed; bottom: 20px; right: 30px;
+            font-size: 11px; letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="player">
+        <i class="fas fa-bars"></i>
+        <i class="fas fa-step-backward" id="prev"></i>
+        <i class="fas fa-play" id="playBtn"></i>
+        <i class="fas fa-step-forward" id="next"></i>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1 class="animated-text">EZWIN STUDIO</h1>
+        </div>
+        <p class="sub-header">FOUNDER: EZWIN YASEN</p>
+
+        <div class="links-grid">
+            <a href="https://music.youtube.com" target="_blank" class="btn">JOIN THE EZWIN MUSIC</a>
+            <a href="https://youtube.com" target="_blank" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN STUDIO</a>
+            <a href="#" class="btn">EZWIN UNCOPYLOCKED</a>
+            
+            <a href="#" class="btn">EZWIN HESAP HİZMETLERİ</a>
+            <a href="https://youtube.com" target="_blank" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN MUSIC</a>
+            <a href="#" class="btn">JOIN THE EZWIN CHEAT</a>
+
+            <a href="#" class="btn full">JOIN THE EZWIN STUDIO</a>
+        </div>
+    </div>
+
+    <div class="footer-text animated-text">POWERED BY: EZWINSTUDIO</div>
+
+    <audio id="mainAudio"></audio>
+
+    <script>
+        // --- ARKA PLAN ANİMASYONU ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const words = ['EZWIN', 'NIM', 'LD+', 'STUDIO', '404', 'WIN', 'SAS', 'ROOT', '{}', '+'];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.onresize = resize; resize();
+
+        class Particle {
+            constructor() {
+                this.init();
+            }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 200;
+                this.speed = 0.5 + Math.random() * 1.5;
+                this.text = words[Math.floor(Math.random() * words.length)];
+                this.fontSize = 10 + Math.random() * 15;
+                this.opacity = 0.1 + Math.random() * 0.5;
+                this.rot = Math.random() * Math.PI * 2;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = "white";
+                ctx.font = `bold ${this.fontSize}px Arial`;
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rot);
+                ctx.fillText(this.text, 0, 0);
+                ctx.restore();
+                this.y -= this.speed;
+                this.rot += 0.01;
+                if (this.y < -50) this.init();
+            }
+        }
+
+        for(let i=0; i<60; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach(p => p.draw());
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- MÜZİK SİSTEMİ ---
+        const audio = document.getElementById('mainAudio');
+        const playBtn = document.getElementById('playBtn');
+        const volSlider = document.getElementById('volume');
+        
+        // BURAYA ŞARKI LİNKLERİNİ EKLE
+        const playlist = [
+            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 
+            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+        ];
+        let currentTrack = 0;
+
+        function loadTrack(idx) {
+            audio.src = playlist[idx];
+        }
+        loadTrack(currentTrack);
+
+        playBtn.onclick = () => {
+            if(audio.paused) {
+                audio.play();
+                playBtn.className = "fas fa-pause";
+            } else {
+                audio.pause();
+                playBtn.className = "fas fa-play";
+            }
+        };
+
+        document.getElementById('next').onclick = () => {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+            audio.play();
+        };
+
+        volSlider.oninput = (e) => { audio.volume = e.target.value; };
+    </script>
+</body>
+</html>
