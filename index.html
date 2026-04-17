@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EZWIN STUDIO | Official</title>
+    <title>EZWIN STUDIO | Premium Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- GENEL TASARIM VE DEĞİŞKENLER --- */
+        /* --- YENİ DİNAMİK RENK PALETİ --- */
         :root {
-            --bg: #050505;
-            --accent: #ffffff;
-            --glass: rgba(255, 255, 255, 0.05);
-            --gradient: linear-gradient(90deg, #fff, #666, #fff);
-            --cyan: #00d5ff;
-            --panel-bg: rgba(10, 15, 20, 0.9);
+            --bg: #030305;
+            --accent-primary: #007cf0;  /* Safir Mavi */
+            --accent-secondary: #00dfd8; /* Turkuaz */
+            --accent-pink: #ff0080;     /* Elektrik Pembe */
+            --accent-glow: rgba(0, 124, 240, 0.4);
+            --glass: rgba(255, 255, 255, 0.03);
+            --panel-bg: rgba(5, 5, 10, 0.9);
+            --text-gradient: linear-gradient(to right, #007cf0, #00dfd8, #ff0080);
         }
 
         body, html {
@@ -29,130 +31,146 @@
             z-index: 1; opacity: 0.3; pointer-events: none;
         }
 
-        /* --- ANİMASYONLU METİNLER --- */
+        /* --- BAŞLIK VE ANİMASYONLAR --- */
         .animated-text {
-            background: var(--gradient);
-            background-size: 200% auto;
+            background: var(--text-gradient);
+            background-size: 300% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
+            animation: flow 5s linear infinite;
             font-weight: 900;
             text-transform: uppercase;
         }
 
-        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes flow {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
+        }
 
-        /* --- ANA İÇERİK --- */
         .main-content {
             position: relative; z-index: 10;
             display: flex; flex-direction: column; align-items: center;
             justify-content: center; height: 100vh; text-align: center;
         }
 
-        .header h1 { font-size: 4rem; margin: 0; letter-spacing: -2px; }
-        .sub-header { font-size: 10px; letter-spacing: 4px; opacity: 0.4; margin-bottom: 40px; }
+        .header h1 { 
+            font-size: 5rem; margin: 0; letter-spacing: -4px; 
+            filter: drop-shadow(0 0 20px rgba(0, 124, 240, 0.6));
+        }
 
+        .sub-header { 
+            font-size: 12px; letter-spacing: 6px; opacity: 0.7; 
+            margin-bottom: 50px; color: var(--accent-secondary);
+        }
+
+        /* --- ÇEKİCİ BUTON TASARIMI --- */
         .links-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 15px; width: 90%; max-width: 850px;
+            gap: 20px; width: 90%; max-width: 900px;
         }
 
         .btn {
+            position: relative;
             background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 22px; border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px; border-radius: 15px;
             color: white; text-decoration: none;
-            font-weight: bold; font-size: 13px;
+            font-weight: bold; font-size: 14px;
+            text-transform: uppercase; letter-spacing: 1px;
+            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(5px);
-            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(15px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 8px;
+        }
+
+        /* Buton İçindeki Parlama Efekti (Shimmer) */
+        .btn::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0; transition: 0.5s;
         }
 
         .btn:hover {
-            background: white; color: black;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(0, 124, 240, 0.3);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .btn.dark { background: rgba(0,0,0,0.8); }
-        .btn.full { grid-column: span 3; border: 2px solid white; margin-top: 10px; }
+        .btn:hover::before { opacity: 1; }
 
-        .footer-text {
-            position: fixed; bottom: 20px; right: 30px;
-            font-size: 11px; letter-spacing: 2px; z-index: 100;
+        .btn i { font-size: 20px; transition: 0.3s; }
+        .btn:hover i { transform: scale(1.2); color: var(--accent-secondary); }
+
+        /* Özel Renkli Butonlar */
+        .btn.youtube:hover { 
+            border-color: var(--accent-pink); 
+            box-shadow: 0 15px 30px rgba(255, 0, 128, 0.4); 
+        }
+        .btn.full { 
+            grid-column: span 3; 
+            background: linear-gradient(45deg, rgba(0, 124, 240, 0.1), rgba(255, 0, 128, 0.1));
+            border-width: 2px;
+            margin-top: 10px;
         }
 
-        /* --- YOUTUBE SİSTEMİ (GİZLİ) --- */
-        #yt-player-container { position: absolute; left: -9999px; opacity: 0; }
-
-        /* --- MÜZİK ÇALAR PANELİ --- */
+        /* --- MÜZİK ÇALAR --- */
         .music-widget {
             position: fixed; top: 30px; left: 30px; z-index: 100;
-            display: flex; flex-direction: column; gap: 15px;
         }
 
         .music-toggle {
-            width: 50px; height: 50px;
-            border: 1px solid var(--cyan); border-radius: 14px;
+            width: 60px; height: 60px;
+            border: 2px solid var(--accent-primary); border-radius: 20px;
             display: flex; align-items: center; justify-content: center;
-            background: var(--panel-bg); color: var(--cyan);
-            cursor: pointer; font-size: 20px; transition: 0.3s;
-            backdrop-filter: blur(10px);
+            background: var(--panel-bg); color: var(--accent-primary);
+            cursor: pointer; font-size: 24px; transition: 0.3s;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .music-panel {
-            width: 280px; background: var(--panel-bg);
-            border: 1px solid var(--cyan); border-radius: 16px;
-            padding: 20px; backdrop-filter: blur(15px);
-            opacity: 0; transform: translateY(-20px) scale(0.95);
-            pointer-events: none; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; top: 75px; left: 0;
+            width: 320px; background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px;
+            padding: 25px; backdrop-filter: blur(25px);
+            opacity: 0; transform: translateX(-30px);
+            pointer-events: none; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .music-panel.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
-
-        .music-controls {
-            display: flex; justify-content: center; align-items: center;
-            gap: 30px; color: var(--cyan); font-size: 20px;
-            padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;
-        }
-
-        .music-controls i { cursor: pointer; transition: 0.2s; }
-        .music-controls i:hover { transform: scale(1.2); text-shadow: 0 0 10px var(--cyan); }
+        .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
 
         .track-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px; border-radius: 12px; cursor: pointer;
-            transition: 0.3s; border: 1px solid transparent;
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px; border-radius: 15px; cursor: pointer;
+            transition: 0.3s; border: 1px solid transparent; margin-bottom: 8px;
         }
 
-        .track-item.playing { border-color: var(--cyan); background: rgba(0, 213, 255, 0.1); }
-        .track-item img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
-        .track-title { font-size: 13px; font-weight: bold; color: white; }
+        .track-item.playing { 
+            border-color: var(--accent-primary); 
+            background: rgba(0, 124, 240, 0.1);
+        }
 
-        /* --- HUD (BİLDİRİM) PANELLERİ --- */
+        /* --- HUD SİSTEMİ --- */
         .hud-panel {
             position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid var(--cyan);
-            border-radius: 20px;
-            padding: 30px;
+            transform: translate(-50%, -50%) scale(0.7);
+            background: rgba(5, 5, 10, 0.95);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 30px; padding: 40px 60px;
             display: flex; flex-direction: column; align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            min-width: 180px;
-            box-shadow: 0 0 30px rgba(0, 213, 255, 0.2);
+            z-index: 1000; pointer-events: none; opacity: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 0 60px rgba(0, 223, 216, 0.2);
         }
 
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .hud-panel i { font-size: 60px; color: var(--accent-secondary); margin-bottom: 20px; }
+        .hud-panel span { font-size: 22px; font-weight: 800; letter-spacing: 4px; }
 
-        .hud-panel i { font-size: 50px; color: var(--cyan); margin-bottom: 15px; filter: drop-shadow(0 0 8px var(--cyan)); }
-        .hud-panel span { font-size: 18px; font-weight: bold; letter-spacing: 2px; color: white; text-transform: uppercase; }
-
-        input[type="range"] { flex: 1; accent-color: var(--cyan); cursor: pointer; }
+        input[type="range"] { accent-color: var(--accent-primary); }
     </style>
 </head>
 <body>
@@ -160,57 +178,76 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="hud-panel" id="volumeHud">
-        <i class="fas fa-volume-up" id="hudIcon"></i>
+        <i class="fas fa-volume-high" id="hudIcon"></i>
         <span id="hudText">SES: %50</span>
     </div>
 
     <div class="hud-panel" id="songHud">
-        <i class="fas fa-music"></i>
-        <span id="songHudText">OYNATILIYOR</span>
+        <i class="fas fa-compact-disc fa-spin"></i>
+        <span id="songHudText" style="color: var(--accent-secondary);">OYNATILIYOR</span>
     </div>
 
     <div class="music-widget">
-        <div class="music-toggle" id="musicToggle"><i class="fas fa-bars"></i></div>
-        
+        <div class="music-toggle" id="musicToggle"><i class="fas fa-compact-disc"></i></div>
         <div class="music-panel" id="musicPanel">
-            <div class="music-controls">
-                <i class="fas fa-step-backward" id="prev"></i>
-                <i class="fas fa-play" id="playBtn"></i>
-                <i class="fas fa-step-forward" id="next"></i>
+            <div style="display:flex; justify-content: space-around; font-size: 25px; color: var(--accent-primary); margin-bottom: 20px;">
+                <i class="fas fa-backward-step" id="prev" style="cursor:pointer"></i>
+                <i class="fas fa-play" id="playBtn" style="cursor:pointer"></i>
+                <i class="fas fa-forward-step" id="next" style="cursor:pointer"></i>
             </div>
             <div class="music-list" id="musicList"></div>
-            <div style="display:flex; align-items:center; gap:10px; margin-top:15px; opacity:0.6">
-                <i class="fas fa-volume-down" id="muteToggle" style="cursor:pointer"></i>
-                <input type="range" id="volume" min="0" max="100" value="50">
+            <div style="display:flex; align-items:center; gap:10px; margin-top:20px;">
+                <i class="fas fa-volume-low" style="color:var(--accent-primary)"></i>
+                <input type="range" id="volume" min="0" max="100" value="50" style="width:100%">
             </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header"><h1 class="animated-text">EZWIN STUDIO</h1></div>
-        <p class="sub-header">FOUNDER: EZWIN YASEN</p>
+        <p class="sub-header">ESTABLISHED BY EZWIN YASEN</p>
+        
         <div class="links-grid">
-            <a href="#" class="btn">JOIN THE EZWIN MUSIC</a>
-            <a href="#" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN STUDIO</a>
-            <a href="#" class="btn">EZWIN UNCOPYLOCKED</a>
-            <a href="#" class="btn">EZWIN HESAP HİZMETLERİ</a>
-            <a href="#" class="btn dark"><i class="fab fa-youtube" style="color:red; margin-right:10px"></i> EZWIN MUSIC</a>
-            <a href="#" class="btn">JOIN THE EZWIN CHEAT</a>
-            <a href="#" class="btn full">JOIN THE EZWIN STUDIO</a>
+            <a href="#" class="btn">
+                <i class="fas fa-music"></i>
+                <span>JOIN EZWIN MUSIC</span>
+            </a>
+            <a href="#" class="btn youtube">
+                <i class="fab fa-youtube"></i>
+                <span>EZWIN STUDIO</span>
+            </a>
+            <a href="#" class="btn">
+                <i class="fas fa-unlock-alt"></i>
+                <span>UNCOPYLOCKED</span>
+            </a>
+            <a href="#" class="btn">
+                <i class="fas fa-user-shield"></i>
+                <span>HESAP HİZMETLERİ</span>
+            </a>
+            <a href="#" class="btn youtube">
+                <i class="fab fa-youtube"></i>
+                <span>EZWIN MUSIC</span>
+            </a>
+            <a href="#" class="btn">
+                <i class="fas fa-ghost"></i>
+                <span>EZWIN CHEATS</span>
+            </a>
+            <a href="#" class="btn full">
+                <i class="fas fa-rocket"></i>
+                <span>ENTER THE EZWIN ECOSYSTEM</span>
+            </a>
         </div>
     </div>
 
-    <div class="footer-text animated-text">POWERED BY: EZWINSTUDIO</div>
+    <div class="footer-text animated-text" style="position:fixed; bottom:20px; right:30px; font-size:12px; letter-spacing:2px">EZWIN © 2024</div>
     
-    <div id="yt-player-container">
-        <div id="yt-player"></div>
-    </div>
+    <div id="yt-player-container"><div id="yt-player"></div></div>
 
     <script>
-        // --- ARKA PLAN ANİMASYONU ---
+        // --- ARKA PLAN SİSTEMİ (Yeni Renklerle) ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        const words = ['EZWIN', 'NIM', 'STUDIO', '404', 'WIN', 'SAS', 'ROOT', '{}', '***', '666', 'EZ'];
+        const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN', 'ROOT', 'VIP'];
         let particles = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
@@ -222,69 +259,56 @@
                 this.speed = 0.5 + Math.random() * 1.5;
                 this.text = words[Math.floor(Math.random() * words.length)];
                 this.fontSize = 12 + Math.random() * 15;
-                this.opacity = 0.1 + Math.random() * 0.3;
-                this.rot = Math.random() * 6; this.rotSpeed = (Math.random() - 0.5) * 0.02;
+                this.opacity = 0.1 + Math.random() * 0.2;
+                this.color = Math.random() > 0.5 ? '#007cf0' : '#ff0080';
             }
             draw() {
-                ctx.save(); ctx.globalAlpha = this.opacity; ctx.fillStyle = "white";
+                ctx.save(); ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color;
                 ctx.font = `bold ${this.fontSize}px Arial`;
-                ctx.translate(this.x, this.y); ctx.rotate(this.rot);
-                ctx.fillText(this.text, 0, 0); ctx.restore();
-                this.y -= this.speed; this.rot += this.rotSpeed;
+                ctx.fillText(this.text, this.x, this.y); ctx.restore();
+                this.y -= this.speed;
                 if (this.y < -50) this.init();
             }
         }
-        for(let i=0; i<60; i++) particles.push(new Particle());
+        for(let i=0; i<40; i++) particles.push(new Particle());
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-        // --- MÜZİK SİSTEMİ VERİLERİ ---
+        // --- MÜZİK VE HUD KONTROLLERİ ---
         const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'MILIARDARA', img: 'https://img.youtube.com/vi/_9bw_VtMUGA/mqdefault.jpg' },
-            { id: 'KhqNTjbQ71A', title: 'Rauf Faik - Akşamlar', img: 'https://img.youtube.com/vi/KhqNTjbQ71A/mqdefault.jpg' },
-            { id: '3vAnU_Y0zE8', title: 'J-Killz - Honey', img: 'https://img.youtube.com/vi/3vAnU_Y0zE8/mqdefault.jpg' }
+            { id: '_9bw_VtMUGA', title: 'MILIARDARA' },
+            { id: 'KhqNTjbQ71A', title: 'AKŞAMLAR' },
+            { id: '3vAnU_Y0zE8', title: 'HONEY' }
         ];
 
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
         const musicToggle = document.getElementById('musicToggle');
         const musicPanel = document.getElementById('musicPanel');
-        const volumeHud = document.getElementById('volumeHud');
-        const songHud = document.getElementById('songHud');
-
         musicToggle.onclick = () => musicPanel.classList.toggle('active');
 
-        // Ses Bildirimi Göster
         function showVolumeHud(text, iconClass) {
             clearTimeout(hudTimer);
             document.getElementById('hudText').innerText = text;
             document.getElementById('hudIcon').className = `fas ${iconClass}`;
-            volumeHud.classList.add('show');
-            hudTimer = setTimeout(() => volumeHud.classList.remove('show'), 1500);
+            document.getElementById('volumeHud').classList.add('show');
+            hudTimer = setTimeout(() => document.getElementById('volumeHud').classList.remove('show'), 1200);
         }
 
-        // Şarkı İsmi Bildirimi Göster (Yeni Özellik)
         function showSongHud(title) {
             clearTimeout(songTimer);
             document.getElementById('songHudText').innerText = title;
-            songHud.classList.add('show');
-            songTimer = setTimeout(() => songHud.classList.remove('show'), 2500);
+            document.getElementById('songHud').classList.add('show');
+            songTimer = setTimeout(() => document.getElementById('songHud').classList.remove('show'), 2000);
         }
 
-        // --- YOUTUBE API ---
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(tag);
+        // YouTube Player Entegrasyonu
+        var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
-                height: '0', width: '0',
-                videoId: playlistData[currentTrack].id,
-                playerVars: { 'autoplay': 0, 'controls': 0 },
-                events: { 
-                    'onReady': onPlayerReady, 
-                    'onStateChange': (e) => { if(e.data === 0) document.getElementById('next').click(); } 
-                }
+                height: '0', width: '0', videoId: playlistData[0].id,
+                events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) document.getElementById('next').click(); } }
             });
         }
 
@@ -292,8 +316,8 @@
             const list = document.getElementById('musicList');
             list.innerHTML = playlistData.map((t, i) => `
                 <div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})">
-                    <img src="${t.img}">
-                    <span class="track-title">${t.title}</span>
+                    <span style="font-weight:bold; color:var(--accent-primary)">0${i+1}</span>
+                    <span style="font-size:13px">${t.title}</span>
                 </div>
             `).join('');
         }
@@ -304,46 +328,21 @@
             isPlaying = true;
             document.getElementById('playBtn').className = "fas fa-pause";
             renderPlaylist();
-            showSongHud(playlistData[i].title); // Şarkı ismini ekrana getir
+            showSongHud(playlistData[i].title);
         }
 
         function onPlayerReady() {
             renderPlaylist();
-            const playBtn = document.getElementById('playBtn');
-            const volSlider = document.getElementById('volume');
-            const muteBtn = document.getElementById('muteToggle');
-
-            playBtn.onclick = () => {
-                if(isPlaying) { 
-                    player.pauseVideo(); 
-                    playBtn.className = "fas fa-play"; 
-                } else { 
-                    player.playVideo(); 
-                    playBtn.className = "fas fa-pause"; 
-                    showSongHud(playlistData[currentTrack].title);
-                }
+            document.getElementById('playBtn').onclick = () => {
+                if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className = "fas fa-play"; }
+                else { player.playVideo(); document.getElementById('playBtn').className = "fas fa-pause"; showSongHud(playlistData[currentTrack].title); }
                 isPlaying = !isPlaying;
             };
-
             document.getElementById('next').onclick = () => playTrack((currentTrack + 1) % playlistData.length);
             document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
-
-            volSlider.oninput = (e) => {
-                const val = e.target.value;
-                player.setVolume(val);
-                showVolumeHud(`SES: %${val}`, val == 0 ? 'fa-volume-mute' : 'fa-volume-up');
-            };
-
-            muteBtn.onclick = () => {
-                if(player.isMuted()) {
-                    player.unMute();
-                    muteBtn.className = "fas fa-volume-down";
-                    showVolumeHud("SES AÇILDI", "fa-volume-up");
-                } else {
-                    player.mute();
-                    muteBtn.className = "fas fa-volume-mute";
-                    showVolumeHud("SES KAPATILDI", "fa-volume-mute");
-                }
+            document.getElementById('volume').oninput = (e) => {
+                player.setVolume(e.target.value);
+                showVolumeHud(`SES: %${e.target.value}`, "fa-volume-high");
             };
         }
     </script>
