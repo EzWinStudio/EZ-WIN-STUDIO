@@ -21,10 +21,10 @@
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
             font-family: 'Inter', sans-serif; overflow: hidden;
-            user-select: none;
+            user-select: none; /* Metin seçimini engeller */
         }
 
-        /* --- GİRİŞ EKRANI (OTOMATİK OYNATMA İÇİN ŞART) --- */
+        /* --- GİRİŞ EKRANI --- */
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 9999;
@@ -167,6 +167,16 @@
     <div id="yt-player-container"><div id="yt-player"></div></div>
 
     <script>
+        /* --- KORUMA SİSTEMİ (Öğeyi Denetle Engeli) --- */
+        document.addEventListener('contextmenu', e => e.preventDefault()); // Sağ tık
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
+                return false;
+            }
+        };
+        setInterval(function() { debugger; }, 100); // DevTools Açılırsa Kod Durur
+
+        /* --- ARKA PLAN SİSTEMİ --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN', 'ROOT', 'VIP', '07', '21', '06'];
@@ -196,6 +206,7 @@
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
+        /* --- MÜZİK SİSTEMİ --- */
         const playlistData = [
             { id: '_9bw_VtMUGA', title: 'New Person' },
             { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
@@ -203,7 +214,6 @@
 
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
-        // --- GİRİŞ VE OTOMATİK OYNATMA FONKSİYONU ---
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             if(player) {
