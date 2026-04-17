@@ -6,7 +6,7 @@
     <title>EZWIN STUDIO | Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* GENEL TASARIM */
+        /* --- GENEL TASARIM VE DEĞİŞKENLER --- */
         :root {
             --bg: #050505;
             --accent: #ffffff;
@@ -29,6 +29,7 @@
             z-index: 1; opacity: 0.3; pointer-events: none;
         }
 
+        /* --- ANİMASYONLU METİNLER --- */
         .animated-text {
             background: var(--gradient);
             background-size: 200% auto;
@@ -41,6 +42,7 @@
 
         @keyframes shine { to { background-position: 200% center; } }
 
+        /* --- ANA İÇERİK --- */
         .main-content {
             position: relative; z-index: 10;
             display: flex; flex-direction: column; align-items: center;
@@ -80,10 +82,10 @@
             font-size: 11px; letter-spacing: 2px; z-index: 100;
         }
 
-        /* YOUTUBE OYNATICI */
+        /* --- YOUTUBE SİSTEMİ (GİZLİ) --- */
         #yt-player-container { position: absolute; left: -9999px; opacity: 0; }
 
-        /* MÜZİK ÇALAR ARAYÜZÜ */
+        /* --- MÜZİK ÇALAR PANELİ --- */
         .music-widget {
             position: fixed; top: 30px; left: 30px; z-index: 100;
             display: flex; flex-direction: column; gap: 15px;
@@ -127,30 +129,28 @@
         .track-item img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
         .track-title { font-size: 13px; font-weight: bold; color: white; }
 
-        /* SES PANELİ (VOLUME HUD) - GÖRSELDEKİ GİBİ */
-        .volume-hud {
+        /* --- HUD (BİLDİRİM) PANELLERİ --- */
+        .hud-panel {
             position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0.8);
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid var(--cyan);
             border-radius: 20px;
-            padding: 25px;
+            padding: 30px;
             display: flex; flex-direction: column; align-items: center;
             justify-content: center;
             z-index: 1000;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            min-width: 140px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-width: 180px;
+            box-shadow: 0 0 30px rgba(0, 213, 255, 0.2);
         }
 
-        .volume-hud i { font-size: 50px; color: var(--cyan); margin-bottom: 15px; }
-        .volume-hud span { 
-            font-size: 18px; font-weight: bold; 
-            letter-spacing: 2px; color: white;
-        }
+        .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        .volume-hud.show { opacity: 1; }
+        .hud-panel i { font-size: 50px; color: var(--cyan); margin-bottom: 15px; filter: drop-shadow(0 0 8px var(--cyan)); }
+        .hud-panel span { font-size: 18px; font-weight: bold; letter-spacing: 2px; color: white; text-transform: uppercase; }
 
         input[type="range"] { flex: 1; accent-color: var(--cyan); cursor: pointer; }
     </style>
@@ -159,9 +159,14 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <div class="volume-hud" id="volumeHud">
+    <div class="hud-panel" id="volumeHud">
         <i class="fas fa-volume-up" id="hudIcon"></i>
         <span id="hudText">SES: %50</span>
+    </div>
+
+    <div class="hud-panel" id="songHud">
+        <i class="fas fa-music"></i>
+        <span id="songHudText">OYNATILIYOR</span>
     </div>
 
     <div class="music-widget">
@@ -196,10 +201,13 @@
     </div>
 
     <div class="footer-text animated-text">POWERED BY: EZWINSTUDIO</div>
-    <div id="yt-player-container"><div id="yt-player"></div></div>
+    
+    <div id="yt-player-container">
+        <div id="yt-player"></div>
+    </div>
 
     <script>
-        // ARKA PLAN
+        // --- ARKA PLAN ANİMASYONU ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         const words = ['EZWIN', 'NIM', 'STUDIO', '404', 'WIN', 'SAS', 'ROOT', '{}', '***', '666', 'EZ'];
@@ -230,31 +238,40 @@
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-        // MÜZİK SİSTEMİ
+        // --- MÜZİK SİSTEMİ VERİLERİ ---
         const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'New Person', img: 'https://img.youtube.com/vi/_9bw_VtMUGA/mqdefault.jpg' },
-            { id: 'KhqNTjbQ71A', title: 'Last Christmas', img: 'https://img.youtube.com/vi/KhqNTjbQ71A/mqdefault.jpg' }
+            { id: '_9bw_VtMUGA', title: 'MILIARDARA', img: 'https://img.youtube.com/vi/_9bw_VtMUGA/mqdefault.jpg' },
+            { id: 'KhqNTjbQ71A', title: 'Rauf Faik - Akşamlar', img: 'https://img.youtube.com/vi/KhqNTjbQ71A/mqdefault.jpg' },
+            { id: '3vAnU_Y0zE8', title: 'J-Killz - Honey', img: 'https://img.youtube.com/vi/3vAnU_Y0zE8/mqdefault.jpg' }
         ];
 
-        let currentTrack = 0, player, isPlaying = false, hudTimer;
+        let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
         const musicToggle = document.getElementById('musicToggle');
         const musicPanel = document.getElementById('musicPanel');
         const volumeHud = document.getElementById('volumeHud');
-        const hudText = document.getElementById('hudText');
-        const hudIcon = document.getElementById('hudIcon');
+        const songHud = document.getElementById('songHud');
 
         musicToggle.onclick = () => musicPanel.classList.toggle('active');
 
-        // Ses Paneli Gösterme Fonksiyonu
-        function showHud(text, iconClass) {
+        // Ses Bildirimi Göster
+        function showVolumeHud(text, iconClass) {
             clearTimeout(hudTimer);
-            hudText.innerText = text;
-            hudIcon.className = `fas ${iconClass}`;
+            document.getElementById('hudText').innerText = text;
+            document.getElementById('hudIcon').className = `fas ${iconClass}`;
             volumeHud.classList.add('show');
             hudTimer = setTimeout(() => volumeHud.classList.remove('show'), 1500);
         }
 
+        // Şarkı İsmi Bildirimi Göster (Yeni Özellik)
+        function showSongHud(title) {
+            clearTimeout(songTimer);
+            document.getElementById('songHudText').innerText = title;
+            songHud.classList.add('show');
+            songTimer = setTimeout(() => songHud.classList.remove('show'), 2500);
+        }
+
+        // --- YOUTUBE API ---
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         document.head.appendChild(tag);
@@ -264,7 +281,10 @@
                 height: '0', width: '0',
                 videoId: playlistData[currentTrack].id,
                 playerVars: { 'autoplay': 0, 'controls': 0 },
-                events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) document.getElementById('next').click(); } }
+                events: { 
+                    'onReady': onPlayerReady, 
+                    'onStateChange': (e) => { if(e.data === 0) document.getElementById('next').click(); } 
+                }
             });
         }
 
@@ -284,6 +304,7 @@
             isPlaying = true;
             document.getElementById('playBtn').className = "fas fa-pause";
             renderPlaylist();
+            showSongHud(playlistData[i].title); // Şarkı ismini ekrana getir
         }
 
         function onPlayerReady() {
@@ -293,8 +314,14 @@
             const muteBtn = document.getElementById('muteToggle');
 
             playBtn.onclick = () => {
-                if(isPlaying) { player.pauseVideo(); playBtn.className = "fas fa-play"; }
-                else { player.playVideo(); playBtn.className = "fas fa-pause"; }
+                if(isPlaying) { 
+                    player.pauseVideo(); 
+                    playBtn.className = "fas fa-play"; 
+                } else { 
+                    player.playVideo(); 
+                    playBtn.className = "fas fa-pause"; 
+                    showSongHud(playlistData[currentTrack].title);
+                }
                 isPlaying = !isPlaying;
             };
 
@@ -304,18 +331,18 @@
             volSlider.oninput = (e) => {
                 const val = e.target.value;
                 player.setVolume(val);
-                showHud(`SES: %${val}`, val == 0 ? 'fa-volume-mute' : 'fa-volume-up');
+                showVolumeHud(`SES: %${val}`, val == 0 ? 'fa-volume-mute' : 'fa-volume-up');
             };
 
             muteBtn.onclick = () => {
                 if(player.isMuted()) {
                     player.unMute();
                     muteBtn.className = "fas fa-volume-down";
-                    showHud("SES AÇILDI", "fa-volume-up");
+                    showVolumeHud("SES AÇILDI", "fa-volume-up");
                 } else {
                     player.mute();
                     muteBtn.className = "fas fa-volume-mute";
-                    showHud("SES KAPATILDI", "fa-volume-mute");
+                    showVolumeHud("SES KAPATILDI", "fa-volume-mute");
                 }
             };
         }
