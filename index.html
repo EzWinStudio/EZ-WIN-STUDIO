@@ -190,7 +190,6 @@
                 console.log("%cConsole is locked. Script injection disabled.", "color: red; font-size: 12px;");
             };
 
-            // Konsol fonksiyonlarını bozarak bir şey yazılmasını engelle
             const noop = () => {};
             Object.defineProperty(window, 'console', {
                 value: {
@@ -205,7 +204,6 @@
                 configurable: false
             });
 
-            // Sürekli temizleme döngüsü (isteğe bağlı konsolu meşgul eder)
             setInterval(blockConsole, 2000);
         })();
 
@@ -241,6 +239,7 @@
         const playlistData = [
             { id: '_9bw_VtMUGA', title: 'New Person' },
             { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
+            { id: '8KqcE6QSe9E', title: 'Glass Animals - Take A Slice' },
         ];
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
