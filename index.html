@@ -24,7 +24,7 @@
             user-select: none;
         }
 
-        /* --- DUYURU SİSTEMİ (SAĞ ÜST) --- */
+        
         .announcement-bar {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
             width: 300px; background: var(--glass);
@@ -49,7 +49,7 @@
         }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- SAĞ ALT COPYRIGHT (GEÇİŞLİ) --- */
+       
         .copyright-tag {
             position: fixed; bottom: 20px; right: 30px; z-index: 100;
             font-size: 12px; font-weight: 800; letter-spacing: 2px;
@@ -58,7 +58,7 @@
             animation: flow 3s linear infinite;
         }
 
-        /* --- GİRİŞ EKRANI --- */
+      
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 9999;
@@ -181,7 +181,7 @@
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-        // --- CONSOLE SECURITY & LOCK ---
+     
         (function() {
             const blockConsole = () => {
                 const style = "color: #007cf0; font-size: 40px; font-weight: bold; text-shadow: 0 0 10px #007cf0; padding: 20px;";
@@ -207,19 +207,19 @@
             setInterval(blockConsole, 2000);
         })();
 
-        // --- KORUMA (SAĞ TIK VE TUŞLAR) ---
+   
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = e => { 
             if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; 
         };
 
-        // --- ZİYARETÇİ SAYACI ---
+   
         let visits = localStorage.getItem('visit_count') || 1240;
         visits = parseInt(visits) + 1;
         localStorage.setItem('visit_count', visits);
         document.getElementById('vCount').innerText = visits.toLocaleString();
 
-        // --- ARKA PLAN ANIMASYONU ---
+   
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN', 'ROOT', 'BATU', 'HZEZ', 'R-Ğ', 'DİYARBAKIRLI', 'GAY UMUT'];
@@ -235,7 +235,7 @@
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-        // --- MÜZİK SİSTEMİ ---
+    
         const playlistData = [
             { id: '_9bw_VtMUGA', title: 'New Person' },
             { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
