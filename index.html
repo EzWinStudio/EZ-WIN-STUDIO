@@ -49,7 +49,7 @@
         }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- SAĞ ALT COPYRIGHT --- */
+        /* --- SAĞ ALT COPYRIGHT (GEÇİŞLİ) --- */
         .copyright-tag {
             position: fixed; bottom: 20px; right: 30px; z-index: 100;
             font-size: 12px; font-weight: 800; letter-spacing: 2px;
@@ -122,7 +122,7 @@
         <div class="announcement-header"><i class="fas fa-satellite-dish"></i> System Broadcast</div>
         <div class="marquee-container">
             <div class="marquee-text" id="announcementContent">
-                EZWIN STUDIO V3.0 YAYINLANDI! • TÜM SİSTEMLER AKTİF • YENİ MÜZİKLER EKLENDİ • DİSCORD SUNUCUMUZA KATILMAYI UNUTMAYIN!
+                EZWIN STUDIO V3.0 YAYINLANDI! • TÜM SİSTEMLER AKTİF • YENİ MÜZİKLER EKLENDİ • GÜVENLİK SİSTEMLERİ AKTİF EDİLDİ!
             </div>
         </div>
     </div>
@@ -139,7 +139,7 @@
         <span id="vCount">YÜKLENİYOR...</span>
     </div>
 
-    <div class="copyright-tag">© 2026 EZWIN STUDIO</div>
+    <div class="copyright-tag">EZWIN STUDIO © 2026</div>
 
     <div class="hud-panel" id="volumeHud">
         <i class="fas fa-volume-high" id="hudIcon"></i>
@@ -181,12 +181,39 @@
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-        // --- CONSOLE MESAJI ---
-        console.log("%cEZWIN SECURITY", "color: #007cf0; font-size: 50px; font-weight: bold; text-shadow: 0 0 10px #007cf0;");
+        // --- CONSOLE SECURITY & LOCK ---
+        (function() {
+            const blockConsole = () => {
+                const style = "color: #007cf0; font-size: 40px; font-weight: bold; text-shadow: 0 0 10px #007cf0; padding: 20px;";
+                console.clear();
+                console.log("%cEZWIN SECURITY", style);
+                console.log("%cConsole is locked. Script injection disabled.", "color: red; font-size: 12px;");
+            };
 
-        // --- KORUMA ---
+            // Konsol fonksiyonlarını bozarak bir şey yazılmasını engelle
+            const noop = () => {};
+            Object.defineProperty(window, 'console', {
+                value: {
+                    log: blockConsole,
+                    info: noop,
+                    warn: noop,
+                    error: noop,
+                    clear: noop,
+                    debug: noop
+                },
+                writable: false,
+                configurable: false
+            });
+
+            // Sürekli temizleme döngüsü (isteğe bağlı konsolu meşgul eder)
+            setInterval(blockConsole, 2000);
+        })();
+
+        // --- KORUMA (SAĞ TIK VE TUŞLAR) ---
         document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = e => { if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; };
+        document.onkeydown = e => { 
+            if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; 
+        };
 
         // --- ZİYARETÇİ SAYACI ---
         let visits = localStorage.getItem('visit_count') || 1240;
@@ -194,7 +221,7 @@
         localStorage.setItem('visit_count', visits);
         document.getElementById('vCount').innerText = visits.toLocaleString();
 
-        // --- ARKA PLAN ---
+        // --- ARKA PLAN ANIMASYONU ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN', 'ROOT', 'BATU', 'HZEZ', 'R-Ğ', 'DİYARBAKIRLI'];
@@ -233,13 +260,7 @@
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlistData[0].id,
-                playerVars: { 
-                    'autoplay': 0, 
-                    'controls': 0, 
-                    'disablekb': 1, 
-                    'enablejsapi': 1,
-                    'origin': window.location.origin 
-                },
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'origin': window.location.origin },
                 events: { 
                     'onReady': onPlayerReady, 
                     'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } 
@@ -260,11 +281,7 @@
             document.getElementById('volume').oninput = (e) => {
                 let vol = e.target.value;
                 player.setVolume(vol);
-                let msg = `SES: %${vol}`;
-                let icon = "fa-volume-high";
-                if(vol == 0) { msg = "SES KAPATILDI"; icon = "fa-volume-mute"; }
-                else if(vol == 100) { msg = "SES FULLENDİ"; icon = "fa-volume-up"; }
-                showVolumeHud(msg, icon);
+                showVolumeHud(`SES: %${vol}`, vol == 0 ? "fa-volume-mute" : "fa-volume-high");
             };
             renderPlaylist();
         }
