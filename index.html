@@ -45,7 +45,7 @@
         }
         .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 60px var(--accent-primary); }
 
-        /* --- VOLUME HUD (SES ANİMASYONU) --- */
+        /* --- VOLUME HUD --- */
         #volume-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
             background: rgba(0, 0, 0, 0.8); border: 1px solid var(--accent-primary);
@@ -57,41 +57,44 @@
         #volume-hud.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .hud-percent { font-family: 'Orbitron'; font-weight: 900; font-size: 24px; color: var(--accent-primary); }
 
-        /* --- DUYURU SİSTEMİ (EN TEPEDE) --- */
-        .announcement-container {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--accent-glow);
-            padding: 10px 0; backdrop-filter: blur(20px); 
-            z-index: 10001; overflow: hidden; display: flex; align-items: center;
+        /* --- iPHONE BİLDİRİM DUYURU SİSTEMİ --- */
+        .notification-wrapper {
+            position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
+            z-index: 10001; width: fit-content; min-width: 300px;
         }
-        .marquee-text { white-space: nowrap; font-size: 11px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 2px; animation: iosMarquee 18s linear infinite; width: 100%; }
-        @keyframes iosMarquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .ios-notification {
+            background: rgba(15, 15, 20, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px; padding: 12px 25px;
+            display: flex; align-items: center; gap: 15px;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px var(--accent-glow);
+            overflow: hidden;
+        }
+        .ios-icon { width: 10px; height: 10px; background: var(--accent-emerald); border-radius: 50%; box-shadow: 0 0 10px var(--accent-emerald); }
+        .ios-text-container { overflow: hidden; width: 100%; white-space: nowrap; }
+        .ios-marquee {
+            display: inline-block; font-size: 11px; font-weight: 800;
+            color: #fff; text-transform: uppercase; letter-spacing: 1px;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         /* --- UI ELEMENTS --- */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; z-index: 10000; }
         .ui-element.show { opacity: 1; pointer-events: all; }
 
         /* --- MÜZİK ÇALAR --- */
-        .music-widget { position: fixed; top: 70px; left: 25px; }
+        .music-widget { position: fixed; top: 80px; left: 25px; }
         .music-panel { 
             position: absolute; top: 65px; left: 0; width: 280px; 
             background: var(--panel-bg); border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 18px; padding: 20px; 
-            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.4s;
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
         .music-panel.active { opacity: 1; visibility: visible; transform: translateY(0); }
         .track-info { font-family: 'Orbitron', sans-serif; font-size: 10px; color: var(--accent-primary); margin-bottom: 15px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
-        
-        /* --- TEMA --- */
-        .theme-wrapper { position: fixed; top: 70px; right: 25px; }
-        .theme-menu {
-            position: absolute; top: 65px; right: 0; background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
-            padding: 10px; width: 160px; display: flex; flex-direction: column;
-            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.4s;
-        }
-        .theme-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
         /* --- YAZI ANİMASYONU --- */
         .animated-text { 
@@ -102,7 +105,7 @@
         }
         @keyframes textFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- LİNK GRID --- */
+        /* --- GRID --- */
         .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 850px; margin-top: 40px; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
@@ -132,8 +135,13 @@
         <button class="enter-btn" style="margin-top: 40px;" onclick="startSystem()">ENTER HUB</button>
     </div>
 
-    <div class="announcement-container ui-element">
-        <div class="marquee-text">System v3.1 Online • Premium Ecosystem Active • Welcome back, Ezwin. • High Performance Server: Active</div>
+    <div class="notification-wrapper ui-element">
+        <div class="ios-notification">
+            <div class="ios-icon"></div>
+            <div class="ios-text-container">
+                <span class="ios-marquee">System v3.5 Online • Welcome back, Ezwin • Premium Ecosystem Active • New Songs Added</span>
+            </div>
+        </div>
     </div>
 
     <div class="music-widget ui-element">
@@ -153,11 +161,11 @@
         </div>
     </div>
 
-    <div class="theme-wrapper ui-element">
+    <div class="theme-wrapper ui-element" style="position: fixed; top: 80px; right: 25px;">
         <div style="width:50px; height:50px; background:var(--glass); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid rgba(255,255,255,0.1);" onclick="togglePanel('themeMenu')">
             <i class="fas fa-palette"></i>
         </div>
-        <div class="theme-menu" id="themeMenu">
+        <div class="theme-menu" id="themeMenu" style="position: absolute; top: 65px; right: 0; background: var(--panel-bg); border-radius: 15px; width: 160px; padding: 10px; opacity: 0; visibility: hidden; transition: 0.4s;">
             <div style="padding:12px; cursor:pointer; font-family:'Orbitron'; font-size:10px;" onclick="changeTheme('blue')">BLUE NEON</div>
             <div style="padding:12px; cursor:pointer; font-family:'Orbitron'; font-size:10px;" onclick="changeTheme('cyber')">CYBERPINK</div>
             <div style="padding:12px; cursor:pointer; font-family:'Orbitron'; font-size:10px;" onclick="changeTheme('emerald')">EMERALD</div>
@@ -167,8 +175,7 @@
     <div class="main-content" id="main" style="opacity:0">
         <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
             <h1 class="animated-text" style="font-size: 5.5rem; margin:0; letter-spacing:-4px;">EZWIN STUDIO</h1>
-            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:11px;">CORE DEVELOPMENT HUB</p>
-            
+            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:11px;">PREMIUM INTERFACE</p>
             <div class="links-grid">
                 <a href="#" class="btn"><i class="fas fa-music"></i><span>JOIN MUSIC</span></a>
                 <a href="#" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
@@ -193,7 +200,14 @@
     <script>
         let player, isPlaying = false, pColor = "#007cf0";
         let currentTrackIndex = 0;
-        const playlist = ['_9bw_VtMUGA', 'jfKfPfyJRdk', 'L_jWHffIx5E']; // Çalma listesi buraya yeni ID'ler ekleyebilirsin
+
+        /* --- BURAYA İSTEDİĞİN ŞARKILARIN YOUTUBE ID'LERİNİ EKLE --- */
+        const playlist = [
+            '_9bw_VtMUGA', // Şarkı 1
+            'jfKfPfyJRdk', // Şarkı 2
+            'L_jWHffIx5E', // Şarkı 3
+            'n_LpP_5Y-jY'  // Şarkı 4
+        ];
 
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
@@ -215,10 +229,8 @@
                 events: { 
                     'onReady': (e) => e.target.setVolume(50),
                     'onStateChange': (e) => { 
-                        if(e.data == YT.PlayerState.PLAYING) {
-                            document.getElementById('trackName').innerText = player.getVideoData().title;
-                        }
-                        if(e.data == YT.PlayerState.ENDED) { nextTrack(); }
+                        if(e.data == YT.PlayerState.PLAYING) document.getElementById('trackName').innerText = player.getVideoData().title;
+                        if(e.data == YT.PlayerState.ENDED) nextTrack();
                     }
                 }
             });
@@ -233,54 +245,43 @@
         function nextTrack() {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
             player.loadVideoById(playlist[currentTrackIndex]);
-            isPlaying = true;
-            document.getElementById('playIcon').className = "fas fa-pause";
+            isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause";
         }
 
         function prevTrack() {
             currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
             player.loadVideoById(playlist[currentTrackIndex]);
-            isPlaying = true;
-            document.getElementById('playIcon').className = "fas fa-pause";
+            isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause";
         }
 
-        // SES ANİMASYONU VE KONTROLÜ
         let hudTimer;
         document.getElementById('volRange').oninput = (e) => {
             let val = e.target.value;
             player.setVolume(val);
-            
-            // HUD Göster
             const hud = document.getElementById('volume-hud');
-            const hudVal = document.getElementById('hudVal');
-            hudVal.innerText = val + "%";
+            document.getElementById('hudVal').innerText = val + "%";
             hud.classList.add('show');
-            
             clearTimeout(hudTimer);
-            hudTimer = setTimeout(() => {
-                hud.classList.remove('show');
-            }, 1000);
+            hudTimer = setTimeout(() => hud.classList.remove('show'), 1000);
         };
 
         function togglePanel(id) {
             const p = document.getElementById(id);
-            const active = p.classList.contains('active');
-            document.querySelectorAll('.music-panel, .theme-menu').forEach(el => el.classList.remove('active'));
-            if(!active) p.classList.add('active');
+            const active = p.classList.contains('active') || p.style.visibility === 'visible';
+            document.querySelectorAll('.music-panel, #themeMenu').forEach(el => { el.classList.remove('active'); el.style.opacity = '0'; el.style.visibility = 'hidden'; });
+            if(!active) {
+                p.classList.add('active');
+                p.style.opacity = '1';
+                p.style.visibility = 'visible';
+                p.style.transform = 'translateY(0)';
+            }
         }
 
-        const themes = {
-            blue: {p:'#007cf0', s:'#00dfd8'},
-            cyber: {p:'#ff0080', s:'#7928ca'},
-            emerald: {p:'#00ff88', s:'#00a1ff'}
-        };
-
         function changeTheme(tk) {
-            const t = themes[tk];
+            const t = { blue: {p:'#007cf0', s:'#00dfd8'}, cyber: {p:'#ff0080', s:'#7928ca'}, emerald: {p:'#00ff88', s:'#00a1ff'} }[tk];
             document.documentElement.style.setProperty('--accent-primary', t.p);
             document.documentElement.style.setProperty('--accent-secondary', t.s);
             pColor = t.p;
-            document.getElementById('themeMenu').classList.remove('active');
             document.querySelector('.logo-box').style.background = t.p;
             document.getElementById('volume-hud').style.borderColor = t.p;
         }
