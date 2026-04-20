@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EZWIN STUDIO | Official</title>
+    <title>EZWIN STUDIO | Premium Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg: #0a0a05; /* Koyu kehribar/siyah karışımı */
+            --bg: #030303;
             --accent-gold: #ffcc00;
             --accent-amber: #ffaa00;
-            --glass: rgba(40, 30, 10, 0.25);
+            --glass: rgba(20, 20, 20, 0.7);
             --card-border: rgba(255, 204, 0, 0.15);
             --text-main: #ffffff;
             --text-dim: #b3b3b3;
+            --glow: rgba(255, 170, 0, 0.3);
         }
 
         body, html {
@@ -22,136 +23,134 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             scroll-behavior: smooth;
+            user-select: none;
         }
 
-        /* --- ARKA PLAN (Görseldeki efekt) --- */
+        /* --- ARKA PLAN EFEKTİ --- */
         #bg-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 170, 0, 0.05) 0%, rgba(0,0,0,1) 100%);
-            opacity: 0.6;
+            z-index: 1; opacity: 0.4; pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, #2a1f00 0%, #000 100%);
         }
 
-        /* --- ANA İÇERİK --- */
-        .main-content {
+        /* --- ANA GİRİŞ ALANI --- */
+        .hero {
             position: relative; z-index: 10;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            min-height: 100vh; text-align: center;
+            height: 100vh; text-align: center;
         }
 
-        .header h1 {
-            font-size: 4.5rem; margin: 0;
-            font-weight: 800; letter-spacing: -2px;
-            color: #fff;
+        .hero h1 {
+            font-size: 5rem; margin: 0;
+            font-weight: 900; letter-spacing: -3px;
+            background: linear-gradient(to bottom, #fff, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px var(--glow));
         }
 
-        /* --- PROJELER SEKSİYONU (Resimdeki Görünüm) --- */
+        .hero p {
+            letter-spacing: 8px; color: var(--accent-gold);
+            font-size: 14px; font-weight: 700; opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* --- SCROLL DOWN (Resimdeki Gibi) --- */
+        .scroll-down {
+            position: absolute; bottom: 40px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 15px; opacity: 0.7;
+        }
+        .scroll-line {
+            width: 1.5px; height: 50px;
+            background: linear-gradient(to bottom, var(--accent-gold), transparent);
+            position: relative; overflow: hidden;
+        }
+        .scroll-line::after {
+            content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+            background: #fff; animation: scrollAnim 2s infinite;
+        }
+        @keyframes scrollAnim { 0% { top: -100%; } 100% { top: 100%; } }
+        .scroll-text { font-size: 10px; letter-spacing: 4px; color: #fff; font-weight: 800; }
+
+        /* --- PROJELER & KARTLAR --- */
         .projects-section {
             padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1200px; margin: 0 auto;
             position: relative; z-index: 10;
+            text-align: center;
         }
 
         .section-tag {
             background: rgba(255, 204, 0, 0.1);
             color: var(--accent-gold);
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 800;
+            padding: 8px 20px; border-radius: 50px;
+            font-size: 11px; font-weight: 900;
             border: 1px solid var(--card-border);
-            display: inline-flex;
-            align-items: center; gap: 5px;
-            margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-bottom: 25px; text-transform: uppercase;
         }
 
-        .section-title {
-            font-size: 3rem;
-            margin-bottom: 50px;
-            font-weight: 700;
-        }
+        .section-title { font-size: 3.5rem; margin-bottom: 60px; font-weight: 800; letter-spacing: -1px; }
 
-        .projects-grid-layout {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
         }
 
-        .project-card {
+        .card {
             background: var(--glass);
             border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 35px;
-            text-align: left;
-            backdrop-filter: blur(20px);
-            transition: 0.4s ease;
+            border-radius: 30px; padding: 45px;
+            text-align: left; backdrop-filter: blur(25px);
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
-        .project-card:hover {
-            transform: translateY(-10px);
+        .card:hover {
+            transform: translateY(-15px);
             border-color: var(--accent-gold);
-            background: rgba(255, 204, 0, 0.05);
+            background: rgba(40, 35, 10, 0.6);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(255, 204, 0, 0.1);
         }
 
         .card-icon {
-            width: 50px; height: 50px;
-            background: var(--accent-gold);
-            color: #000;
+            width: 60px; height: 60px;
+            background: var(--accent-gold); color: #000;
             display: flex; align-items: center; justify-content: center;
-            border-radius: 12px;
-            font-size: 20px;
-            margin-bottom: 20px;
+            border-radius: 18px; font-size: 24px; margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
         }
 
         .card-tag {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-            display: inline-block;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 6px 15px; border-radius: 10px;
+            font-size: 12px; font-weight: 800; color: var(--accent-gold);
+            margin-bottom: 20px; display: inline-block;
         }
 
-        .project-card p {
-            color: var(--text-dim);
-            line-height: 1.6;
-            font-size: 14px;
+        .card h3 { font-size: 24px; margin-bottom: 15px; }
+
+        .card p {
+            color: var(--text-dim); line-height: 1.7;
+            font-size: 15px; margin-bottom: 30px;
         }
 
-        .status-bar {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex; align-items: center;
-            font-size: 12px; color: var(--text-dim);
+        .status {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 13px; font-weight: 700; color: #888;
+            padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);
         }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.online { background: #00ff88; box-shadow: 0 0 10px #00ff88; }
+        .dot.offline { background: #ff4444; }
 
-        .dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .dot.active { background: #00ff88; box-shadow: 0 0 10px #00ff88; }
-        .dot.inactive { background: #555; }
-
-        /* --- SCROLL DOWN (Resimdeki Stil) --- */
-        .scroll-down-wrapper {
-            position: absolute; bottom: 30px;
-            left: 50%; transform: translateX(-50%);
-            text-align: center;
-        }
-        .scroll-line {
-            width: 1px; height: 40px;
-            background: linear-gradient(to bottom, var(--accent-gold), transparent);
-            margin: 0 auto 10px;
-        }
-        .scroll-text {
-            font-size: 10px; letter-spacing: 3px;
-            color: var(--text-dim); font-weight: 600;
+        /* --- FOOTER & HUD --- */
+        .footer-tag {
+            position: fixed; bottom: 30px; right: 30px;
+            font-size: 12px; font-weight: 900; color: var(--accent-gold);
+            letter-spacing: 2px; z-index: 100;
         }
 
     </style>
@@ -160,68 +159,86 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <div class="main-content">
-        <div class="header"><h1>EZWIN STUDIO</h1></div>
-        <p style="letter-spacing: 5px; color: var(--accent-gold); font-size: 12px; opacity: 0.8;">PREMIUM SERVICES</p>
+    <div class="hero">
+        <h1 id="mainTitle">EZWIN STUDIO</h1>
+        <p>ESTABLISHED 2026</p>
         
-        <div class="scroll-down-wrapper">
+        <div class="scroll-down">
             <div class="scroll-line"></div>
             <div class="scroll-text">SCROLL DOWN</div>
         </div>
     </div>
 
     <div class="projects-section">
-        <div style="text-align: center;">
-            <div class="section-tag"><i class="fas fa-layer-group"></i> WHAT I DO</div>
-            <h2 class="section-title">Projects & Skills</h2>
-        </div>
+        <div class="section-tag"><i class="fas fa-database"></i> WHAT I DO</div>
+        <h2 class="section-title">Projects & Skills</h2>
 
-        <div class="projects-grid-layout">
-            <div class="project-card">
-                <div class="card-icon"><i class="fas fa-code"></i></div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-terminal"></i></div>
                 <h3>Software & Development</h3>
                 <div class="card-tag">JS / TS</div>
                 <p>I develop CLI tools and web projects with TypeScript. I also design Discord bots using Node.js. I keep improving myself on the coding side.</p>
-                <div class="status-bar">
-                    <span class="dot active"></span> Active Development
-                </div>
+                <div class="status"><span class="dot online"></span> Active Development</div>
             </div>
 
-            <div class="project-card">
+            <div class="card">
                 <div class="card-icon"><i class="fas fa-coins"></i></div>
                 <h3>Robux Sales & Trading</h3>
                 <div class="card-tag">ROBLOX</div>
                 <p>I sell Robux reliably. Feel free to contact me directly for stock and price info, I'll help you out quickly.</p>
-                <div class="status-bar">
-                    <span class="dot inactive"></span> Not in stock
-                </div>
+                <div class="status"><span class="dot offline"></span> Not in stock</div>
             </div>
 
-            <div class="project-card">
+            <div class="card">
                 <div class="card-icon"><i class="fas fa-headset"></i></div>
                 <h3>Communication & Support</h3>
                 <div class="card-tag">24/7</div>
                 <p>If you have a project or just want to ask a question, don't hesitate to reach out. You can contact me via Discord or right here.</p>
-                <div class="status-bar">
-                    <span class="dot active" style="background: #00ff88;"></span> Online
-                </div>
+                <div class="status"><span class="dot online"></span> Online</div>
             </div>
         </div>
     </div>
 
+    <div class="footer-tag">EZWIN STUDIO © 2026</div>
+
     <script>
-        // Arka plana basit bir parıltı efekti ekleyelim
+        // Basit Arka Plan Efekti
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.onresize = resize; resize();
+        let particles = [];
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Buraya isteğe bağlı olarak hafif partiküller eklenebilir
-            requestAnimationFrame(draw);
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-        draw();
+        window.addEventListener('resize', init);
+        init();
+
+        class P {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.s = Math.random() * 2;
+                this.v = Math.random() * 0.5;
+            }
+            draw() {
+                ctx.fillStyle = "rgba(255, 204, 0, 0.2)";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.s, 0, Math.PI*2);
+                ctx.fill();
+                this.y -= this.v;
+                if(this.y < 0) this.y = canvas.height;
+            }
+        }
+        for(let i=0; i<50; i++) particles.push(new P());
+
+        function anim() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            particles.forEach(p => p.draw());
+            requestAnimationFrame(anim);
+        }
+        anim();
     </script>
 </body>
 </html>
