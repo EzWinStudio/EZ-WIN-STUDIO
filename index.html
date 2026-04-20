@@ -7,238 +7,299 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg: #030303;
-            --accent-gold: #ffcc00;
-            --accent-amber: #ffaa00;
-            --glass: rgba(20, 20, 20, 0.7);
-            --card-border: rgba(255, 204, 0, 0.15);
-            --text-main: #ffffff;
-            --text-dim: #b3b3b3;
-            --glow: rgba(255, 170, 0, 0.3);
+            --bg: #030305;
+            --accent-primary: #ffcc00; /* Altın/Sarı Tonu */
+            --accent-secondary: #ffaa00;
+            --accent-glow: rgba(255, 204, 0, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --panel-bg: rgba(5, 5, 5, 0.95);
+            --text-gradient: linear-gradient(to right, #ffcc00, #ffaa00, #fff);
+            --scroll-color: #ffcc00; 
         }
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background: var(--bg); color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            background: var(--bg); color: white;
+            font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
-            scroll-behavior: smooth;
             user-select: none;
+            scroll-behavior: smooth;
         }
 
-        /* --- ARKA PLAN EFEKTİ --- */
-        #bg-canvas {
+        /* --- ANNOUNCEMENT BAR (SAĞ ÜST) --- */
+        .announcement-bar {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            width: 300px; background: var(--glass);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            border-radius: 12px; backdrop-filter: blur(10px);
+            padding: 10px; overflow: hidden;
+        }
+        .announcement-header {
+            font-size: 10px; font-weight: 900; color: var(--accent-primary);
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 5px; display: flex; align-items: center; gap: 5px;
+        }
+        .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; }
+        .marquee-text {
+            display: inline-block; padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-size: 12px; font-weight: 600; color: #fff;
+        }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+        /* --- ENTER OVERLAY --- */
+        #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; opacity: 0.4; pointer-events: none;
-            background: radial-gradient(circle at 50% 50%, #2a1f00 0%, #000 100%);
+            background: var(--bg); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
+        #enter-overlay.fade-out { opacity: 0; visibility: hidden; }
 
-        /* --- ANA GİRİŞ ALANI --- */
-        .hero {
-            position: relative; z-index: 10;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            height: 100vh; text-align: center;
+        .enter-btn {
+            padding: 20px 60px; border: 2px solid var(--accent-primary);
+            background: transparent; color: white; font-weight: 900;
+            font-size: 18px; letter-spacing: 5px; border-radius: 50px;
+            cursor: pointer; transition: 0.4s;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
+        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 40px var(--accent-primary); transform: scale(1.1); color: #000; }
 
-        .hero h1 {
-            font-size: 5rem; margin: 0;
-            font-weight: 900; letter-spacing: -3px;
-            background: linear-gradient(to bottom, #fff, #ffcc00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px var(--glow));
-        }
+        /* --- ARKA PLAN PARÇACIKLARI --- */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.35; pointer-events: none; }
 
-        .hero p {
-            letter-spacing: 8px; color: var(--accent-gold);
-            font-size: 14px; font-weight: 700; opacity: 0.8;
-            margin-top: 10px;
-        }
-
-        /* --- SCROLL DOWN (Resimdeki Gibi) --- */
-        .scroll-down {
-            position: absolute; bottom: 40px;
+        /* --- SCROLL INDICATOR --- */
+        .scroll-down-wrapper {
+            position: absolute; bottom: 40px; left: 50%;
+            transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center;
-            gap: 15px; opacity: 0.7;
+            gap: 15px; z-index: 10; transition: all 0.5s ease;
         }
         .scroll-line {
-            width: 1.5px; height: 50px;
-            background: linear-gradient(to bottom, var(--accent-gold), transparent);
+            width: 2px; height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--scroll-color));
             position: relative; overflow: hidden;
         }
         .scroll-line::after {
             content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
-            background: #fff; animation: scrollAnim 2s infinite;
+            background: linear-gradient(to bottom, transparent, #fff, transparent);
+            animation: scroll-line-anim 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
-        @keyframes scrollAnim { 0% { top: -100%; } 100% { top: 100%; } }
-        .scroll-text { font-size: 10px; letter-spacing: 4px; color: #fff; font-weight: 800; }
-
-        /* --- PROJELER & KARTLAR --- */
-        .projects-section {
-            padding: 100px 20px;
-            max-width: 1200px; margin: 0 auto;
-            position: relative; z-index: 10;
-            text-align: center;
+        .scroll-text {
+            font-size: 11px; letter-spacing: 5px; color: var(--scroll-color);
+            font-weight: 800; text-transform: uppercase;
         }
+        @keyframes scroll-line-anim { 0% { top: -100%; } 100% { top: 100%; } }
+        .scroll-down-wrapper.fade-out { opacity: 0; transform: translate(-50%, 20px); pointer-events: none; }
 
+        /* --- MAIN SECTION --- */
+        .main-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; }
+        .animated-text {
+            background: var(--text-gradient); background-size: 300% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: flow 5s linear infinite; font-weight: 900; text-transform: uppercase;
+        }
+        @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
+
+        .header h1 { font-size: 5rem; margin: 0; letter-spacing: -4px; filter: drop-shadow(0 0 25px var(--accent-glow)); }
+        .sub-header { font-size: 12px; letter-spacing: 6px; opacity: 0.7; margin-bottom: 50px; color: var(--accent-primary); }
+
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; }
+        .btn {
+            background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px; border-radius: 15px; color: white; text-decoration: none;
+            font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.4s; backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .btn:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 30px rgba(255, 204, 0, 0.15); }
+
+        /* --- PROJECTS SECTION --- */
+        .projects-section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 10; }
         .section-tag {
-            background: rgba(255, 204, 0, 0.1);
-            color: var(--accent-gold);
-            padding: 8px 20px; border-radius: 50px;
-            font-size: 11px; font-weight: 900;
-            border: 1px solid var(--card-border);
-            display: inline-flex; align-items: center; gap: 8px;
-            margin-bottom: 25px; text-transform: uppercase;
+            display: inline-block; background: rgba(255, 204, 0, 0.1); color: var(--accent-primary);
+            padding: 8px 20px; border-radius: 30px; font-size: 11px; font-weight: 900;
+            margin-bottom: 20px; border: 1px solid rgba(255, 204, 0, 0.2); text-transform: uppercase;
         }
+        .section-title { font-size: 3.5rem; margin-bottom: 70px; letter-spacing: -2px; }
 
-        .section-title { font-size: 3.5rem; margin-bottom: 60px; font-weight: 800; letter-spacing: -1px; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
+        .projects-grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 35px; }
+        .project-card {
+            background: rgba(255, 255, 255, 0.015); border: 1px solid rgba(255, 204, 0, 0.1);
+            border-radius: 28px; padding: 45px; text-align: left;
+            backdrop-filter: blur(30px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        .project-card:hover { transform: translateY(-15px); border-color: var(--accent-primary); background: rgba(255, 204, 0, 0.05); }
+        .card-icon { width: 60px; height: 60px; background: var(--accent-primary); color: #000; display: flex; align-items: center; justify-content: center; border-radius: 18px; font-size: 24px; margin-bottom: 25px; }
+        .card-tag { display: inline-block; background: rgba(255, 255, 255, 0.05); padding: 5px 15px; border-radius: 10px; font-size: 11px; font-weight: 900; color: var(--accent-primary); margin-bottom: 20px; }
+        .status-bar { font-size: 12px; color: #666; display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 25px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+        .dot.active { background: #00ff88; box-shadow: 0 0 15px #00ff88; }
 
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--card-border);
-            border-radius: 30px; padding: 45px;
-            text-align: left; backdrop-filter: blur(25px);
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-        }
+        /* --- WIDGETS (SAYACI & COPYRIGHT) --- */
+        .hud-panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: var(--panel-bg); border: 2px solid var(--accent-primary); border-radius: 30px; padding: 40px 60px; display: flex; flex-direction: column; align-items: center; z-index: 1000; pointer-events: none; opacity: 0; transition: 0.5s; }
+        .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        
+        .visitor-counter { position: fixed; bottom: 25px; left: 30px; z-index: 100; background: var(--glass); padding: 12px 25px; border-radius: 40px; border: 1px solid rgba(255, 204, 0, 0.2); backdrop-filter: blur(10px); color: var(--accent-primary); font-size: 14px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+        .copyright-tag { position: fixed; bottom: 25px; right: 30px; z-index: 100; font-size: 12px; font-weight: 900; letter-spacing: 2px; color: var(--accent-primary); opacity: 0.8; }
+        
+        /* --- MUSIC PLAYER --- */
+        .music-widget { position: fixed; top: 30px; left: 30px; z-index: 100; }
+        .music-toggle { width: 60px; height: 60px; border: 2px solid var(--accent-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; background: var(--panel-bg); color: var(--accent-primary); cursor: pointer; }
+        .music-panel { position: absolute; top: 80px; left: 0; width: 280px; background: var(--panel-bg); border: 1px solid rgba(255, 204, 0, 0.2); border-radius: 25px; padding: 25px; backdrop-filter: blur(25px); opacity: 0; transform: translateX(-20px); pointer-events: none; transition: 0.4s; }
+        .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+        .track-item { padding: 10px; border-radius: 8px; cursor: pointer; font-size: 11px; color: #888; transition: 0.3s; }
+        .track-item.playing { color: var(--accent-primary); background: rgba(255, 204, 0, 0.05); font-weight: 900; }
 
-        .card:hover {
-            transform: translateY(-15px);
-            border-color: var(--accent-gold);
-            background: rgba(40, 35, 10, 0.6);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(255, 204, 0, 0.1);
-        }
-
-        .card-icon {
-            width: 60px; height: 60px;
-            background: var(--accent-gold); color: #000;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 18px; font-size: 24px; margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
-        }
-
-        .card-tag {
-            background: rgba(255, 204, 0, 0.1);
-            padding: 6px 15px; border-radius: 10px;
-            font-size: 12px; font-weight: 800; color: var(--accent-gold);
-            margin-bottom: 20px; display: inline-block;
-        }
-
-        .card h3 { font-size: 24px; margin-bottom: 15px; }
-
-        .card p {
-            color: var(--text-dim); line-height: 1.7;
-            font-size: 15px; margin-bottom: 30px;
-        }
-
-        .status {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 13px; font-weight: 700; color: #888;
-            padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.online { background: #00ff88; box-shadow: 0 0 10px #00ff88; }
-        .dot.offline { background: #ff4444; }
-
-        /* --- FOOTER & HUD --- */
-        .footer-tag {
-            position: fixed; bottom: 30px; right: 30px;
-            font-size: 12px; font-weight: 900; color: var(--accent-gold);
-            letter-spacing: 2px; z-index: 100;
-        }
-
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+    <div id="enter-overlay">
+        <h1 class="animated-text" style="font-size: 65px; margin-bottom: 40px;">EZWIN STUDIO</h1>
+        <button class="enter-btn" onclick="startExperience()">ENTER SYSTEM</button>
+    </div>
 
-    <div class="hero">
-        <h1 id="mainTitle">EZWIN STUDIO</h1>
-        <p>ESTABLISHED 2026</p>
-        
-        <div class="scroll-down">
-            <div class="scroll-line"></div>
-            <div class="scroll-text">SCROLL DOWN</div>
+    <div class="announcement-bar">
+        <div class="announcement-header"><i class="fas fa-bolt"></i> Global Status</div>
+        <div class="marquee-container">
+            <div class="marquee-text">V3.5 SYSTEM UPDATE: ALL SERVICES OPERATIONAL • NEW PROJECTS ADDED • AMBER THEME ONLINE</div>
         </div>
     </div>
 
-    <div class="projects-section">
-        <div class="section-tag"><i class="fas fa-database"></i> WHAT I DO</div>
-        <h2 class="section-title">Projects & Skills</h2>
+    <canvas id="bg-canvas"></canvas>
 
-        <div class="grid">
-            <div class="card">
+    <div class="main-content">
+        <div class="header"><h1 class="animated-text">EZWIN STUDIO</h1></div>
+        <p class="sub-header">ESTABLISHED 2026</p>
+        
+        <div class="links-grid">
+            <a href="#" class="btn"><i class="fas fa-music"></i><span>EZWIN MUSIC</span></a>
+            <a href="#" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
+            <a href="#" class="btn"><i class="fas fa-unlock-alt"></i><span>UNCOPYLOCKED</span></a>
+            <a href="#" class="btn"><i class="fas fa-user-shield"></i><span>HİZMETLER</span></a>
+            <a href="#" class="btn"><i class="fab fa-discord"></i><span>DISCORD</span></a>
+            <a href="#" class="btn"><i class="fas fa-ghost"></i><span>CHEATS</span></a>
+        </div>
+
+        <div class="scroll-down-wrapper">
+            <div class="scroll-line"></div>
+            <span class="scroll-text">SCROLL DOWN</span>
+        </div>
+    </div>
+
+    <div class="projects-section" id="projects">
+        <div class="section-tag">WHAT I DO</div>
+        <h2 class="section-title animated-text">Projects & Skills</h2>
+        <div class="projects-grid-layout">
+            <div class="project-card reveal">
                 <div class="card-icon"><i class="fas fa-terminal"></i></div>
                 <h3>Software & Development</h3>
                 <div class="card-tag">JS / TS</div>
-                <p>I develop CLI tools and web projects with TypeScript. I also design Discord bots using Node.js. I keep improving myself on the coding side.</p>
-                <div class="status"><span class="dot online"></span> Active Development</div>
+                <p>I develop CLI tools and web projects with TypeScript. I also design Discord bots using Node.js.</p>
+                <div class="status-bar"><span class="dot active"></span> Active Coding</div>
             </div>
-
-            <div class="card">
+            <div class="project-card reveal">
                 <div class="card-icon"><i class="fas fa-coins"></i></div>
                 <h3>Robux Sales & Trading</h3>
                 <div class="card-tag">ROBLOX</div>
-                <p>I sell Robux reliably. Feel free to contact me directly for stock and price info, I'll help you out quickly.</p>
-                <div class="status"><span class="dot offline"></span> Not in stock</div>
+                <p>Güvenilir Roblox dijital varlık ticareti ve Robux satış hizmetleri. Hızlı teslimat süreci.</p>
+                <div class="status-bar"><span class="dot" style="background:#ff4444"></span> High Demand</div>
             </div>
-
-            <div class="card">
+            <div class="project-card reveal">
                 <div class="card-icon"><i class="fas fa-headset"></i></div>
                 <h3>Communication & Support</h3>
                 <div class="card-tag">24/7</div>
-                <p>If you have a project or just want to ask a question, don't hesitate to reach out. You can contact me via Discord or right here.</p>
-                <div class="status"><span class="dot online"></span> Online</div>
+                <p>Büyük toplulukların yönetimi ve teknik destek süreçleri. Discord üzerinden ulaşın.</p>
+                <div class="status-bar"><span class="dot active"></span> Online</div>
             </div>
         </div>
     </div>
 
-    <div class="footer-tag">EZWIN STUDIO © 2026</div>
+    <div class="visitor-counter"><i class="fas fa-users"></i><span id="vCount">2,481</span></div>
+    <div class="copyright-tag">EZWIN STUDIO © 2026</div>
+
+    <div class="music-widget">
+        <div class="music-toggle" id="musicToggle"><i class="fas fa-compact-disc fa-spin"></i></div>
+        <div class="music-panel" id="musicPanel">
+            <div style="display:flex; justify-content: space-around; color: var(--accent-primary); margin-bottom: 20px;">
+                <i class="fas fa-backward" id="prev" style="cursor:pointer"></i>
+                <i class="fas fa-play" id="playBtn" style="cursor:pointer"></i>
+                <i class="fas fa-forward" id="next" style="cursor:pointer"></i>
+            </div>
+            <div id="musicList"></div>
+            <input type="range" id="volume" min="0" max="100" value="50" style="width:100%; margin-top:15px; accent-color:var(--accent-primary);">
+        </div>
+    </div>
+
+    <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-        // Basit Arka Plan Efekti
+        function startExperience() {
+            document.getElementById('enter-overlay').classList.add('fade-out');
+            if(player && typeof player.playVideo === 'function') {
+                player.playVideo(); isPlaying = true;
+                document.getElementById('playBtn').className = "fas fa-pause";
+            }
+        }
+
+        window.addEventListener("scroll", () => {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
+            });
+        });
+
+        // --- ARKA PLAN ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
 
-        function init() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', init);
-        init();
-
-        class P {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.s = Math.random() * 2;
-                this.v = Math.random() * 0.5;
-            }
+        class Particle {
+            constructor() { this.init(); }
+            init() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.v = 0.5+Math.random(); this.s = 1+Math.random(); }
             draw() {
                 ctx.fillStyle = "rgba(255, 204, 0, 0.2)";
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.s, 0, Math.PI*2);
-                ctx.fill();
-                this.y -= this.v;
-                if(this.y < 0) this.y = canvas.height;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fill();
+                this.y -= this.v; if(this.y < -10) this.y = canvas.height+10;
             }
         }
-        for(let i=0; i<50; i++) particles.push(new P());
-
-        function anim() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach(p => p.draw());
-            requestAnimationFrame(anim);
-        }
+        for(let i=0; i<70; i++) particles.push(new Particle());
+        function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(anim); }
         anim();
+
+        // --- MUSIC ---
+        const playlist = [
+            { id: '_9bw_VtMUGA', title: 'MILIARDARA' },
+            { id: 'KhqNTjbQ71A', title: 'AKŞAMLAR' }
+        ];
+        let current = 0, player, isPlaying = false;
+
+        var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '0', width: '0', videoId: playlist[0].id,
+                events: { 'onReady': () => {
+                    document.getElementById('musicToggle').onclick = () => document.getElementById('musicPanel').classList.toggle('active');
+                    document.getElementById('playBtn').onclick = () => {
+                        if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className = "fas fa-play"; }
+                        else { player.playVideo(); document.getElementById('playBtn').className = "fas fa-pause"; }
+                        isPlaying = !isPlaying;
+                    };
+                    document.getElementById('next').onclick = () => playT((current+1)%playlist.length);
+                    document.getElementById('volume').oninput = (e) => player.setVolume(e.target.value);
+                    renderL();
+                }}
+            });
+        }
+        function playT(i) { current=i; player.loadVideoById(playlist[i].id); isPlaying=true; renderL(); }
+        function renderL() {
+            const list = document.getElementById('musicList');
+            list.innerHTML = playlist.map((t, i) => `<div class="track-item ${i===current?'playing':''}" onclick="playT(${i})">${t.title}</div>`).join('');
+        }
     </script>
 </body>
 </html>
