@@ -21,12 +21,12 @@
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
             font-family: 'Inter', sans-serif; 
-            /* Bölüm eklendiği için overflow'u otomatiğe çektik */
             overflow-y: auto; overflow-x: hidden; 
             user-select: none;
+            scroll-behavior: smooth;
         }
 
-        /* --- DUYURU SİSTEMİ (SAĞ ÜST) --- */
+        /* --- DUYURU SİSTEMİ --- */
         .announcement-bar {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
             width: 300px; background: var(--glass);
@@ -51,7 +51,7 @@
         }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- SAĞ ALT COPYRIGHT (GEÇİŞLİ) --- */
+        /* --- COPYRIGHT TAG --- */
         .copyright-tag {
             position: fixed; bottom: 20px; right: 30px; z-index: 100;
             font-size: 12px; font-weight: 800; letter-spacing: 2px;
@@ -87,19 +87,15 @@
         }
         @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
 
-        /* --- ANA İÇERİK YAPISI --- */
-        .main-content { position: relative; z-index: 10; width: 100%; }
-        
-        /* Hero Ekranı (İlk açılıştaki view) */
+        /* --- HERO SECTION --- */
         .hero-section {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; text-align: center; position: relative;
+            height: 100vh; text-align: center; position: relative; z-index: 10;
         }
-
         .header h1 { font-size: 5rem; margin: 0; letter-spacing: -4px; filter: drop-shadow(0 0 20px rgba(0, 124, 240, 0.6)); }
         .sub-header { font-size: 12px; letter-spacing: 6px; opacity: 0.7; margin-bottom: 50px; color: var(--accent-secondary); }
 
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; margin-bottom: 100px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; }
         .btn {
             position: relative; background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 24px; border-radius: 15px; color: white; text-decoration: none;
@@ -109,64 +105,59 @@
         }
         .btn:hover { transform: translateY(-10px) scale(1.02); border-color: var(--accent-primary); box-shadow: 0 20px 40px rgba(0, 124, 240, 0.3); }
 
-        /* --- YENİ BÖLÜM: PROJELER & YETENEKLER --- */
-        .projects-section {
-            padding: 120px 20px;
-            text-align: center;
-            max-width: 1200px; margin: 0 auto;
-        }
-        .projects-section-tag {
-            display: inline-block; background: var(--glass);
-            border: 1px solid rgba(0, 223, 216, 0.2); color: var(--accent-secondary);
-            padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: 800;
-            margin-bottom: 15px; text-transform: uppercase;
-        }
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
-            margin-top: 60px;
-        }
-        .project-card {
-            background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px; border-radius: 20px;
-            display: flex; flex-direction: column; align-items: flex-start; text-align: left;
-            transition: 0.4s; backdrop-filter: blur(15px);
-            /* Animasyon başlangıç durumu */
-            opacity: 0; transform: translateY(40px);
-        }
-        .project-card.active { opacity: 1; transform: translateY(0); } /* Animasyon aktif durumu */
-        .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 30px rgba(0, 124, 240, 0.2); }
-        
-        .card-icon { width: 50px; height: 50px; background: var(--accent-primary); color: white; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 20px; margin-bottom: 20px; }
-        .card-tag { display: inline-block; background: rgba(0, 223, 216, 0.1); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; color: var(--accent-secondary); margin-bottom: 15px; text-transform: uppercase; }
-        .project-card h3 { font-size: 24px; margin: 0 0 10px 0; }
-        .project-card p { font-size: 14px; line-height: 1.6; color: #aaa; margin: 0; }
-        .card-status { width: 100%; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; gap: 8px; font-size: 12px; color: #777; font-weight: 600; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-
-        /* --- YENİ BÖLÜM: SCROLL DOWN İNDİKATÖRÜ --- */
+        /* --- YENİ & HAVALI SCROLL DOWN ANIMASYONU --- */
         .scroll-down {
             position: absolute; bottom: 30px; left: 50%;
             transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            animation: breathe 3s infinite ease-in-out;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            z-index: 15;
         }
-        .scroll-line { width: 1px; height: 50px; background: linear-gradient(to top, var(--accent-secondary), transparent); position: relative; }
-        .scroll-text { text-transform: uppercase; font-size: 10px; letter-spacing: 3px; color: #888; font-weight: 800; }
-        @keyframes breathe { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-        .visitor-counter {
-            position: fixed; bottom: 20px; left: 30px; z-index: 100;
-            display: flex; align-items: center; gap: 10px;
-            background: var(--glass); padding: 10px 20px;
-            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px); color: var(--accent-secondary);
-            font-size: 14px; font-weight: bold;
+        .scroll-text {
+            text-transform: uppercase; font-size: 10px; letter-spacing: 4px;
+            color: var(--accent-secondary); font-weight: 800;
+            opacity: 0.6; animation: textPulse 2s infinite ease-in-out;
+        }
+        .scroll-line {
+            width: 2px; height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative; overflow: hidden;
+            border-radius: 2px;
+        }
+        .scroll-line::before {
+            content: ''; position: absolute; top: -20px; left: 0;
+            width: 100%; height: 20px;
+            background: linear-gradient(to bottom, transparent, var(--accent-primary), var(--accent-secondary), transparent);
+            animation: drop 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes drop {
+            0% { top: -20px; opacity: 0; }
+            30% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.4; letter-spacing: 4px; }
+            50% { opacity: 1; letter-spacing: 6px; }
         }
 
+        /* --- PROJECTS SECTION --- */
+        .projects-section { padding: 120px 20px; text-align: center; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
+        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
+        .project-card {
+            background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px; border-radius: 20px; text-align: left;
+            transition: 0.4s; backdrop-filter: blur(15px);
+            opacity: 0; transform: translateY(40px);
+        }
+        .project-card.active { opacity: 1; transform: translateY(0); }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 30px rgba(0, 124, 240, 0.2); }
+        .card-icon { width: 50px; height: 50px; background: var(--accent-primary); color: white; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 20px; margin-bottom: 20px; }
+        .card-tag { display: inline-block; background: rgba(0, 223, 216, 0.1); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; color: var(--accent-secondary); margin-bottom: 15px; }
+
+        /* --- DİĞER WIDGETLAR --- */
+        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; display: flex; align-items: center; gap: 10px; background: var(--glass); padding: 10px 20px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: var(--accent-secondary); font-size: 14px; font-weight: bold; }
         .music-widget { position: fixed; top: 30px; left: 30px; z-index: 100; }
         .music-panel { position: absolute; top: 75px; left: 0; width: 320px; background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 25px; backdrop-filter: blur(25px); opacity: 0; transform: translateX(-30px); pointer-events: none; transition: all 0.5s; }
         .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-
         .hud-panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); background: rgba(5, 5, 10, 0.95); border: 2px solid var(--accent-secondary); border-radius: 30px; padding: 40px 60px; display: flex; flex-direction: column; align-items: center; z-index: 1000; pointer-events: none; opacity: 0; transition: all 0.5s; }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     </style>
@@ -175,11 +166,7 @@
 
     <div class="announcement-bar">
         <div class="announcement-header"><i class="fas fa-satellite-dish"></i> System Broadcast</div>
-        <div class="marquee-container">
-            <div class="marquee-text" id="announcementContent">
-                EZWIN STUDIO V3.0 YAYINLANDI! • TÜM SİSTEMLER AKTİF • YENİ MÜZİKLER EKLENDİ • GÜVENLİK SİSTEMLERİ AKTİF EDİLDİ!
-            </div>
-        </div>
+        <div class="marquee-container"><div class="marquee-text" id="announcementContent">EZWIN STUDIO V3.0 YAYINLANDI! • TÜM SİSTEMLER AKTİF • YENİ MÜZİKLER EKLENDİ!</div></div>
     </div>
 
     <div id="enter-overlay">
@@ -189,22 +176,11 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <div class="visitor-counter">
-        <i class="fas fa-eye"></i>
-        <span id="vCount">YÜKLENİYOR...</span>
-    </div>
-
+    <div class="visitor-counter"><i class="fas fa-eye"></i><span id="vCount">YÜKLENİYOR...</span></div>
     <div class="copyright-tag">EZWIN STUDIO © 2026</div>
 
-    <div class="hud-panel" id="volumeHud">
-        <i class="fas fa-volume-high" id="hudIcon"></i>
-        <span id="hudText">SES: %50</span>
-    </div>
-
-    <div class="hud-panel" id="songHud">
-        <i class="fas fa-compact-disc fa-spin"></i>
-        <span id="songHudText" style="color: var(--accent-secondary);">OYNATILIYOR</span>
-    </div>
+    <div class="hud-panel" id="volumeHud"><i class="fas fa-volume-high" id="hudIcon"></i><span id="hudText">SES: %50</span></div>
+    <div class="hud-panel" id="songHud"><i class="fas fa-compact-disc fa-spin"></i><span id="songHudText" style="color: var(--accent-secondary);">OYNATILIYOR</span></div>
 
     <div class="music-widget">
         <div class="music-toggle" id="musicToggle" style="width: 60px; height: 60px; border: 2px solid var(--accent-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; background: var(--panel-bg); color: var(--accent-primary); cursor: pointer;"><i class="fas fa-compact-disc"></i></div>
@@ -234,36 +210,31 @@
             </div>
 
             <div class="scroll-down">
-                <div class="scroll-line"></div>
                 <div class="scroll-text">SCROLL DOWN</div>
+                <div class="scroll-line"></div>
             </div>
         </div>
 
         <div class="projects-section" id="projects">
-            <div class="projects-section-tag">WHAT I DO</div>
-            <h2 class="section-title animated-text">Projects & Skills</h2>
-            
+            <h2 class="animated-text" style="font-size: 2.5rem; margin-bottom: 40px;">Projects & Skills</h2>
             <div class="projects-grid">
                 <div class="project-card reveal">
                     <div class="card-icon"><i class="fas fa-code"></i></div>
                     <h3>Software & Development</h3>
-                    <div class="card-tag">JS / TS</div>
-                    <p>TS ile gelişmiş CLI araçları ve web projeleri. Node.js kullanarak janjanlı Discord botları.</p>
-                    <div class="card-status"><span class="status-dot online" style="background:#00ff88"></span> Active Coding</div>
+                    <div class="card-tag">JS / TS / NODE</div>
+                    <p>Modern web teknolojileri ve yüksek performanslı Discord bot sistemleri.</p>
                 </div>
                 <div class="project-card reveal">
                     <div class="card-icon"><i class="fas fa-coins"></i></div>
-                    <h3>Robux Sales & Trading</h3>
-                    <div class="card-tag">ROBLOX</div>
-                    <p>Güvenilir Roblox dijital varlık ticareti ve Robux satış hizmetleri.</p>
-                    <div class="card-status"><span class="status-dot offline" style="background:#ff4444"></span> High Demand</div>
+                    <h3>Robux Sales</h3>
+                    <div class="card-tag">MARKETPLACE</div>
+                    <p>Hızlı, güvenilir ve uygun fiyatlı Roblox dijital varlık ticareti.</p>
                 </div>
                 <div class="project-card reveal">
                     <div class="card-icon"><i class="fas fa-headset"></i></div>
-                    <h3>Communication & Support</h3>
-                    <div class="card-tag">24/7</div>
-                    <p>Büyük toplulukların yönetimi ve teknik destek süreçleri.</p>
-                    <div class="card-status"><span class="status-dot online" style="background:#00dfd8"></span> Online Systems</div>
+                    <h3>Support & Management</h3>
+                    <div class="card-tag">COMMUNITY</div>
+                    <p>Geniş kitleli sunucu yönetimi ve kesintisiz teknik destek hizmeti.</p>
                 </div>
             </div>
         </div>
@@ -272,159 +243,68 @@
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-        // --- CONSOLE SECURITY & LOCK ---
+        // --- GÜVENLİK VE SİSTEMLER ---
         (function() {
-            const blockConsole = () => {
-                const style = "color: #007cf0; font-size: 40px; font-weight: bold; text-shadow: 0 0 10px #007cf0; padding: 20px;";
-                console.clear();
-                console.log("%cEZWIN SECURITY", style);
-                console.log("%cConsole is locked. Script injection disabled.", "color: red; font-size: 12px;");
-            };
-
+            const blockConsole = () => { console.clear(); console.log("%cEZWIN SECURITY", "color: #007cf0; font-size: 30px; font-weight: bold;"); };
             const noop = () => {};
-            Object.defineProperty(window, 'console', {
-                value: {
-                    log: blockConsole,
-                    info: noop,
-                    warn: noop,
-                    error: noop,
-                    clear: noop,
-                    debug: noop
-                },
-                writable: false,
-                configurable: false
-            });
-
+            Object.defineProperty(window, 'console', { value: { log: blockConsole, info: noop, warn: noop, error: noop, clear: noop, debug: noop }, writable: false });
             setInterval(blockConsole, 2000);
         })();
 
-        // --- KORUMA (SAĞ TIK VE TUŞLAR) ---
         document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = e => { 
-            if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; 
-        };
+        document.onkeydown = e => { if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; };
 
-        // --- ZİYARETÇİ SAYACI ---
         let visits = localStorage.getItem('visit_count') || 1240;
         visits = parseInt(visits) + 1;
         localStorage.setItem('visit_count', visits);
         document.getElementById('vCount').innerText = visits.toLocaleString();
 
-        // --- ARKA PLAN ANIMASYONU ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN', 'ROOT', 'BATU', 'HZEZ', 'R-Ğ', 'DİYARBAKIRLI'];
+        const words = ['EZWIN', 'STUDIO', 'SYSTEM', 'CODE', 'ROOT'];
         let particles = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
         class Particle {
             constructor() { this.init(); this.y = Math.random() * canvas.height; }
-            init() { this.x = Math.random() * canvas.width; this.y = canvas.height + 50; this.speed = 0.5 + Math.random() * 1.5; this.text = words[Math.floor(Math.random() * words.length)]; this.fontSize = 12 + Math.random() * 15; this.opacity = 0.1 + Math.random() * 0.2; this.color = Math.random() > 0.5 ? '#007cf0' : '#ff0080'; }
+            init() { this.x = Math.random() * canvas.width; this.y = canvas.height + 50; this.speed = 0.5 + Math.random() * 1.5; this.text = words[Math.floor(Math.random() * words.length)]; this.fontSize = 12 + Math.random() * 10; this.opacity = 0.1 + Math.random() * 0.15; this.color = Math.random() > 0.5 ? '#007cf0' : '#ff0080'; }
             draw() { ctx.save(); ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color; ctx.font = `bold ${this.fontSize}px Arial`; ctx.fillText(this.text, this.x, this.y); ctx.restore(); this.y -= this.speed; if (this.y < -50) this.init(); }
         }
-        for(let i=0; i<40; i++) particles.push(new Particle());
+        for(let i=0; i<30; i++) particles.push(new Particle());
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-        // --- MÜZİK SİSTEMİ ---
-        const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'New Person' },
-            { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
-            { id: '8KqcE6QSe9E', title: 'Glass Animals - Take A Slice' },
-        ];
+        // --- MÜZİK VE KAYDIRMA SİSTEMİ ---
+        const playlistData = [{ id: '_9bw_VtMUGA', title: 'New Person' }, { id: 'KhqNTjbQ71A', title: 'Last Christmas' }, { id: '8KqcE6QSe9E', title: 'Glass Animals' }];
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
-            if(player && typeof player.playVideo === 'function') {
-                player.setVolume(50);
-                player.playVideo();
-                isPlaying = true;
-                document.getElementById('playBtn').className = "fas fa-pause";
-                showSongHud(playlistData[currentTrack].title);
-            }
+            if(player && typeof player.playVideo === 'function') { player.setVolume(50); player.playVideo(); isPlaying = true; document.getElementById('playBtn').className = "fas fa-pause"; showSongHud(playlistData[currentTrack].title); }
         }
 
         var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
-        
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: playlistData[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'origin': window.location.origin },
-                events: { 
-                    'onReady': onPlayerReady, 
-                    'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } 
-                }
-            });
-        }
+        function onYouTubeIframeAPIReady() { player = new YT.Player('yt-player', { height: '0', width: '0', videoId: playlistData[0].id, playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 }, events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } } }); }
 
         function onPlayerReady() {
             document.getElementById('musicToggle').onclick = () => document.getElementById('musicPanel').classList.toggle('active');
-            document.getElementById('playBtn').onclick = () => {
-                if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className = "fas fa-play"; }
-                else { player.playVideo(); document.getElementById('playBtn').className = "fas fa-pause"; }
-                isPlaying = !isPlaying;
-            };
+            document.getElementById('playBtn').onclick = () => { if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className = "fas fa-play"; } else { player.playVideo(); document.getElementById('playBtn').className = "fas fa-pause"; } isPlaying = !isPlaying; };
             document.getElementById('next').onclick = () => playTrack((currentTrack + 1) % playlistData.length);
             document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
-            
-            document.getElementById('volume').oninput = (e) => {
-                let vol = e.target.value;
-                player.setVolume(vol);
-                showVolumeHud(`SES: %${vol}`, vol == 0 ? "fa-volume-mute" : "fa-volume-high");
-            };
+            document.getElementById('volume').oninput = (e) => { let vol = e.target.value; player.setVolume(vol); showVolumeHud(`SES: %${vol}`, vol == 0 ? "fa-volume-mute" : "fa-volume-high"); };
             renderPlaylist();
         }
 
-        function playTrack(i) {
-            currentTrack = i;
-            player.loadVideoById(playlistData[i].id);
-            isPlaying = true;
-            document.getElementById('playBtn').className = "fas fa-pause";
-            renderPlaylist();
-            showSongHud(playlistData[i].title);
-        }
+        function playTrack(i) { currentTrack = i; player.loadVideoById(playlistData[i].id); isPlaying = true; document.getElementById('playBtn').className = "fas fa-pause"; renderPlaylist(); showSongHud(playlistData[i].title); }
+        function renderPlaylist() { const list = document.getElementById('musicList'); list.innerHTML = playlistData.map((t, i) => `<div class="track-item" onclick="playTrack(${i})" style="padding:10px; cursor:pointer; font-size:12px; border-bottom:1px solid rgba(255,255,255,0.05); color:${i===currentTrack?'var(--accent-primary)':'white'}">${t.title}</div>`).join(''); }
+        function showVolumeHud(text, icon) { clearTimeout(hudTimer); document.getElementById('hudText').innerText = text; document.getElementById('hudIcon').className = `fas ${icon}`; document.getElementById('volumeHud').classList.add('show'); hudTimer = setTimeout(() => document.getElementById('volumeHud').classList.remove('show'), 1200); }
+        function showSongHud(title) { clearTimeout(songTimer); document.getElementById('songHudText').innerText = title; document.getElementById('songHud').classList.add('show'); songTimer = setTimeout(() => document.getElementById('songHud').classList.remove('show'), 2000); }
 
-        function renderPlaylist() {
-            const list = document.getElementById('musicList');
-            list.innerHTML = playlistData.map((t, i) => `
-                <div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})" style="display:flex; align-items:center; gap:10px; padding:10px; cursor:pointer; border-radius:10px; margin-bottom:5px; border: 1px solid ${i === currentTrack ? 'var(--accent-primary)' : 'transparent'}">
-                    <span style="color:var(--accent-primary)">0${i+1}</span>
-                    <span style="font-size:12px">${t.title}</span>
-                </div>
-            `).join('');
-        }
-
-        function showVolumeHud(text, iconClass) {
-            clearTimeout(hudTimer);
-            document.getElementById('hudText').innerText = text;
-            document.getElementById('hudIcon').className = `fas ${iconClass}`;
-            document.getElementById('volumeHud').classList.add('show');
-            hudTimer = setTimeout(() => document.getElementById('volumeHud').classList.remove('show'), 1200);
-        }
-
-        function showSongHud(title) {
-            clearTimeout(songTimer);
-            document.getElementById('songHudText').innerText = title;
-            document.getElementById('songHud').classList.add('show');
-            songTimer = setTimeout(() => document.getElementById('songHud').classList.remove('show'), 2000);
-        }
-
-        // --- YENİ: KAYDIRMA ANIMASYONU (SCROLL REVEAL) ---
         function revealOnScroll() {
             const reveals = document.querySelectorAll(".reveal");
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const revealPoint = 150; // Bölüm ne kadar yaklaştığında görünsün
-
-                if (elementTop < windowHeight - revealPoint) {
-                    reveals[i].classList.add("active");
-                } else {
-                    // Kutuların tekrar gizlenmesini istersen bunu aç
-                    // reveals[i].classList.remove("active");
-                }
-            }
+            reveals.forEach(r => {
+                if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add("active");
+            });
         }
         window.addEventListener("scroll", revealOnScroll);
     </script>
