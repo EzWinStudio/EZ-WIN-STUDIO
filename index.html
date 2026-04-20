@@ -131,13 +131,22 @@
             border-radius: 28px; padding: 45px; text-align: left;
             backdrop-filter: blur(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .project-card:hover { transform: translateY(-20px); border-color: var(--accent-primary); background: rgba(0, 124, 240, 0.03); }
+        
+        /* HOVER ANİMASYONU VE RENK AYARI */
+        .project-card:hover { 
+            transform: translateY(-20px) scale(1.02); 
+            border-color: var(--accent-primary); 
+            background: rgba(0, 124, 240, 0.03);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 124, 240, 0.1);
+        }
+        
         .card-icon { width: 60px; height: 60px; background: rgba(0, 223, 216, 0.1); color: var(--accent-secondary); display: flex; align-items: center; justify-content: center; border-radius: 18px; font-size: 24px; margin-bottom: 25px; }
         .card-tag { display: inline-block; background: rgba(0, 124, 240, 0.1); padding: 5px 15px; border-radius: 10px; font-size: 11px; font-weight: 900; color: var(--accent-primary); margin-bottom: 20px; }
         .status-bar { font-size: 12px; color: #666; display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 25px; margin-top: 10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
         .dot.active { background: #00ff88; box-shadow: 0 0 15px #00ff88; animation: pulse 2s infinite; }
         
+        /* SCROLL REVEAL ANİMASYONU */
         .reveal { opacity: 0; transform: translateY(100px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
@@ -225,7 +234,7 @@
     <div class="hud-panel" id="songHud"><i class="fas fa-music" style="color:var(--accent-secondary); font-size:40px; margin-bottom:15px;"></i><span id="songHudText" style="font-weight:900; text-transform:uppercase;">MILIARDARA</span></div>
     
     <div class="visitor-counter"><i class="fas fa-users"></i><span id="vCount">2,481</span></div>
-    <div class="copyright-tag">© 2026 EZWIN STUDIO</div>
+    <div class="copyright-tag">EZWIN STUDIO © 2026</div>
 
     <div class="music-widget">
         <div class="music-toggle" id="musicToggle"><i class="fas fa-compact-disc fa-spin" style="animation-duration: 3s;"></i></div>
@@ -243,6 +252,7 @@
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
+        // --- CORE ---
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             if(player && typeof player.playVideo === 'function') {
@@ -251,6 +261,7 @@
             }
         }
 
+        // --- SCROLL REVEAL & FADE ---
         window.addEventListener("scroll", () => {
             const scrollDown = document.querySelector(".scroll-down-wrapper");
             const reveals = document.querySelectorAll(".reveal");
@@ -263,6 +274,7 @@
             });
         });
 
+        // --- BG PARTICLES ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -291,10 +303,12 @@
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
+        // --- MUSIC ENGINE ---
         const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'New Person' },
-            { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
-            { id: '8KqcE6QSe9E', title: 'Take A Slice' },
+            { id: '_9bw_VtMUGA', title: 'MILIARDARA' },
+            { id: 'KhqNTjbQ71A', title: 'AKŞAMLAR' },
+            { id: '8KqcE6QSe9E', title: 'HONEY' },
+            { id: 'KhqNTjbQ71A', title: 'LIPSTICK (SPED UP)' }
         ];
         let currentTrack = 0, player, isPlaying = false, hTimer, sTimer;
 
