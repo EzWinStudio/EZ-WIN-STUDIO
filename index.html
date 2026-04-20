@@ -34,10 +34,7 @@
             padding: 8px; border-radius: 12px; backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .theme-dot {
-            width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.2); transition: 0.3s;
-        }
+        .theme-dot { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: 0.3s; }
         .theme-dot:hover { transform: scale(1.2); border-color: white; }
 
         /* --- ANNOUNCEMENT --- */
@@ -80,10 +77,9 @@
         }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        /* --- HERO & ANIMATIONS --- */
+        /* --- HERO & MAIN CONTENT --- */
         .main-content { position: relative; z-index: 10; width: 100%; opacity: 0; transition: 1.5s ease; }
         .main-content.visible { opacity: 1; }
-        
         .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; position: relative; }
         
         .animated-text { background: var(--text-gradient); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flow 5s linear infinite; font-weight: 900; text-transform: uppercase; }
@@ -102,28 +98,34 @@
         .btn:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
 
         /* --- SCROLL DOWN --- */
-        .scroll-down { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: 0.3s; }
-        .scroll-down:hover { opacity: 1; transform: translateX(-50%) translateY(5px); }
+        .scroll-down { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .mouse { width: 22px; height: 35px; border: 2px solid var(--accent-secondary); border-radius: 20px; position: relative; }
         .mouse::before { content: ""; position: absolute; top: 6px; left: 50%; width: 4px; height: 8px; background: var(--accent-secondary); border-radius: 2px; transform: translateX(-50%); animation: scroll-wheel 1.6s infinite; }
         @keyframes scroll-wheel { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 12px); } }
 
         /* --- ENTER OVERLAY --- */
-        #enter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: scale(1.1); }
-        .enter-content { text-align: center; animation: fadeInDelayed 1s ease; }
-        @keyframes fadeInDelayed { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #enter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s ease-in-out; }
+        #enter-overlay.fade-out { opacity: 0; visibility: hidden; }
         .enter-btn { padding: 20px 60px; border: 2px solid var(--accent-primary); background: transparent; color: white; font-weight: 900; font-size: 18px; letter-spacing: 5px; border-radius: 50px; cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow); margin-top: 20px; }
-        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 40px var(--accent-primary); transform: scale(1.05); }
 
+        /* --- COPYRIGHT (DÜZELTİLEN KISIM) --- */
+        .copyright-container {
+            position: fixed; bottom: 20px; right: 30px; z-index: 1100;
+            text-align: right; pointer-events: none;
+        }
+        .copyright-text {
+            font-size: 11px; font-weight: 900; letter-spacing: 2px;
+            opacity: 0.6; transition: 0.3s;
+        }
+
+        /* --- VISITOR --- */
+        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; background: var(--glass); padding: 8px 18px; border-radius: 30px; color: var(--accent-secondary); font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
+        
         /* --- PROJECTS --- */
         .projects-section { padding: 100px 20px; text-align: center; max-width: 1100px; margin: 0 auto; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 50px; }
         .project-card { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 24px; text-align: left; transition: 0.6s; opacity: 0; transform: translateY(40px); }
         .project-card.active { opacity: 1; transform: translateY(0); }
-        .project-card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 40px var(--accent-glow); transform: translateY(-10px); }
-        
-        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; background: var(--glass); padding: 8px 18px; border-radius: 30px; color: var(--accent-secondary); font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
@@ -146,7 +148,11 @@
 
     <div class="announcement-bar">
         <div class="announcement-header"><i class="fas fa-satellite-dish"></i> Broadcast</div>
-        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • ALL SYSTEMS OPERATIONAL • THEME ENGINE READY</div></div>
+        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • SYSTEMS SECURE • THEME ENGINE ONLINE</div></div>
+    </div>
+
+    <div class="copyright-container">
+        <div class="copyright-text animated-text">EZWIN STUDIO © 2026</div>
     </div>
 
     <div class="music-widget">
@@ -163,11 +169,8 @@
     </div>
 
     <div id="enter-overlay">
-        <div class="enter-content">
-            <h1 class="animated-text" style="font-size: 60px; margin: 0;">EZWIN STUDIO</h1>
-            <p style="letter-spacing: 10px; opacity: 0.5; margin-bottom: 30px;">EST. 2026</p>
-            <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
-        </div>
+        <h1 class="animated-text" style="font-size: 60px; margin: 0;">EZWIN STUDIO</h1>
+        <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
     </div>
 
     <canvas id="bg-canvas"></canvas>
@@ -201,17 +204,17 @@
                 <div class="project-card reveal">
                     <i class="fas fa-code" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 15px;"></i>
                     <h3>Development</h3>
-                    <p>High-end software solutions and Discord automation tools built with precision.</p>
+                    <p>High-end software solutions and Discord automation tools.</p>
                 </div>
                 <div class="project-card reveal">
                     <i class="fas fa-vault" style="font-size: 30px; color: var(--accent-secondary); margin-bottom: 15px;"></i>
                     <h3>Assets</h3>
-                    <p>Premium Roblox asset management and secure trading infrastructure.</p>
+                    <p>Premium Roblox asset management and secure trading.</p>
                 </div>
                 <div class="project-card reveal">
                     <i class="fas fa-microchip" style="font-size: 30px; color: var(--accent-pink); margin-bottom: 15px;"></i>
-                    <h3>Cyber Security</h3>
-                    <p>Community protection and advanced system moderation for digital ecosystems.</p>
+                    <h3>Infrastructure</h3>
+                    <p>Advanced system moderation and digital community protection.</p>
                 </div>
             </div>
         </div>
