@@ -15,13 +15,14 @@
             --glass: rgba(255, 255, 255, 0.03);
             --panel-bg: rgba(5, 5, 10, 0.9);
             --text-gradient: linear-gradient(to right, #007cf0, #00dfd8, #ff0080);
+            --scroll-color: #ffae00;
         }
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
             font-family: 'Inter', sans-serif; 
-            overflow-x: hidden; /* Scroll için y-eksenini açtık */
+            overflow-x: hidden; /* Scroll desteği için */
             user-select: none;
         }
 
@@ -50,15 +51,7 @@
         }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- OVERLAYS & TAGS --- */
-        .copyright-tag {
-            position: fixed; bottom: 20px; right: 30px; z-index: 100;
-            font-size: 12px; font-weight: 800; letter-spacing: 2px;
-            background: var(--text-gradient); background-size: 200% auto;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: flow 3s linear infinite;
-        }
-
+        /* --- OVERLAYS & CANVAS --- */
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 9999;
@@ -78,6 +71,33 @@
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.3; pointer-events: none; }
 
+        /* --- SCROLL DOWN INDICATOR --- */
+        .scroll-down-wrapper {
+            position: absolute; bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center;
+            gap: 15px; z-index: 10; transition: opacity 0.5s ease;
+        }
+        .scroll-line {
+            width: 2px; height: 50px;
+            background: linear-gradient(to bottom, transparent, var(--scroll-color));
+            position: relative; overflow: hidden;
+        }
+        .scroll-line::after {
+            content: ''; position: absolute; top: -100%; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent, #fff, transparent);
+            animation: scroll-line-anim 2s infinite;
+        }
+        .scroll-text {
+            font-size: 10px; letter-spacing: 4px; color: var(--scroll-color);
+            font-weight: 800; text-transform: uppercase;
+        }
+        @keyframes scroll-line-anim { 0% { top: -100%; } 100% { top: 100%; } }
+        .scroll-down-wrapper.fade-out { opacity: 0; pointer-events: none; }
+
+        /* --- MAIN CONTENT --- */
+        .main-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; }
         .animated-text {
             background: var(--text-gradient); background-size: 300% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -85,12 +105,10 @@
         }
         @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
 
-        /* --- MAIN LAYOUT --- */
-        .main-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding-top: 50px; }
         .header h1 { font-size: 5rem; margin: 0; letter-spacing: -4px; filter: drop-shadow(0 0 20px rgba(0, 124, 240, 0.6)); }
         .sub-header { font-size: 12px; letter-spacing: 6px; opacity: 0.7; margin-bottom: 50px; color: var(--accent-secondary); }
 
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; margin-bottom: 50px;}
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; }
         .btn {
             position: relative; background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 24px; border-radius: 15px; color: white; text-decoration: none;
@@ -100,225 +118,132 @@
         }
         .btn:hover { transform: translateY(-10px) scale(1.02); border-color: var(--accent-primary); box-shadow: 0 20px 40px rgba(0, 124, 240, 0.3); }
 
-        /* --- NEW PROJECTS SECTION --- */
+        /* --- PROJECTS SECTION (SCROLL DOWN RESULT) --- */
         .projects-section {
-            position: relative; z-index: 10; padding: 100px 20px;
-            max-width: 1100px; margin: 0 auto; text-align: center;
+            padding: 100px 20px; max-width: 1100px; margin: 0 auto;
+            text-align: center; position: relative; z-index: 10;
         }
         .section-tag {
-            display: inline-block; background: rgba(0, 223, 216, 0.1); color: var(--accent-secondary);
+            display: inline-block; background: rgba(255, 174, 0, 0.1); color: #ffae00;
             padding: 6px 16px; border-radius: 20px; font-size: 11px; font-weight: 900;
-            margin-bottom: 15px; border: 1px solid rgba(0, 223, 216, 0.2);
+            margin-bottom: 15px; border: 1px solid rgba(255, 174, 0, 0.2);
         }
         .section-title { font-size: 3.5rem; margin-bottom: 60px; letter-spacing: -2px; }
 
         .projects-grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        
         .project-card {
             background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 24px; padding: 40px; text-align: left;
             backdrop-filter: blur(20px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
         }
-        .project-card:hover {
-            transform: translateY(-15px); background: rgba(255, 255, 255, 0.04);
-            border-color: var(--accent-primary); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .card-icon {
-            width: 55px; height: 55px; background: rgba(0, 124, 240, 0.1); color: var(--accent-primary);
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 15px; font-size: 22px; margin-bottom: 25px;
-        }
-        .project-card h3 { font-size: 24px; margin: 0 0 10px 0; font-weight: 800; }
-        .card-tag {
-            display: inline-block; background: rgba(255, 255, 255, 0.05);
-            padding: 4px 12px; border-radius: 8px; font-size: 10px; font-weight: 900;
-            color: var(--accent-secondary); margin-bottom: 20px; text-transform: uppercase;
-        }
+        .project-card:hover { transform: translateY(-15px); border-color: var(--accent-primary); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }
+        .card-icon { width: 55px; height: 55px; background: rgba(255, 174, 0, 0.1); color: #ffae00; display: flex; align-items: center; justify-content: center; border-radius: 15px; font-size: 22px; margin-bottom: 25px; }
+        .card-tag { display: inline-block; background: rgba(255, 255, 255, 0.05); padding: 4px 12px; border-radius: 8px; font-size: 10px; font-weight: 900; color: #ffae00; margin-bottom: 20px; text-transform: uppercase; }
         .project-card p { color: #999; line-height: 1.7; font-size: 14.5px; margin-bottom: 30px; min-height: 80px; }
-
-        .status-bar {
-            font-size: 12px; color: #555; display: flex; align-items: center;
-            gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 20px; font-weight: 700;
-        }
+        .status-bar { font-size: 12px; color: #555; display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px; font-weight: 700; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #444; }
-        .dot.active { 
-            background: #00ff88; box-shadow: 0 0 12px #00ff88; 
-            animation: pulse-green 2s infinite; 
-        }
-        @keyframes pulse-green { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .dot.active { background: #00ff88; box-shadow: 0 0 12px #00ff88; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         .reveal { opacity: 0; transform: translateY(80px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- WIDGETS --- */
-        .visitor-counter {
-            position: fixed; bottom: 20px; left: 30px; z-index: 100;
-            display: flex; align-items: center; gap: 10px;
-            background: var(--glass); padding: 10px 20px;
-            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px); color: var(--accent-secondary);
-            font-size: 14px; font-weight: bold;
-        }
-
-        .music-widget { position: fixed; top: 30px; left: 30px; z-index: 100; }
-        .music-panel { position: absolute; top: 75px; left: 0; width: 320px; background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 25px; backdrop-filter: blur(25px); opacity: 0; transform: translateX(-30px); pointer-events: none; transition: all 0.5s; }
-        .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-
+        /* --- HUD PANELS & WIDGETS --- */
         .hud-panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); background: rgba(5, 5, 10, 0.95); border: 2px solid var(--accent-secondary); border-radius: 30px; padding: 40px 60px; display: flex; flex-direction: column; align-items: center; z-index: 1000; pointer-events: none; opacity: 0; transition: all 0.5s; }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; display: flex; align-items: center; gap: 10px; background: var(--glass); padding: 10px 20px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: var(--accent-secondary); font-size: 14px; font-weight: bold; }
+        .music-widget { position: fixed; top: 30px; left: 30px; z-index: 100; }
+        .music-toggle { width: 60px; height: 60px; border: 2px solid var(--accent-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; background: var(--panel-bg); color: var(--accent-primary); cursor: pointer; }
+        .music-panel { position: absolute; top: 75px; left: 0; width: 320px; background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 25px; backdrop-filter: blur(25px); opacity: 0; transform: translateX(-30px); pointer-events: none; transition: all 0.5s; }
+        .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+        .copyright-tag { position: fixed; bottom: 20px; right: 30px; z-index: 100; font-size: 12px; font-weight: 800; letter-spacing: 2px; background: var(--text-gradient); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flow 3s linear infinite; }
     </style>
 </head>
 <body>
-
-    <div class="announcement-bar">
-        <div class="announcement-header"><i class="fas fa-satellite-dish"></i> System Broadcast</div>
-        <div class="marquee-container">
-            <div class="marquee-text" id="announcementContent">
-                EZWIN STUDIO V3.0 YAYINLANDI! • TÜM SİSTEMLER AKTİF • YENİ MÜZİKLER EKLENDİ • GÜVENLİK SİSTEMLERİ AKTİF EDİLDİ!
-            </div>
-        </div>
-    </div>
 
     <div id="enter-overlay">
         <h1 class="animated-text" style="font-size: 60px; margin-bottom: 30px;">EZWIN STUDIO</h1>
         <button class="enter-btn" onclick="startExperience()">ENTER</button>
     </div>
 
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="visitor-counter">
-        <i class="fas fa-eye"></i>
-        <span id="vCount">YÜKLENİYOR...</span>
-    </div>
-
-    <div class="copyright-tag">EZWIN STUDIO © 2026</div>
-
-    <div class="hud-panel" id="volumeHud">
-        <i class="fas fa-volume-high" id="hudIcon"></i>
-        <span id="hudText">SES: %50</span>
-    </div>
-
-    <div class="hud-panel" id="songHud">
-        <i class="fas fa-compact-disc fa-spin"></i>
-        <span id="songHudText" style="color: var(--accent-secondary);">OYNATILIYOR</span>
-    </div>
-
-    <div class="music-widget">
-        <div class="music-toggle" id="musicToggle" style="width: 60px; height: 60px; border: 2px solid var(--accent-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; background: var(--panel-bg); color: var(--accent-primary); cursor: pointer;"><i class="fas fa-compact-disc"></i></div>
-        <div class="music-panel" id="musicPanel">
-            <div style="display:flex; justify-content: space-around; font-size: 25px; color: var(--accent-primary); margin-bottom: 20px;">
-                <i class="fas fa-backward-step" id="prev" style="cursor:pointer"></i>
-                <i class="fas fa-play" id="playBtn" style="cursor:pointer"></i>
-                <i class="fas fa-forward-step" id="next" style="cursor:pointer"></i>
-            </div>
-            <div class="music-list" id="musicList"></div>
-            <input type="range" id="volume" min="0" max="100" value="50" style="width:100%; accent-color:var(--accent-primary);">
+    <div class="announcement-bar">
+        <div class="announcement-header"><i class="fas fa-satellite-dish"></i> System Broadcast</div>
+        <div class="marquee-container">
+            <div class="marquee-text">EZWIN STUDIO V3.0 • PROJELER BÖLÜMÜ AKTİF EDİLDİ • YENİ TASARIM YAYINDA!</div>
         </div>
     </div>
+
+    <canvas id="bg-canvas"></canvas>
 
     <div class="main-content">
         <div class="header"><h1 class="animated-text">EZWIN STUDIO</h1></div>
         <p class="sub-header">BY EZWIN YASEN</p>
         <div class="links-grid">
-            <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span>JOIN EZWIN MUSIC</span></a>
-            <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn youtube"><i class="fab fa-youtube"></i><span>EZWIN STUDIO CHANNEL</span></a>
-            <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-unlock-alt"></i><span>EZWIN UNCOPYLOCKED</span></a>
-            <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-user-shield"></i><span>JOIN EZWIN HESAP HİZMETLERİ</span></a>
-            <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn youtube"><i class="fab fa-youtube"></i><span>EZWIN MUSIC CHANNEL</span></a>
-            <a href="https://discord.gg/m2uDdfUEdf" target="_blank" class="btn"><i class="fas fa-ghost"></i><span>JOIN EZWIN CHEATS</span></a>
-            <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn full" style="grid-column: span 3;"><i class="fas fa-rocket"></i><span>ENTER THE EZWIN ECOSYSTEM</span></a>
+            <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span>EZWIN MUSIC</span></a>
+            <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>STUDIO CHANNEL</span></a>
+            <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-unlock-alt"></i><span>UNCOPYLOCKED</span></a>
+            <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-user-shield"></i><span>HESAP HİZMETLERİ</span></a>
+            <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>MUSIC CHANNEL</span></a>
+            <a href="https://discord.gg/m2uDdfUEdf" target="_blank" class="btn"><i class="fas fa-ghost"></i><span>EZWIN CHEATS</span></a>
+            <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3;"><i class="fas fa-rocket"></i><span>ENTER THE ECOSYSTEM</span></a>
+        </div>
+
+        <div class="scroll-down-wrapper">
+            <div class="scroll-line"></div>
+            <span class="scroll-text">SCROLL DOWN</span>
         </div>
     </div>
 
     <div class="projects-section" id="projects">
         <div class="section-tag"><span><i class="fas fa-layer-group"></i> NE YAPIYORUM?</span></div>
         <h2 class="section-title animated-text">Projeler & Yetenekler</h2>
-        
         <div class="projects-grid-layout">
             <div class="project-card reveal">
                 <div class="card-icon"><i class="fas fa-code"></i></div>
-                <h3>Software & Development</h3>
+                <h3>Software & Dev</h3>
                 <div class="card-tag">JS / TS</div>
-                <p>TypeScript ile gelişmiş CLI araçları ve web projeleri geliştiriyorum. Node.js kullanarak yüksek performanslı Discord botları tasarlıyorum.</p>
+                <p>TypeScript ile gelişmiş CLI araçları ve web projeleri geliştiriyorum. Node.js odaklı sistemler tasarlıyorum.</p>
                 <div class="status-bar"><span class="dot active"></span> Active Development</div>
             </div>
-
             <div class="project-card reveal">
                 <div class="card-icon"><i class="fas fa-coins"></i></div>
-                <h3>Robux Sales & Trading</h3>
+                <h3>Robux Trading</h3>
                 <div class="card-tag">ROBLOX</div>
-                <p>Güvenilir ve hızlı Robux ticareti sağlıyorum. Stok ve fiyat bilgisi için doğrudan iletişime geçebilirsiniz.</p>
-                <div class="status-bar"><span class="dot" style="background: #ff4444;"></span> Out of Stock</div>
+                <p>Güvenilir ve hızlı Robux ticareti sağlıyorum. Stok ve fiyat bilgisi için iletişime geçebilirsiniz.</p>
+                <div class="status-bar"><span class="dot" style="background:#ff4444"></span> Out of Stock</div>
             </div>
-
             <div class="project-card reveal">
                 <div class="card-icon"><i class="fas fa-headset"></i></div>
-                <h3>Communication & Support</h3>
+                <h3>Support</h3>
                 <div class="card-tag">24/7</div>
-                <p>Sorularınız için çekinmeden ulaşın. Discord üzerinden bana her zaman ulaşabilirsiniz.</p>
+                <p>Sorularınız veya projeleriniz için Discord üzerinden bana her zaman ulaşabilirsiniz.</p>
                 <div class="status-bar"><span class="dot active"></span> Online</div>
             </div>
+        </div>
+    </div>
+
+    <div class="hud-panel" id="volumeHud"><i class="fas fa-volume-high" id="hudIcon"></i><span id="hudText">SES: %50</span></div>
+    <div class="hud-panel" id="songHud"><i class="fas fa-compact-disc fa-spin"></i><span id="songHudText">OYNATILIYOR</span></div>
+    <div class="visitor-counter"><i class="fas fa-eye"></i><span id="vCount">0</span></div>
+    <div class="copyright-tag">EZWIN STUDIO © 2026</div>
+
+    <div class="music-widget">
+        <div class="music-toggle" id="musicToggle"><i class="fas fa-compact-disc"></i></div>
+        <div class="music-panel" id="musicPanel">
+            <div style="display:flex; justify-content: space-around; font-size: 25px; color: var(--accent-primary); margin-bottom: 20px;">
+                <i class="fas fa-backward-step" id="prev" style="cursor:pointer"></i>
+                <i class="fas fa-play" id="playBtn" style="cursor:pointer"></i>
+                <i class="fas fa-forward-step" id="next" style="cursor:pointer"></i>
+            </div>
+            <div id="musicList"></div>
+            <input type="range" id="volume" min="0" max="100" value="50" style="width:100%; accent-color:var(--accent-primary);">
         </div>
     </div>
 
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-        // --- GÜVENLİK ---
-        (function() {
-            const blockConsole = () => {
-                console.clear();
-                console.log("%cEZWIN SECURITY", "color: #007cf0; font-size: 40px; font-weight: bold;");
-            };
-            setInterval(blockConsole, 2000);
-        })();
-
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = e => { if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; };
-
-        // --- VISITOR COUNT ---
-        let visits = localStorage.getItem('visit_count') || 1240;
-        visits = parseInt(visits) + 1;
-        localStorage.setItem('visit_count', visits);
-        document.getElementById('vCount').innerText = visits.toLocaleString();
-
-        // --- BACKGROUND ANIMATION ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'ROOT', 'BATU', 'PARA BABASI'];
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.onresize = resize; resize();
-        class Particle {
-            constructor() { this.init(); this.y = Math.random() * canvas.height; }
-            init() { this.x = Math.random() * canvas.width; this.y = canvas.height + 50; this.speed = 0.5 + Math.random() * 1.5; this.text = words[Math.floor(Math.random() * words.length)]; this.fontSize = 12 + Math.random() * 15; this.opacity = 0.1 + Math.random() * 0.2; this.color = Math.random() > 0.5 ? '#007cf0' : '#ff0080'; }
-            draw() { ctx.save(); ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color; ctx.font = `bold ${this.fontSize}px Arial`; ctx.fillText(this.text, this.x, this.y); ctx.restore(); this.y -= this.speed; if (this.y < -50) this.init(); }
-        }
-        for(let i=0; i<40; i++) particles.push(new Particle());
-        function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
-        animate();
-
-        // --- SCROLL REVEAL ---
-        function handleScrollReveal() {
-            const reveals = document.querySelectorAll(".reveal");
-            reveals.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < window.innerHeight - 100) el.classList.add("active");
-            });
-        }
-        window.addEventListener("scroll", handleScrollReveal);
-
-        // --- MUSIC SYSTEM ---
-        const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'New Person' },
-            { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
-            { id: '8KqcE6QSe9E', title: 'Take A Slice' },
-        ];
-        let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
-
+        // --- CORE FUNCTIONS ---
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             if(player && typeof player.playVideo === 'function') {
@@ -326,14 +251,53 @@
                 document.getElementById('playBtn').className = "fas fa-pause";
                 showSongHud(playlistData[currentTrack].title);
             }
-            handleScrollReveal(); // İlk yüklemede kontrol et
+            handleScrollReveal();
         }
+
+        // --- SCROLL EFFECTS ---
+        function handleScrollReveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            const scrollDown = document.querySelector(".scroll-down-wrapper");
+            
+            // Projeleri göster
+            reveals.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
+            });
+
+            // Scroll Down yazısını gizle
+            if (window.scrollY > 50) scrollDown.classList.add("fade-out");
+            else scrollDown.classList.remove("fade-out");
+        }
+        window.addEventListener("scroll", handleScrollReveal);
+
+        // --- BACKGROUND ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN'];
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Particle {
+            constructor() { this.init(); this.y = Math.random() * canvas.height; }
+            init() { this.x = Math.random() * canvas.width; this.y = canvas.height + 50; this.speed = 0.5 + Math.random() * 1.5; this.text = words[Math.floor(Math.random() * words.length)]; this.fontSize = 12 + Math.random() * 10; this.opacity = 0.1; this.color = '#007cf0'; }
+            draw() { ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color; ctx.font = `bold ${this.fontSize}px Arial`; ctx.fillText(this.text, this.x, this.y); this.y -= this.speed; if (this.y < -50) this.init(); }
+        }
+        for(let i=0; i<30; i++) particles.push(new Particle());
+        function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
+        animate();
+
+        // --- MUSIC ---
+        const playlistData = [
+            { id: '_9bw_VtMUGA', title: 'New Person' },
+            { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
+            { id: '8KqcE6QSe9E', title: 'Take A Slice' }
+        ];
+        let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
         var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlistData[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0 },
                 events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } }
             });
         }
@@ -349,7 +313,7 @@
             document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
             document.getElementById('volume').oninput = (e) => {
                 let vol = e.target.value; player.setVolume(vol);
-                showVolumeHud(`SES: %${vol}`, vol == 0 ? "fa-volume-mute" : "fa-volume-high");
+                showVolumeHud(`SES: %${vol}`, "fa-volume-high");
             };
             renderPlaylist();
         }
@@ -362,13 +326,12 @@
 
         function renderPlaylist() {
             const list = document.getElementById('musicList');
-            list.innerHTML = playlistData.map((t, i) => `<div class="track-item" onclick="playTrack(${i})" style="padding:10px; cursor:pointer; font-size:12px; border-bottom:1px solid rgba(255,255,255,0.05); color:${i===currentTrack?'#007cf0':'white'}">0${i+1}. ${t.title}</div>`).join('');
+            list.innerHTML = playlistData.map((t, i) => `<div class="track-item" onclick="playTrack(${i})" style="padding:10px; cursor:pointer; color:${i===currentTrack?'#007cf0':'#888'}">${t.title}</div>`).join('');
         }
 
-        function showVolumeHud(text, iconClass) {
+        function showVolumeHud(text, icon) {
             clearTimeout(hudTimer);
             document.getElementById('hudText').innerText = text;
-            document.getElementById('hudIcon').className = `fas ${iconClass}`;
             document.getElementById('volumeHud').classList.add('show');
             hudTimer = setTimeout(() => document.getElementById('volumeHud').classList.remove('show'), 1200);
         }
@@ -379,6 +342,9 @@
             document.getElementById('songHud').classList.add('show');
             songTimer = setTimeout(() => document.getElementById('songHud').classList.remove('show'), 2000);
         }
+
+        // Visitor counter init
+        document.getElementById('vCount').innerText = (localStorage.getItem('visit_count') || 1240).toLocaleString();
     </script>
 </body>
 </html>
