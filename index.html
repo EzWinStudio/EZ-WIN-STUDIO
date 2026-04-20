@@ -14,7 +14,7 @@
             --accent-glow: rgba(0, 124, 240, 0.4);
             --glass: rgba(255, 255, 255, 0.03);
             --panel-bg: rgba(5, 5, 10, 0.95);
-            --text-gradient: linear-gradient(to right, #007cf0, #00dfd8, #ff0080);
+            --text-gradient: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink));
         }
 
         body, html {
@@ -49,8 +49,6 @@
             padding: 10px; overflow: hidden;
         }
         .announcement-header { font-size: 10px; font-weight: 900; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
-        .announcement-header i { animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
         .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; }
         .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 600; color: var(--accent-secondary); }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
@@ -70,8 +68,8 @@
             opacity: 0; transform: translateX(-30px); pointer-events: none; transition: 0.4s; 
         }
         .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-        .track-item { padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: 0.2s; margin-bottom: 4px; border: 1px solid transparent; }
-        .track-item.playing { border-color: var(--accent-primary); color: var(--accent-primary); background: rgba(0, 124, 240, 0.1); }
+        .track-item { padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: 0.2s; margin-bottom: 4px; }
+        .track-item.playing { color: var(--accent-primary); background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent-primary); }
 
         /* --- HUD --- */
         .hud-panel { 
@@ -82,15 +80,19 @@
         }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        /* --- HERO --- */
-        .main-content { position: relative; z-index: 10; width: 100%; }
+        /* --- HERO & ANIMATIONS --- */
+        .main-content { position: relative; z-index: 10; width: 100%; opacity: 0; transition: 1.5s ease; }
+        .main-content.visible { opacity: 1; }
+        
         .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; position: relative; }
+        
         .animated-text { background: var(--text-gradient); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flow 5s linear infinite; font-weight: 900; text-transform: uppercase; }
         @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
+
         .header h1 { font-size: 5rem; margin: 0; letter-spacing: -4px; filter: drop-shadow(0 0 20px var(--accent-glow)); }
         .sub-header { font-size: 12px; letter-spacing: 6px; opacity: 0.7; margin-bottom: 40px; color: var(--accent-secondary); }
 
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 900px; margin-bottom: 120px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 900px; margin-bottom: 100px; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 20px; border-radius: 15px; color: white; text-decoration: none;
@@ -99,32 +101,29 @@
         }
         .btn:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
 
-        /* --- SCROLL DOWN RE-ADDED --- */
-        .scroll-down {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 20;
-        }
+        /* --- SCROLL DOWN --- */
+        .scroll-down { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: 0.3s; }
+        .scroll-down:hover { opacity: 1; transform: translateX(-50%) translateY(5px); }
         .mouse { width: 22px; height: 35px; border: 2px solid var(--accent-secondary); border-radius: 20px; position: relative; }
-        .mouse::before { content: ""; position: absolute; top: 6px; left: 50%; width: 4px; height: 8px; background: var(--accent-secondary); border-radius: 2px; transform: translateX(-50%); animation: scroll-wheel 1.6s infinite ease-in-out; }
-        .scroll-text { text-transform: uppercase; font-size: 9px; letter-spacing: 2px; color: var(--accent-secondary); font-weight: 800; opacity: 0.8; }
+        .mouse::before { content: ""; position: absolute; top: 6px; left: 50%; width: 4px; height: 8px; background: var(--accent-secondary); border-radius: 2px; transform: translateX(-50%); animation: scroll-wheel 1.6s infinite; }
         @keyframes scroll-wheel { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 12px); } }
+
+        /* --- ENTER OVERLAY --- */
+        #enter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: scale(1.1); }
+        .enter-content { text-align: center; animation: fadeInDelayed 1s ease; }
+        @keyframes fadeInDelayed { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .enter-btn { padding: 20px 60px; border: 2px solid var(--accent-primary); background: transparent; color: white; font-weight: 900; font-size: 18px; letter-spacing: 5px; border-radius: 50px; cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow); margin-top: 20px; }
+        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 40px var(--accent-primary); transform: scale(1.05); }
 
         /* --- PROJECTS --- */
         .projects-section { padding: 100px 20px; text-align: center; max-width: 1100px; margin: 0 auto; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 50px; }
-        .project-card { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 24px; text-align: left; transition: 0.4s; opacity: 0; transform: translateY(30px); }
+        .project-card { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 24px; text-align: left; transition: 0.6s; opacity: 0; transform: translateY(40px); }
         .project-card.active { opacity: 1; transform: translateY(0); }
-        .project-card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 40px var(--accent-glow); transform: translateY(-5px); }
-        .card-icon { width: 45px; height: 45px; background: var(--accent-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: white; font-size: 20px; }
-        .card-tag { display: inline-block; padding: 4px 10px; background: rgba(255,255,255,0.05); color: var(--accent-secondary); border-radius: 20px; font-size: 10px; font-weight: 900; margin-bottom: 12px; }
-
-        /* --- OVERLAY --- */
-        #enter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.8s; }
-        #enter-overlay.fade-out { opacity: 0; visibility: hidden; }
-        .enter-btn { padding: 20px 60px; border: 2px solid var(--accent-primary); background: transparent; color: white; font-weight: 900; font-size: 18px; letter-spacing: 5px; border-radius: 50px; cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow); }
+        .project-card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 40px var(--accent-glow); transform: translateY(-10px); }
         
-        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; background: var(--glass); padding: 8px 18px; border-radius: 30px; color: var(--accent-secondary); font-size: 13px; font-weight: bold; }
-        .copyright-tag { position: fixed; bottom: 20px; right: 30px; z-index: 100; font-size: 11px; font-weight: 800; }
+        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; background: var(--glass); padding: 8px 18px; border-radius: 30px; color: var(--accent-secondary); font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
@@ -147,7 +146,7 @@
 
     <div class="announcement-bar">
         <div class="announcement-header"><i class="fas fa-satellite-dish"></i> Broadcast</div>
-        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • SYSTEMS ONLINE • THEME ENGINE ACTIVE</div></div>
+        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • ALL SYSTEMS OPERATIONAL • THEME ENGINE READY</div></div>
     </div>
 
     <div class="music-widget">
@@ -164,23 +163,25 @@
     </div>
 
     <div id="enter-overlay">
-        <h1 class="animated-text" style="font-size: 50px; margin-bottom: 30px;">EZWIN STUDIO</h1>
-        <button class="enter-btn" onclick="startExperience()">ENTER</button>
+        <div class="enter-content">
+            <h1 class="animated-text" style="font-size: 60px; margin: 0;">EZWIN STUDIO</h1>
+            <p style="letter-spacing: 10px; opacity: 0.5; margin-bottom: 30px;">EST. 2026</p>
+            <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
+        </div>
     </div>
 
     <canvas id="bg-canvas"></canvas>
 
     <div class="visitor-counter"><i class="fas fa-eye"></i> <span id="vCount">...</span></div>
-    <div class="copyright-tag animated-text">EZWIN STUDIO © 2026</div>
 
-    <div class="main-content">
+    <div class="main-content" id="mainContent">
         <div class="hero-section">
             <div class="header"><h1 class="animated-text">EZWIN STUDIO</h1></div>
             <p class="sub-header">BY EZWIN YASEN</p>
             
             <div class="links-grid">
                 <a href="#" class="btn"><i class="fas fa-music"></i><span>JOIN MUSIC</span></a>
-                <a href="https://youtube.com/@ezwinyasen" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
+                <a href="https://youtube.com/@ezwinyasen" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
                 <a href="#" class="btn"><i class="fas fa-unlock-alt"></i><span>UNCOPYLOCKED</span></a>
                 <a href="#" class="btn"><i class="fas fa-user-shield"></i><span>ACCOUNT SERVICES</span></a>
                 <a href="#" class="btn"><i class="fab fa-youtube"></i><span>MUSIC CHANNEL</span></a>
@@ -188,9 +189,9 @@
                 <a href="#projects" class="btn" style="grid-column: span 3;"><i class="fas fa-rocket"></i><span>ENTER THE ECOSYSTEM</span></a>
             </div>
 
-            <div class="scroll-down">
+            <div class="scroll-down" onclick="document.getElementById('projects').scrollIntoView()">
                 <div class="mouse"></div>
-                <div class="scroll-text">SCROLL DOWN</div>
+                <div class="scroll-text" style="font-size: 10px; margin-top: 5px; font-weight: 800; color: var(--accent-secondary);">EXPLORE</div>
             </div>
         </div>
 
@@ -198,22 +199,19 @@
             <h2 class="animated-text" style="font-size: 2.5rem; letter-spacing: 10px; margin-bottom: 50px;">PROJECTS</h2>
             <div class="projects-grid">
                 <div class="project-card reveal">
-                    <div class="card-icon"><i class="fas fa-code"></i></div>
-                    <div class="card-tag">DEVELOPMENT</div>
-                    <h3>Software Solutions</h3>
-                    <p>Building high-performance CLI tools and Discord integration systems using TypeScript and Node.js.</p>
+                    <i class="fas fa-code" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 15px;"></i>
+                    <h3>Development</h3>
+                    <p>High-end software solutions and Discord automation tools built with precision.</p>
                 </div>
                 <div class="project-card reveal">
-                    <div class="card-icon"><i class="fas fa-coins"></i></div>
-                    <div class="card-tag">ECONOMY</div>
-                    <h3>Digital Assets</h3>
-                    <p>Expert management in Roblox asset trading and currency exchange with secure protocols.</p>
+                    <i class="fas fa-vault" style="font-size: 30px; color: var(--accent-secondary); margin-bottom: 15px;"></i>
+                    <h3>Assets</h3>
+                    <p>Premium Roblox asset management and secure trading infrastructure.</p>
                 </div>
                 <div class="project-card reveal">
-                    <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
-                    <div class="card-tag">SECURITY</div>
-                    <h3>Community Management</h3>
-                    <p>Professional moderation and technical infrastructure support for large-scale digital communities.</p>
+                    <i class="fas fa-microchip" style="font-size: 30px; color: var(--accent-pink); margin-bottom: 15px;"></i>
+                    <h3>Cyber Security</h3>
+                    <p>Community protection and advanced system moderation for digital ecosystems.</p>
                 </div>
             </div>
         </div>
@@ -243,11 +241,7 @@
         let pColor = "#007cf0";
 
         // --- MUSIC ENGINE ---
-        const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'New Person' },
-            { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
-            { id: '8KqcE6QSe9E', title: 'Take A Slice' }
-        ];
+        const playlistData = [{ id: '_9bw_VtMUGA', title: 'New Person' }, { id: 'KhqNTjbQ71A', title: 'Last Christmas' }, { id: '8KqcE6QSe9E', title: 'Take A Slice' }];
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
         var tag = document.createElement('script');
@@ -258,10 +252,7 @@
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlistData[0].id,
                 playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); }
-                }
+                events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } }
             });
         }
 
@@ -270,10 +261,7 @@
             document.getElementById('playBtn').onclick = togglePlay;
             document.getElementById('next').onclick = () => playTrack((currentTrack + 1) % playlistData.length);
             document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
-            document.getElementById('volume').oninput = (e) => {
-                player.setVolume(e.target.value);
-                showVolumeHud(`VOLUME: ${e.target.value}%`, e.target.value == 0 ? "fa-volume-mute" : "fa-volume-high");
-            };
+            document.getElementById('volume').oninput = (e) => { player.setVolume(e.target.value); showVolumeHud(`VOLUME: ${e.target.value}%`, "fa-volume-high"); };
             renderPlaylist();
         }
 
@@ -284,43 +272,38 @@
         }
 
         function playTrack(i) {
-            currentTrack = i;
-            player.loadVideoById(playlistData[i].id);
-            isPlaying = true;
-            document.getElementById('playBtn').className = "fas fa-pause";
-            renderPlaylist();
-            showSongHud(playlistData[i].title);
+            currentTrack = i; player.loadVideoById(playlistData[i].id); isPlaying = true;
+            document.getElementById('playBtn').className = "fas fa-pause"; renderPlaylist(); showSongHud(playlistData[i].title);
         }
 
         function renderPlaylist() {
-            const list = document.getElementById('musicList');
-            list.innerHTML = playlistData.map((t, i) => `
-                <div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})">
-                    ${t.title}
-                </div>
-            `).join('');
+            document.getElementById('musicList').innerHTML = playlistData.map((t, i) => `<div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})">${t.title}</div>`).join('');
         }
 
         function showVolumeHud(text, icon) {
             clearTimeout(hudTimer);
+            const h = document.getElementById('volumeHud');
             document.getElementById('hudText').innerText = text;
             document.getElementById('hudIcon').className = `fas ${icon}`;
-            document.getElementById('volumeHud').classList.add('show');
-            hudTimer = setTimeout(() => document.getElementById('volumeHud').classList.remove('show'), 1200);
+            h.classList.add('show');
+            hudTimer = setTimeout(() => h.classList.remove('show'), 1500);
         }
 
         function showSongHud(title) {
             clearTimeout(songTimer);
+            const s = document.getElementById('songHud');
             document.getElementById('songHudText').innerText = title;
-            document.getElementById('songHud').classList.add('show');
-            songTimer = setTimeout(() => document.getElementById('songHud').classList.remove('show'), 2000);
+            s.classList.add('show');
+            songTimer = setTimeout(() => s.classList.remove('show'), 2500);
         }
 
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
+            document.getElementById('mainContent').classList.add('visible');
             if(player) { player.playVideo(); isPlaying = true; document.getElementById('playBtn').className = "fas fa-pause"; showSongHud(playlistData[currentTrack].title); }
         }
 
+        // --- BACKGROUND ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -335,9 +318,7 @@
         anim();
 
         window.addEventListener("scroll", () => {
-            document.querySelectorAll(".reveal").forEach(r => {
-                if(r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add("active");
-            });
+            document.querySelectorAll(".reveal").forEach(r => { if(r.getBoundingClientRect().top < window.innerHeight - 50) r.classList.add("active"); });
         });
 
         let count = localStorage.getItem('vCount') || 1240;
