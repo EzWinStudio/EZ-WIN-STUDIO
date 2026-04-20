@@ -17,12 +17,16 @@
             --text-gradient: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink));
         }
 
+        /* --- GLOBAL & SCROLL FIX --- */
         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+            margin: 0; padding: 0; width: 100%; min-height: 100%;
             background: var(--bg); color: white;
             font-family: 'Inter', sans-serif; 
-            overflow-x: hidden; user-select: none; scroll-behavior: smooth;
+            overflow-x: hidden; scroll-behavior: smooth;
         }
+
+        /* Başlangıçta scroll kapalı, girişten sonra açılacak */
+        body.locked { overflow: hidden; }
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.25; pointer-events: none; }
 
@@ -31,205 +35,202 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 99999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: scale(1.1); }
+        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: translateY(-100%); }
         .enter-btn {
-            padding: 22px 70px; border: 2px solid var(--accent-primary);
+            padding: 20px 60px; border: 2px solid var(--accent-primary);
             background: transparent; color: white; font-weight: 900;
-            font-size: 18px; letter-spacing: 6px; border-radius: 50px;
-            cursor: pointer; transition: 0.4s; box-shadow: 0 0 25px var(--accent-glow);
+            font-size: 18px; letter-spacing: 5px; border-radius: 50px;
+            cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow);
             margin-top: 30px;
         }
-        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 50px var(--accent-primary); transform: scale(1.05); }
 
-        /* --- UI ELEMENTS (Hidden initially) --- */
-        .ui-element { opacity: 0; visibility: hidden; transition: 1s ease; }
-        .ui-element.show { opacity: 1; visibility: visible; }
+        /* --- THEME SYSTEM (MODERN DROPDOWN) --- */
+        .theme-wrapper { position: fixed; top: 30px; right: 30px; z-index: 10001; }
+        .theme-trigger {
+            width: 55px; height: 55px; background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 20px; cursor: pointer; transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .theme-trigger:hover { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); }
+        .theme-menu {
+            position: absolute; top: 65px; right: 0; background: var(--panel-bg);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
+            padding: 15px; display: flex; flex-direction: column; gap: 10px;
+            opacity: 0; transform: translateY(-10px); pointer-events: none; transition: 0.3s;
+        }
+        .theme-menu.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+        .theme-option { 
+            display: flex; align-items: center; gap: 10px; padding: 8px 15px;
+            border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 12px; font-weight: 700;
+        }
+        .theme-option:hover { background: rgba(255,255,255,0.05); }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
 
-        /* --- MUSIC SYSTEM (RE-ADDED & FIXED) --- */
+        /* --- MUSIC SYSTEM --- */
         .music-widget { position: fixed; top: 30px; left: 30px; z-index: 10000; }
         .music-toggle { 
-            width: 65px; height: 65px; border: 2px solid var(--accent-primary); 
-            border-radius: 20px; display: flex; align-items: center; justify-content: center; 
-            background: var(--panel-bg); color: var(--accent-primary); cursor: pointer;
-            box-shadow: 0 0 15px var(--accent-glow); transition: 0.3s;
+            width: 55px; height: 55px; border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 15px; display: flex; align-items: center; justify-content: center; 
+            background: var(--glass); color: white; cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .music-toggle:hover { transform: scale(1.1); border-color: var(--accent-secondary); }
         .music-panel { 
-            position: absolute; top: 80px; left: 0; width: 280px; 
+            position: absolute; top: 65px; left: 0; width: 260px; 
             background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 20px; padding: 25px; backdrop-filter: blur(25px); 
-            opacity: 0; transform: translateX(-30px); pointer-events: none; transition: 0.4s; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-radius: 15px; padding: 20px; backdrop-filter: blur(25px); 
+            opacity: 0; transform: translateY(-10px); pointer-events: none; transition: 0.3s; 
         }
-        .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-        .track-item { padding: 10px 15px; border-radius: 10px; font-size: 12px; cursor: pointer; transition: 0.2s; margin-bottom: 5px; background: rgba(255,255,255,0.02); }
-        .track-item.playing { color: var(--accent-primary); background: rgba(0, 124, 240, 0.1); border-left: 4px solid var(--accent-primary); }
+        .music-panel.active { opacity: 1; transform: translateY(0); pointer-events: all; }
 
-        /* --- THEME & ANNOUNCEMENT --- */
-        .theme-controller {
-            position: fixed; top: 20px; right: 330px; z-index: 10000;
-            display: flex; gap: 8px; background: var(--glass);
-            padding: 8px; border-radius: 12px; backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .theme-dot { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: 0.3s; }
-        .theme-dot:hover { transform: scale(1.2); border-color: white; }
-
+        /* --- ANNOUNCEMENT & HUD --- */
         .announcement-bar {
-            position: fixed; top: 20px; right: 20px; z-index: 10000;
-            width: 280px; background: var(--glass); border: 1px solid var(--accent-glow);
-            border-radius: 12px; backdrop-filter: blur(10px); padding: 10px; overflow: hidden;
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 9000; width: 400px; background: var(--glass);
+            border: 1px solid var(--accent-glow); border-radius: 30px;
+            padding: 8px 20px; backdrop-filter: blur(10px); overflow: hidden;
         }
-        .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 600; color: var(--accent-secondary); white-space: nowrap; }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-
-        /* --- HUD --- */
         .hud-panel { 
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); 
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); 
             background: var(--panel-bg); border: 2px solid var(--accent-secondary); 
-            border-radius: 30px; padding: 30px 50px; display: flex; flex-direction: column; 
-            align-items: center; z-index: 20000; pointer-events: none; opacity: 0; transition: 0.4s; 
+            border-radius: 30px; padding: 30px 50px; z-index: 20000; opacity: 0; transition: 0.4s; pointer-events: none;
         }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
         /* --- MAIN CONTENT --- */
-        .main-content { position: relative; z-index: 10; width: 100%; opacity: 0; visibility: hidden; transition: 1.5s ease; }
-        .main-content.visible { opacity: 1; visibility: visible; }
-        .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
+        .main-content { position: relative; z-index: 10; width: 100%; visibility: hidden; opacity: 0; transition: 1s ease; }
+        .main-content.visible { visibility: visible; opacity: 1; }
         
-        .animated-text { background: var(--text-gradient); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flow 5s linear infinite; font-weight: 900; text-transform: uppercase; }
-        @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
-
-        .header h1 { font-size: 5.5rem; margin: 0; letter-spacing: -5px; filter: drop-shadow(0 0 20px var(--accent-glow)); }
-        .sub-header { font-size: 13px; letter-spacing: 8px; opacity: 0.8; margin-bottom: 40px; color: var(--accent-secondary); }
-
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 1000px; margin-bottom: 120px; }
+        .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
+        .header h1 { font-size: 5rem; margin: 0; letter-spacing: -4px; }
+        
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 900px; margin: 40px 0; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 25px; border-radius: 18px; color: white; text-decoration: none;
-            font-weight: 800; font-size: 13px; text-transform: uppercase;
-            transition: 0.4s; backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; gap: 10px;
+            padding: 20px; border-radius: 15px; color: white; text-decoration: none;
+            transition: 0.4s; backdrop-filter: blur(15px); text-align: center;
         }
-        .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 15px 35px var(--accent-glow); background: rgba(255,255,255,0.06); }
+        .btn:hover { border-color: var(--accent-primary); transform: translateY(-5px); box-shadow: 0 10px 30px var(--accent-glow); }
 
-        /* --- SCROLL DOWN --- */
-        .scroll-down { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .mouse { width: 24px; height: 38px; border: 2px solid var(--accent-secondary); border-radius: 20px; position: relative; }
-        .mouse::before { content: ""; position: absolute; top: 8px; left: 50%; width: 4px; height: 8px; background: var(--accent-secondary); border-radius: 2px; transform: translateX(-50%); animation: scroll-wheel 1.6s infinite; }
-        @keyframes scroll-wheel { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 15px); } }
+        /* --- PROJECT CARDS (Ekran Görüntüsüne Benzer) --- */
+        .projects-section { padding: 100px 20px; max-width: 1100px; margin: 0 auto; text-align: center; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 50px; }
+        .project-card { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 25px; 
+            text-align: left; position: relative; transition: 0.4s;
+        }
+        .project-card:hover { border-color: var(--accent-secondary); transform: scale(1.02); }
+        .card-icon { width: 50px; height: 50px; background: #fbbf24; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: black; margin-bottom: 20px; }
+        .tag { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; }
+        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; margin-right: 8px; }
 
-        /* --- FOOTER ELEMENTS --- */
-        .copyright-container { position: fixed; bottom: 25px; right: 35px; z-index: 10000; text-align: right; }
-        .visitor-counter { position: fixed; bottom: 25px; left: 35px; z-index: 10000; background: var(--glass); padding: 10px 20px; border-radius: 30px; color: var(--accent-secondary); font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
-
-        /* --- PROJECTS --- */
-        .projects-section { padding: 120px 20px; text-align: center; max-width: 1200px; margin: 0 auto; }
-        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
-        .project-card { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 28px; text-align: left; transition: 0.6s; opacity: 0; transform: translateY(50px); }
-        .project-card.active { opacity: 1; transform: translateY(0); }
-        .project-card:hover { border-color: var(--accent-primary); box-shadow: 0 20px 50px var(--accent-glow); transform: translateY(-10px); }
+        .ui-element { opacity: 0; pointer-events: none; transition: 0.5s; }
+        .ui-element.show { opacity: 1; pointer-events: all; }
+        
+        .copyright-container { position: fixed; bottom: 20px; right: 30px; z-index: 1000; font-size: 10px; font-weight: 900; letter-spacing: 2px; opacity: 0.5; }
     </style>
 </head>
-<body>
+<body class="locked">
 
     <canvas id="bg-canvas"></canvas>
 
     <div id="enter-overlay">
-        <div class="enter-content" style="text-align: center;">
-            <h1 class="animated-text" style="font-size: 65px; margin: 0; letter-spacing: -2px;">EZWIN STUDIO</h1>
-            <p style="letter-spacing: 12px; opacity: 0.5; font-size: 14px; margin-bottom: 20px;">CORE ECOSYSTEM 2026</p>
-            <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
-        </div>
+        <h1 class="animated-text" style="font-size: 60px;">EZWIN STUDIO</h1>
+        <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
     </div>
 
     <div class="hud-panel" id="volumeHud">
-        <i class="fas fa-volume-high" id="hudIcon" style="font-size: 35px; color: var(--accent-primary); margin-bottom: 12px;"></i>
-        <span id="hudText" style="font-weight: 900; letter-spacing: 1px;">VOLUME: 50%</span>
+        <i class="fas fa-volume-high" id="hudIcon" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 10px;"></i>
+        <span id="hudText" style="font-weight: 900;">VOLUME: 50%</span>
     </div>
 
-    <div class="hud-panel" id="songHud">
-        <i class="fas fa-compact-disc fa-spin" style="font-size: 35px; color: var(--accent-secondary); margin-bottom: 12px;"></i>
-        <span id="songHudText" style="color: white; font-weight: 800; letter-spacing: 1px;">INITIALIZING...</span>
-    </div>
-
-    <div class="music-widget ui-element">
-        <div class="music-toggle" id="musicToggle"><i class="fas fa-compact-disc"></i></div>
-        <div class="music-panel" id="musicPanel">
-            <div style="display:flex; justify-content: space-around; font-size: 22px; color: var(--accent-primary); margin-bottom: 20px;">
-                <i class="fas fa-backward-step" id="prev" style="cursor:pointer"></i>
-                <i class="fas fa-play" id="playBtn" style="cursor:pointer"></i>
-                <i class="fas fa-forward-step" id="next" style="cursor:pointer"></i>
-            </div>
-            <div id="musicList"></div>
-            <input type="range" id="volume" min="0" max="100" value="50" style="width:100%; margin-top:20px; accent-color:var(--accent-primary); cursor: pointer;">
+    <div class="theme-wrapper ui-element">
+        <div class="theme-trigger" onclick="toggleThemeMenu()">
+            <i class="fas fa-paint-brush"></i>
+        </div>
+        <div class="theme-menu" id="themeMenu">
+            <div class="theme-option" onclick="changeTheme('blue')"><div class="dot" style="background:#007cf0"></div> BLUE NEON</div>
+            <div class="theme-option" onclick="changeTheme('cyber')"><div class="dot" style="background:#ff0080"></div> CYBERPINK</div>
+            <div class="theme-option" onclick="changeTheme('emerald')"><div class="dot" style="background:#00ff88"></div> EMERALD</div>
         </div>
     </div>
 
-    <div class="theme-controller ui-element">
-        <div class="theme-dot" style="background: #007cf0;" onclick="changeTheme('blue')"></div>
-        <div class="theme-dot" style="background: #ff0080;" onclick="changeTheme('cyber')"></div>
-        <div class="theme-dot" style="background: #00ff88;" onclick="changeTheme('emerald')"></div>
+    <div class="music-widget ui-element">
+        <div class="music-toggle" onclick="toggleMusicPanel()"><i class="fas fa-music"></i></div>
+        <div class="music-panel" id="musicPanel">
+            <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 15px;">
+                <i class="fas fa-step-backward" onclick="prevTrack()" style="cursor:pointer"></i>
+                <i class="fas fa-play" id="playBtn" onclick="togglePlay()" style="font-size: 20px; cursor:pointer"></i>
+                <i class="fas fa-step-forward" onclick="nextTrack()" style="cursor:pointer"></i>
+            </div>
+            <div id="musicList"></div>
+            <input type="range" id="volume" min="0" max="100" value="50" style="width:100%; margin-top:15px;">
+        </div>
     </div>
 
     <div class="announcement-bar ui-element">
-        <div class="marquee-text">EZWIN STUDIO V3.0 • PREMIUM ECOSYSTEM ACTIVE • ALL MODULES ARE ONLINE • EST 2026</div>
+        <div style="white-space: nowrap; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 800;">
+            SYSTEM STATUS: OPERATIONAL • THEME ENGINE V2.0 • WELCOME TO THE ECOSYSTEM • 
+        </div>
     </div>
-
-    <div class="copyright-container ui-element">
-        <div class="copyright-text animated-text" style="font-size: 11px; font-weight: 900; letter-spacing: 3px;">EZWIN STUDIO © 2026</div>
-    </div>
-
-    <div class="visitor-counter ui-element"><i class="fas fa-eye"></i> <span id="vCount">...</span></div>
 
     <div class="main-content" id="mainContent">
         <div class="hero-section">
-            <div class="header"><h1 class="animated-text">EZWIN STUDIO</h1></div>
-            <p class="sub-header">BY EZWIN YASEN</p>
+            <h1 class="header animated-text">EZWIN STUDIO</h1>
+            <p style="letter-spacing: 5px; opacity: 0.6;">PREMIUM DEVELOPMENT & SOLUTIONS</p>
             
             <div class="links-grid">
-                <a href="#" class="btn"><i class="fas fa-music"></i><span>JOIN MUSIC</span></a>
-                <a href="https://youtube.com/@ezwinyasen" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
-                <a href="#" class="btn"><i class="fas fa-unlock-alt"></i><span>UNCOPYLOCKED</span></a>
-                <a href="#" class="btn"><i class="fas fa-user-shield"></i><span>ACCOUNT SERVICES</span></a>
-                <a href="#" class="btn"><i class="fab fa-youtube"></i><span>MUSIC CHANNEL</span></a>
-                <a href="#" class="btn"><i class="fas fa-ghost"></i><span>CHEATS</span></a>
-                <a href="#projects" class="btn" style="grid-column: span 3;"><i class="fas fa-rocket"></i><span>ENTER THE ECOSYSTEM</span></a>
+                <a href="#" class="btn">DISCORD</a>
+                <a href="#" class="btn">YOUTUBE</a>
+                <a href="#" class="btn">PROJECTS</a>
             </div>
 
-            <div class="scroll-down" onclick="document.getElementById('projects').scrollIntoView()">
+            <div class="scroll-down" onclick="window.scrollTo(0, window.innerHeight)">
                 <div class="mouse"></div>
-                <div class="scroll-text" style="font-size: 10px; margin-top: 8px; font-weight: 900; color: var(--accent-secondary); letter-spacing: 2px;">EXPLORE</div>
+                <p style="font-size: 10px; font-weight: 800; margin-top: 10px;">SCROLL DOWN</p>
             </div>
         </div>
 
         <div class="projects-section" id="projects">
-            <h2 class="animated-text" style="font-size: 3rem; letter-spacing: 12px; margin-bottom: 60px;">PROJECTS</h2>
+            <h2 class="animated-text" style="font-size: 2.5rem; margin-bottom: 40px;">SKILLS & WORK</h2>
             <div class="projects-grid">
-                <div class="project-card reveal">
-                    <i class="fas fa-code" style="font-size: 35px; color: var(--accent-primary); margin-bottom: 20px;"></i>
-                    <h3 style="font-size: 22px; margin-bottom: 15px;">Development</h3>
-                    <p style="opacity: 0.7; line-height: 1.6;">Custom software architecture and high-performance automation scripts for digital platforms.</p>
+                <div class="project-card">
+                    <div class="card-icon"><i class="fas fa-code"></i></div>
+                    <h3 style="margin: 10px 0;">Software & Development</h3>
+                    <span class="tag">JS / TS</span>
+                    <p style="font-size: 13px; opacity: 0.7; line-height: 1.6; margin: 20px 0;">
+                        I develop CLI tools and web projects with TypeScript. I also design Discord bots using Node.js.
+                    </p>
+                    <div style="font-size: 12px; opacity: 0.5;">
+                        <span class="status-dot"></span> Active Development
+                    </div>
                 </div>
-                <div class="project-card reveal">
-                    <i class="fas fa-vault" style="font-size: 35px; color: var(--accent-secondary); margin-bottom: 20px;"></i>
-                    <h3 style="font-size: 22px; margin-bottom: 15px;">Assets</h3>
-                    <p style="opacity: 0.7; line-height: 1.6;">Secure asset management and premium digital goods infrastructure for specialized markets.</p>
-                </div>
-                <div class="project-card reveal">
-                    <i class="fas fa-microchip" style="font-size: 35px; color: var(--accent-pink); margin-bottom: 20px;"></i>
-                    <h3 style="font-size: 22px; margin-bottom: 15px;">Cyber Security</h3>
-                    <p style="opacity: 0.7; line-height: 1.6;">Advanced community moderation systems and technical defense protocols for large networks.</p>
+
+                <div class="project-card">
+                    <div class="card-icon" style="background:#007cf0"><i class="fas fa-shield-halved"></i></div>
+                    <h3 style="margin: 10px 0;">System Security</h3>
+                    <span class="tag" style="background:rgba(0,124,240,0.1); color:#007cf0">CYBER</span>
+                    <p style="font-size: 13px; opacity: 0.7; line-height: 1.6; margin: 20px 0;">
+                        Advanced moderation systems and community protection infrastructure for digital environments.
+                    </p>
+                    <div style="font-size: 12px; opacity: 0.5;">
+                        <span class="status-dot"></span> Secure
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
+    <div class="copyright-container ui-element">EZWIN STUDIO © 2026</div>
 
+    <div id="yt-player"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // --- THEME ENGINE ---
+        // --- TEMA MOTORU ---
         const themes = {
             blue: { p: '#007cf0', s: '#00dfd8', k: '#ff0080', g: 'rgba(0, 124, 240, 0.4)' },
             cyber: { p: '#ff0080', s: '#7928ca', k: '#ff4d4d', g: 'rgba(255, 0, 128, 0.4)' },
@@ -244,123 +245,75 @@
             root.style.setProperty('--accent-pink', t.k);
             root.style.setProperty('--accent-glow', t.g);
             pColor = t.p;
-            showVolumeHud(`THEME: ${tk.toUpperCase()}`, "fa-palette");
+            showHud(`THEME: ${tk.toUpperCase()}`);
+            toggleThemeMenu();
         }
 
-        let pColor = "#007cf0";
+        function toggleThemeMenu() {
+            document.getElementById('themeMenu').classList.toggle('active');
+        }
 
-        // --- MUSIC ENGINE (FIXED & ROBUST) ---
-        const playlistData = [
-            { id: '_9bw_VtMUGA', title: 'New Person - Same Mistakes' },
-            { id: 'KhqNTjbQ71A', title: 'Last Christmas Remix' },
-            { id: '8KqcE6QSe9E', title: 'Take A Slice' }
-        ];
-        let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
+        function toggleMusicPanel() {
+            document.getElementById('musicPanel').classList.toggle('active');
+        }
+
+        // --- CORE SCRIPT ---
+        let player, isPlaying = false, pColor = "#007cf0";
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: playlistData[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
-                events: {
-                    'onReady': () => {
-                        document.getElementById('musicToggle').onclick = () => document.getElementById('musicPanel').classList.toggle('active');
-                        document.getElementById('playBtn').onclick = togglePlay;
-                        document.getElementById('next').onclick = () => playTrack((currentTrack + 1) % playlistData.length);
-                        document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
-                        document.getElementById('volume').oninput = (e) => {
-                            player.setVolume(e.target.value);
-                            showVolumeHud(`VOLUME: ${e.target.value}%`, "fa-volume-high");
-                        };
-                        renderPlaylist();
-                    },
-                    'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); }
-                }
+                height: '0', width: '0', videoId: '_9bw_VtMUGA',
+                playerVars: { 'autoplay': 0, 'controls': 0 },
+                events: { 'onStateChange': (e) => { if(e.data === 0) player.playVideo(); } }
             });
         }
 
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(tag);
-
         function togglePlay() {
-            if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className = "fas fa-play"; }
-            else { player.playVideo(); document.getElementById('playBtn').className = "fas fa-pause"; }
+            if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className="fas fa-play"; }
+            else { player.playVideo(); document.getElementById('playBtn').className="fas fa-pause"; }
             isPlaying = !isPlaying;
         }
 
-        function playTrack(i) {
-            currentTrack = i;
-            player.loadVideoById(playlistData[i].id);
-            isPlaying = true;
-            document.getElementById('playBtn').className = "fas fa-pause";
-            renderPlaylist();
-            showSongHud(playlistData[i].title);
-        }
-
-        function renderPlaylist() {
-            document.getElementById('musicList').innerHTML = playlistData.map((t, i) => 
-                `<div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})">${t.title}</div>`
-            ).join('');
-        }
-
-        // --- HUD NOTIFICATIONS ---
-        function showVolumeHud(text, icon) {
-            clearTimeout(hudTimer);
-            const h = document.getElementById('volumeHud');
-            document.getElementById('hudText').innerText = text;
-            document.getElementById('hudIcon').className = `fas ${icon}`;
-            h.classList.add('show');
-            hudTimer = setTimeout(() => h.classList.remove('show'), 1500);
-        }
-
-        function showSongHud(title) {
-            clearTimeout(songTimer);
-            const s = document.getElementById('songHud');
-            document.getElementById('songHudText').innerText = title;
-            s.classList.add('show');
-            songTimer = setTimeout(() => s.classList.remove('show'), 2500);
-        }
-
-        // --- CORE EXPERIENCE START ---
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
+            document.body.classList.remove('locked');
             setTimeout(() => {
                 document.getElementById('mainContent').classList.add('visible');
                 document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
-                if(player) {
-                    player.playVideo();
-                    isPlaying = true;
-                    document.getElementById('playBtn').className = "fas fa-pause";
-                    showSongHud(playlistData[currentTrack].title);
-                }
+                if(player) { player.playVideo(); isPlaying = true; document.getElementById('playBtn').className="fas fa-pause"; }
             }, 600);
         }
 
-        // --- MATRIX BACKGROUND ---
+        function showHud(text) {
+            const h = document.getElementById('volumeHud');
+            document.getElementById('hudText').innerText = text;
+            h.classList.add('show');
+            setTimeout(() => h.classList.remove('show'), 1500);
+        }
+
+        // --- CANVAS BG ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
-        class P {
+        class Particle {
             constructor() { this.init(); }
-            init() { this.x = Math.random()*canvas.width; this.y = canvas.height+20; this.s = 0.5+Math.random(); this.o = 0.1+Math.random()*0.2; }
-            draw() { ctx.globalAlpha = this.o; ctx.fillStyle = pColor; ctx.font = "10px Inter"; ctx.fillText("EZWIN", this.x, this.y); this.y -= this.s; if(this.y < -20) this.init(); }
+            init() { this.x = Math.random()*canvas.width; this.y = canvas.height+10; this.s = Math.random()*2+0.5; this.o = Math.random()*0.3; }
+            draw() { 
+                ctx.globalAlpha = this.o; ctx.fillStyle = pColor;
+                ctx.fillText("EZWIN", this.x, this.y);
+                this.y -= this.s; if(this.y < -10) this.init();
+            }
         }
-        const pts = Array.from({length: 40}, () => new P());
+        const pts = Array.from({length: 40}, () => new Particle());
         function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pts.forEach(p => p.draw()); requestAnimationFrame(anim); }
         anim();
 
-        // --- SCROLL ANIMATIONS ---
-        window.addEventListener("scroll", () => {
-            document.querySelectorAll(".reveal").forEach(r => {
-                if(r.getBoundingClientRect().top < window.innerHeight - 80) r.classList.add("active");
-            });
-        });
-
-        // --- VISITOR COUNTER ---
-        let count = localStorage.getItem('vCount') || 1240;
-        localStorage.setItem('vCount', ++count);
-        document.getElementById('vCount').innerText = count.toLocaleString();
+        // --- VOLUME CONTROL ---
+        document.getElementById('volume').oninput = (e) => {
+            if(player) player.setVolume(e.target.value);
+            showHud(`VOL: ${e.target.value}%`);
+        };
     </script>
 </body>
 </html>
