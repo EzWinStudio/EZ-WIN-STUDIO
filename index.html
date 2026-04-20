@@ -28,23 +28,6 @@
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15; pointer-events: none; }
 
-        /* --- GİRİŞ EKRANI --- */
-        #enter-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 999999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 1.2s cubic-bezier(0.7, 0, 0.3, 1);
-        }
-        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: scale(1.1); }
-
-        .enter-btn {
-            padding: 22px 70px; border: 2px solid var(--accent-primary);
-            background: transparent; color: white; font-family: 'Orbitron', sans-serif;
-            font-weight: 900; font-size: 14px; letter-spacing: 8px; border-radius: 4px;
-            cursor: pointer; transition: 0.5s; box-shadow: 0 0 30px var(--accent-glow);
-        }
-        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 60px var(--accent-primary); }
-
         /* --- VOLUME HUD --- */
         #volume-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
@@ -57,28 +40,32 @@
         #volume-hud.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .hud-percent { font-family: 'Orbitron'; font-weight: 900; font-size: 24px; color: var(--accent-primary); }
 
-        /* --- iPHONE BİLDİRİM DUYURU SİSTEMİ --- */
+        /* --- iPHONE BİLDİRİM (DYNAMIC ISLAND) --- */
         .notification-wrapper {
             position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
             z-index: 10001; width: fit-content; min-width: 300px;
         }
         .ios-notification {
-            background: rgba(15, 15, 20, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px; padding: 12px 25px;
-            display: flex; align-items: center; gap: 15px;
-            backdrop-filter: blur(25px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px var(--accent-glow);
+            background: rgba(15, 15, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px; padding: 12px 25px; display: flex; align-items: center; gap: 15px;
+            backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px var(--accent-glow);
             overflow: hidden;
         }
         .ios-icon { width: 10px; height: 10px; background: var(--accent-emerald); border-radius: 50%; box-shadow: 0 0 10px var(--accent-emerald); }
         .ios-text-container { overflow: hidden; width: 100%; white-space: nowrap; }
-        .ios-marquee {
-            display: inline-block; font-size: 11px; font-weight: 800;
-            color: #fff; text-transform: uppercase; letter-spacing: 1px;
-            animation: marquee 15s linear infinite;
-        }
+        .ios-marquee { display: inline-block; font-size: 11px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1px; animation: marquee 15s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* --- SCROLL DOWN ICON --- */
+        .scroll-down-container {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            cursor: pointer; transition: 0.5s; z-index: 10;
+        }
+        .scroll-down-container span { font-family: 'Orbitron'; font-size: 8px; letter-spacing: 4px; opacity: 0.5; text-transform: uppercase; }
+        .scroll-down-container i { font-size: 20px; color: var(--accent-primary); animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+        .scroll-down-container.hide { opacity: 0; pointer-events: none; transform: translate(-50%, 20px); }
 
         /* --- UI ELEMENTS --- */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; z-index: 10000; }
@@ -106,7 +93,7 @@
         @keyframes textFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         /* --- GRID --- */
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 850px; margin-top: 40px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 850px; margin-top: 40px; margin-bottom: 100px;}
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 25px; border-radius: 12px; color: white; text-decoration: none;
@@ -115,6 +102,14 @@
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 22px; color: var(--accent-primary); }
+
+        /* --- SECTIONS --- */
+        #ecosystem { min-height: 100vh; padding: 100px 20px; display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.01); }
+        .project-card {
+            background: var(--panel-bg); border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px; border-radius: 20px; text-align: left; transition: 0.4s;
+        }
+        .project-card:hover { border-color: var(--accent-secondary); transform: scale(1.05); }
 
         .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; }
         .logo-box { width: 38px; height: 38px; background: var(--accent-primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--accent-glow); }
@@ -139,7 +134,7 @@
         <div class="ios-notification">
             <div class="ios-icon"></div>
             <div class="ios-text-container">
-                <span class="ios-marquee">System v3.5 Online • Welcome back, Ezwin • Premium Ecosystem Active • New Songs Added</span>
+                <span class="ios-marquee">System v3.8 Online • Scroll System Active • Welcome back Ezwin • Premium Hub Active</span>
             </div>
         </div>
     </div>
@@ -152,7 +147,7 @@
             <div class="track-info"><span id="trackName">NOW PLAYING...</span></div>
             <div style="display:flex; justify-content: space-evenly; align-items:center; margin-bottom: 20px;">
                 <i class="fas fa-step-backward" onclick="prevTrack()" style="cursor:pointer; font-size: 18px;"></i>
-                <div style="width:50px; height:50px; background:var(--accent-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow: 0 0 15px var(--accent-glow);" onclick="togglePlay()">
+                <div style="width:50px; height:50px; background:var(--accent-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="togglePlay()">
                     <i class="fas fa-play" id="playIcon"></i>
                 </div>
                 <i class="fas fa-step-forward" onclick="nextTrack()" style="cursor:pointer; font-size: 18px;"></i>
@@ -161,21 +156,11 @@
         </div>
     </div>
 
-    <div class="theme-wrapper ui-element" style="position: fixed; top: 80px; right: 25px;">
-        <div style="width:50px; height:50px; background:var(--glass); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid rgba(255,255,255,0.1);" onclick="togglePanel('themeMenu')">
-            <i class="fas fa-palette"></i>
-        </div>
-        <div class="theme-menu" id="themeMenu" style="position: absolute; top: 65px; right: 0; background: var(--panel-bg); border-radius: 15px; width: 160px; padding: 10px; opacity: 0; visibility: hidden; transition: 0.4s;">
-            <div style="padding:12px; cursor:pointer; font-family:'Orbitron'; font-size:10px;" onclick="changeTheme('blue')">BLUE NEON</div>
-            <div style="padding:12px; cursor:pointer; font-family:'Orbitron'; font-size:10px;" onclick="changeTheme('cyber')">CYBERPINK</div>
-            <div style="padding:12px; cursor:pointer; font-family:'Orbitron'; font-size:10px;" onclick="changeTheme('emerald')">EMERALD</div>
-        </div>
-    </div>
-
     <div class="main-content" id="main" style="opacity:0">
-        <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <section style="min-height:100vh; position: relative; display:flex; flex-direction:column; align-items:center; justify-content:center;">
             <h1 class="animated-text" style="font-size: 5.5rem; margin:0; letter-spacing:-4px;">EZWIN STUDIO</h1>
-            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:11px;">PREMIUM INTERFACE</p>
+            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:11px; margin-bottom: 30px;">CORE DEVELOPMENT HUB</p>
+            
             <div class="links-grid">
                 <a href="#" class="btn"><i class="fas fa-music"></i><span>JOIN MUSIC</span></a>
                 <a href="#" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
@@ -183,7 +168,27 @@
                 <a href="#" class="btn"><i class="fas fa-user-shield"></i><span>SERVICES</span></a>
                 <a href="#" class="btn"><i class="fas fa-layer-group"></i><span>CHANNELS</span></a>
                 <a href="#" class="btn"><i class="fas fa-code-merge"></i><span>SCRIPTS</span></a>
-                <a href="#" class="btn" style="grid-column: span 3; border-color:var(--accent-primary);">ENTER THE ECOSYSTEM</a>
+            </div>
+
+            <div class="scroll-down-container" id="scrollIndicator" onclick="scrollToEcosystem()">
+                <span>Explore</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <section id="ecosystem">
+            <h2 class="animated-text" style="font-size: 3rem; margin-bottom: 50px;">STUDIO ECOSYSTEM</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; width: 90%; max-width: 1100px;">
+                <div class="project-card">
+                    <i class="fas fa-bolt" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 20px;"></i>
+                    <h3 style="font-family: 'Orbitron';">Quick Load v2</h3>
+                    <p style="opacity: 0.6; line-height: 1.6;">High performance asset loading for real-time web applications.</p>
+                </div>
+                <div class="project-card">
+                    <i class="fas fa-shield-alt" style="font-size: 30px; color: var(--accent-secondary); margin-bottom: 20px;"></i>
+                    <h3 style="font-family: 'Orbitron';">Secure Core</h3>
+                    <p style="opacity: 0.6; line-height: 1.6;">Advanced encryption layers for private client dashboards.</p>
+                </div>
             </div>
         </section>
     </div>
@@ -200,14 +205,7 @@
     <script>
         let player, isPlaying = false, pColor = "#007cf0";
         let currentTrackIndex = 0;
-
-        /* --- BURAYA İSTEDİĞİN ŞARKILARIN YOUTUBE ID'LERİNİ EKLE --- */
-        const playlist = [
-            '_9bw_VtMUGA', // Şarkı 1
-            'jfKfPfyJRdk', // Şarkı 2
-            'L_jWHffIx5E', // Şarkı 3
-            'n_LpP_5Y-jY'  // Şarkı 4
-        ];
+        const playlist = ['_9bw_VtMUGA', 'jfKfPfyJRdk', 'L_jWHffIx5E'];
 
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
@@ -222,6 +220,20 @@
             document.getElementById('vCount').innerText = c.toLocaleString();
         }
 
+        // SCROLL SİSTEMİ
+        function scrollToEcosystem() {
+            document.getElementById('ecosystem').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onscroll = function() {
+            const indicator = document.getElementById('scrollIndicator');
+            if (window.scrollY > 100) {
+                indicator.classList.add('hide');
+            } else {
+                indicator.classList.remove('hide');
+            }
+        };
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlist[currentTrackIndex],
@@ -230,7 +242,6 @@
                     'onReady': (e) => e.target.setVolume(50),
                     'onStateChange': (e) => { 
                         if(e.data == YT.PlayerState.PLAYING) document.getElementById('trackName').innerText = player.getVideoData().title;
-                        if(e.data == YT.PlayerState.ENDED) nextTrack();
                     }
                 }
             });
@@ -245,13 +256,11 @@
         function nextTrack() {
             currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
             player.loadVideoById(playlist[currentTrackIndex]);
-            isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause";
         }
 
         function prevTrack() {
             currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
             player.loadVideoById(playlist[currentTrackIndex]);
-            isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause";
         }
 
         let hudTimer;
@@ -267,23 +276,9 @@
 
         function togglePanel(id) {
             const p = document.getElementById(id);
-            const active = p.classList.contains('active') || p.style.visibility === 'visible';
-            document.querySelectorAll('.music-panel, #themeMenu').forEach(el => { el.classList.remove('active'); el.style.opacity = '0'; el.style.visibility = 'hidden'; });
-            if(!active) {
-                p.classList.add('active');
-                p.style.opacity = '1';
-                p.style.visibility = 'visible';
-                p.style.transform = 'translateY(0)';
-            }
-        }
-
-        function changeTheme(tk) {
-            const t = { blue: {p:'#007cf0', s:'#00dfd8'}, cyber: {p:'#ff0080', s:'#7928ca'}, emerald: {p:'#00ff88', s:'#00a1ff'} }[tk];
-            document.documentElement.style.setProperty('--accent-primary', t.p);
-            document.documentElement.style.setProperty('--accent-secondary', t.s);
-            pColor = t.p;
-            document.querySelector('.logo-box').style.background = t.p;
-            document.getElementById('volume-hud').style.borderColor = t.p;
+            const active = p.classList.contains('active');
+            document.querySelectorAll('.music-panel').forEach(el => el.classList.remove('active'));
+            if(!active) p.classList.add('active');
         }
 
         const canvas = document.getElementById('bg-canvas');
