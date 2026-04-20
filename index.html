@@ -16,7 +16,7 @@
             --panel-bg: rgba(5, 5, 10, 0.98);
         }
 
-        /* --- GLOBAL & SCROLL FIX --- */
+        /* --- GLOBAL & SCROLL --- */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
@@ -27,26 +27,32 @@
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.2; pointer-events: none; }
 
-        /* --- ENTER OVERLAY --- */
+        /* --- 1. GİRİŞ EKRANI (DÜZELTİLDİ) --- */
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 999999;
+            background: rgba(3, 3, 5, 0.95); backdrop-filter: blur(15px); z-index: 999999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 0.8s ease-in-out;
+            transition: opacity 1s ease, visibility 1s ease, backdrop-filter 1s ease;
         }
-        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: translateY(-100%); }
+        #enter-overlay.fade-out { opacity: 0; visibility: hidden; backdrop-filter: blur(0px); pointer-events: none; }
+        
+        .enter-content { text-align: center; transition: transform 1s ease; }
+        #enter-overlay.fade-out .enter-content { transform: scale(1.05); }
+
         .enter-btn {
             padding: 20px 60px; border: 2px solid var(--accent-primary);
-            background: transparent; color: white; font-weight: 900;
-            font-size: 18px; letter-spacing: 5px; border-radius: 50px;
-            cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow);
+            background: rgba(0, 124, 240, 0.05); color: white; font-weight: 900;
+            font-size: 16px; letter-spacing: 5px; border-radius: 50px;
+            cursor: pointer; transition: 0.4s; box-shadow: 0 0 25px var(--accent-glow);
+            backdrop-filter: blur(5px);
         }
+        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 50px var(--accent-primary); transform: translateY(-3px); }
 
         /* --- UI ELEMENTS --- */
-        .ui-element { opacity: 0; pointer-events: none; transition: 0.5s; z-index: 10000; }
+        .ui-element { opacity: 0; pointer-events: none; transition: 0.8s ease; z-index: 10000; }
         .ui-element.show { opacity: 1; pointer-events: all; }
 
-        /* --- THEME SYSTEM (RIGHT SIDE) --- */
+        /* --- 2. TEMA SİSTEMİ (ANİMASYONLU) --- */
         .theme-wrapper { position: fixed; top: 25px; right: 25px; }
         .theme-trigger {
             width: 50px; height: 50px; background: var(--glass);
@@ -56,62 +62,76 @@
         }
         .theme-trigger:hover { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); }
         .theme-menu {
-            position: absolute; top: 60px; right: 0; background: var(--panel-bg);
+            position: absolute; top: 65px; right: 0; background: var(--panel-bg);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
-            padding: 12px; width: 160px; display: none; flex-direction: column; gap: 8px;
+            padding: 12px; width: 160px; display: flex; flex-direction: column; gap: 8px;
+            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.3s ease;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .theme-menu.active { display: flex; }
+        .theme-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
         .theme-option { padding: 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
         .theme-option:hover { background: rgba(255,255,255,0.05); }
 
-        /* --- MUSIC SYSTEM (LEFT SIDE) --- */
+        /* --- 3. MÜZİK PLAYER (DÜZELTİLDİ VE GÜZELLEŞTİRİLDİ) --- */
         .music-widget { position: fixed; top: 25px; left: 25px; }
         .music-toggle { 
             width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 12px; display: flex; align-items: center; justify-content: center; 
-            background: var(--glass); cursor: pointer; backdrop-filter: blur(10px); color: white;
+            background: var(--glass); cursor: pointer; backdrop-filter: blur(10px); color: white; transition: 0.3s;
         }
+        .music-toggle:hover { border-color: var(--accent-secondary); box-shadow: 0 0 15px rgba(0, 223, 216, 0.4); }
         .music-panel { 
-            position: absolute; top: 60px; left: 0; width: 240px; 
+            position: absolute; top: 65px; left: 0; width: 260px; 
             background: var(--panel-bg); border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 15px; padding: 20px; display: none;
+            border-radius: 15px; padding: 20px; 
+            opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
-        .music-panel.active { display: block; }
+        .music-panel.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* --- TOP ANNOUNCEMENT --- */
+        /* --- 4. DUYURU SİSTEMİ (YUKARI ALINDI) --- */
         .announcement-bar {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            width: 350px; background: var(--glass); border: 1px solid var(--accent-glow);
-            border-radius: 30px; padding: 8px 15px; backdrop-filter: blur(10px); overflow: hidden;
+            position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+            width: 380px; background: var(--glass); border: 1px solid var(--accent-glow);
+            border-radius: 30px; padding: 8px 20px; backdrop-filter: blur(10px); overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
-        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 700; color: var(--accent-secondary); }
+        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 800; color: var(--accent-secondary); letter-spacing: 1px; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* --- CONTENT SECTION --- */
-        .main-content { opacity: 0; transition: 1s; z-index: 10; position: relative; }
+        /* --- 5. LOGO & SAYAÇ SİSTEMİ (YENİLENDİ) --- */
+        .v-counter {
+            position: fixed; bottom: 25px; left: 25px; 
+            display: flex; align-items: center; gap: 12px;
+            background: var(--glass); padding: 8px 15px 8px 8px; border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); z-index: 10000;
+        }
+        .logo-box {
+            width: 30px; height: 30px; background: var(--accent-primary);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 14px; box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .count-text { font-size: 13px; font-weight: 900; color: var(--accent-secondary); letter-spacing: 1px; }
+
+        /* --- ANA İÇERİK --- */
+        .main-content { opacity: 0; transition: 1s ease-in-out; z-index: 10; position: relative; }
         .main-content.visible { opacity: 1; }
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         
         .animated-text { background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
 
-        /* --- LINK GRID (Geri Getirilen Ana Kısım) --- */
+        /* --- LİNK GRID (SENİN ESKİ DÜZENİN) --- */
         .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; margin-top: 50px; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 25px; border-radius: 18px; color: white; text-decoration: none;
             font-weight: 800; font-size: 13px; text-transform: uppercase;
-            transition: 0.4s; backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; gap: 10px;
+            transition: 0.4s; backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; gap: 12px;
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 15px 35px var(--accent-glow); background: rgba(255,255,255,0.06); }
-        .btn i { font-size: 20px; color: var(--accent-primary); }
+        .btn i { font-size: 24px; color: var(--accent-primary); transition: 0.3s; }
+        .btn:hover i { transform: scale(1.2); }
 
-        /* --- VISITOR & COPYRIGHT --- */
-        .v-counter {
-            position: fixed; bottom: 25px; left: 25px; background: var(--glass);
-            padding: 10px 20px; border-radius: 30px; font-size: 11px; font-weight: 900;
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: var(--accent-secondary); z-index: 10000;
-        }
         .copyright { position: fixed; bottom: 25px; right: 25px; font-size: 10px; opacity: 0.5; font-weight: 900; letter-spacing: 2px; }
 
     </style>
@@ -121,13 +141,15 @@
     <canvas id="bg-canvas"></canvas>
 
     <div id="enter-overlay">
-        <h1 class="animated-text" style="font-size: 65px; margin: 0; letter-spacing: -2px;">EZWIN STUDIO</h1>
-        <p style="letter-spacing: 12px; opacity: 0.5; font-size: 14px; margin-bottom: 30px;">CORE ECOSYSTEM 2026</p>
-        <button class="enter-btn" onclick="startSystem()">SİSTEME GİRİŞ YAP</button>
+        <div class="enter-content">
+            <h1 class="animated-text" style="font-size: 65px; margin: 0; letter-spacing: -2px;">EZWIN STUDIO</h1>
+            <p style="letter-spacing: 12px; opacity: 0.5; font-size: 14px; margin-bottom: 40px; text-transform: uppercase;">Premium Ecosystem</p>
+            <button class="enter-btn" onclick="startSystem()">SİSTEME GİRİŞ YAP</button>
+        </div>
     </div>
 
     <div class="theme-wrapper ui-element">
-        <div class="theme-trigger" onclick="document.getElementById('themeMenu').classList.toggle('active')">
+        <div class="theme-trigger" onclick="toggleMenu('themeMenu')">
             <i class="fas fa-paint-brush"></i>
         </div>
         <div class="theme-menu" id="themeMenu">
@@ -138,16 +160,25 @@
     </div>
 
     <div class="music-widget ui-element">
-        <div class="music-toggle" onclick="document.getElementById('musicPanel').classList.toggle('active')">
+        <div class="music-toggle" onclick="toggleMenu('musicPanel')">
             <i class="fas fa-music"></i>
         </div>
         <div class="music-panel" id="musicPanel">
-            <div style="display:flex; justify-content: space-around; font-size: 22px; margin-bottom: 20px; color: var(--accent-primary);">
-                <i class="fas fa-backward-step" onclick="player.previousVideo()" style="cursor:pointer"></i>
-                <i class="fas fa-play" id="playIcon" onclick="togglePlay()" style="cursor:pointer"></i>
-                <i class="fas fa-forward-step" onclick="player.nextVideo()" style="cursor:pointer"></i>
+            <div style="font-size: 11px; font-weight: 900; color: var(--accent-secondary); margin-bottom: 20px; text-align: center; letter-spacing: 2px;">
+                <i class="fas fa-compact-disc fa-spin"></i> NOW PLAYING
             </div>
-            <input type="range" id="volRange" min="0" max="100" value="50" style="width:100%; accent-color: var(--accent-primary); cursor: pointer;">
+            <div style="display:flex; justify-content: space-evenly; align-items: center; font-size: 20px; margin-bottom: 25px; color: var(--accent-primary);">
+                <i class="fas fa-backward-step" onclick="player.previousVideo()" style="cursor:pointer; transition: 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color=''"></i>
+                <div style="width: 45px; height: 45px; background: rgba(0, 124, 240, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 1px solid var(--accent-primary);" onclick="togglePlay()">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </div>
+                <i class="fas fa-forward-step" onclick="player.nextVideo()" style="cursor:pointer; transition: 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color=''"></i>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-volume-down" style="font-size: 12px; opacity: 0.7;"></i>
+                <input type="range" id="volRange" min="0" max="100" value="50" style="flex: 1; accent-color: var(--accent-primary); cursor: pointer; height: 4px;">
+                <i class="fas fa-volume-up" style="font-size: 12px; opacity: 0.7;"></i>
+            </div>
         </div>
     </div>
 
@@ -156,7 +187,10 @@
     </div>
 
     <div class="v-counter ui-element">
-        VISITORS: <span id="vCount">0</span>
+        <div class="logo-box">
+            <i class="fas fa-bolt"></i>
+        </div>
+        <span class="count-text" id="vCount">0</span>
     </div>
 
     <div class="main-content" id="main">
@@ -174,7 +208,7 @@
                 <a href="#projects" class="btn" style="grid-column: span 3; border-color: var(--accent-primary); background: rgba(0, 124, 240, 0.05);"><i class="fas fa-rocket"></i><span>ENTER THE ECOSYSTEM</span></a>
             </div>
 
-            <div style="margin-top: 80px; opacity: 0.4;">
+            <div style="margin-top: 80px; opacity: 0.5;">
                 <i class="fas fa-chevron-down fa-bounce" style="font-size: 20px; color: var(--accent-secondary);"></i>
                 <p style="font-size: 10px; font-weight: 900; margin-top: 10px; letter-spacing: 3px;">SCROLL TO DISCOVER</p>
             </div>
@@ -183,12 +217,12 @@
         <section id="projects" style="padding: 120px 20px; text-align: center;">
             <h2 class="animated-text" style="font-size: 3rem; letter-spacing: 10px; margin-bottom: 50px;">PROJECTS</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto;">
-                <div style="background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: left;">
+                <div style="background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: left; transition: 0.4s;">
                     <i class="fas fa-code" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 20px;"></i>
                     <h3>Development</h3>
                     <p style="opacity: 0.7;">Custom software architecture and high-performance automation scripts.</p>
                 </div>
-                <div style="background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: left;">
+                <div style="background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); text-align: left; transition: 0.4s;">
                     <i class="fas fa-vault" style="font-size: 30px; color: var(--accent-secondary); margin-bottom: 20px;"></i>
                     <h3>Assets</h3>
                     <p style="opacity: 0.7;">Premium digital goods infrastructure and secure asset management.</p>
@@ -205,14 +239,32 @@
     <script>
         let player, isPlaying = false, pColor = "#007cf0";
 
+        // Menü Aç/Kapat (Daha stabil)
+        function toggleMenu(id) {
+            const menu = document.getElementById(id);
+            if (menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            } else {
+                // Diğer menüleri kapat
+                document.getElementById('themeMenu').classList.remove('active');
+                document.getElementById('musicPanel').classList.remove('active');
+                menu.classList.add('active');
+            }
+        }
+
         // --- GİRİŞ VE SAYAÇ ---
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             document.body.classList.remove('locked');
+            
             setTimeout(() => {
                 document.getElementById('main').classList.add('visible');
                 document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
-                if(player) { player.playVideo(); isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause-step"; }
+                if(player) { 
+                    player.playVideo(); 
+                    isPlaying = true; 
+                    document.getElementById('playIcon').className = "fas fa-pause"; 
+                }
             }, 600);
             
             // Sayaç logic
@@ -251,6 +303,9 @@
             document.documentElement.style.setProperty('--accent-secondary', t.s);
             pColor = t.p;
             document.getElementById('themeMenu').classList.remove('active');
+            
+            // Logoyu da temaya uydur
+            document.querySelector('.logo-box').style.background = t.p;
         }
 
         // --- MATRIX BACKGROUND ---
