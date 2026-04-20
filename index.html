@@ -21,13 +21,33 @@
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
             font-family: 'Inter', sans-serif; 
-            overflow-y: auto; overflow-x: hidden; 
-            user-select: none; scroll-behavior: smooth;
+            overflow-x: hidden; user-select: none; scroll-behavior: smooth;
         }
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.25; pointer-events: none; }
 
-        /* --- THEME CONTROLLER --- */
+        /* --- ENTER OVERLAY (FIXED) --- */
+        #enter-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #enter-overlay.fade-out { opacity: 0; visibility: hidden; transform: scale(1.1); }
+        .enter-content { text-align: center; }
+        .enter-btn {
+            padding: 20px 60px; border: 2px solid var(--accent-primary);
+            background: transparent; color: white; font-weight: 900;
+            font-size: 18px; letter-spacing: 5px; border-radius: 50px;
+            cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow);
+            margin-top: 30px;
+        }
+        .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 40px var(--accent-primary); transform: scale(1.05); }
+
+        /* --- UI ELEMENTS (Hidden initially) --- */
+        .ui-element { opacity: 0; visibility: hidden; transition: 1s ease; }
+        .ui-element.show { opacity: 1; visibility: visible; }
+
         .theme-controller {
             position: fixed; top: 20px; right: 330px; z-index: 1001;
             display: flex; gap: 8px; background: var(--glass);
@@ -35,53 +55,29 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .theme-dot { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: 0.3s; }
-        .theme-dot:hover { transform: scale(1.2); border-color: white; }
 
-        /* --- ANNOUNCEMENT --- */
         .announcement-bar {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
-            width: 280px; background: var(--glass);
-            border: 1px solid var(--accent-glow);
-            border-radius: 12px; backdrop-filter: blur(10px);
-            padding: 10px; overflow: hidden;
+            width: 280px; background: var(--glass); border: 1px solid var(--accent-glow);
+            border-radius: 12px; backdrop-filter: blur(10px); padding: 10px; overflow: hidden;
         }
-        .announcement-header { font-size: 10px; font-weight: 900; color: var(--accent-pink); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
-        .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; }
-        .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 600; color: var(--accent-secondary); }
+        .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; font-size: 11px; font-weight: 600; color: var(--accent-secondary); white-space: nowrap; }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-
-        /* --- MUSIC SYSTEM --- */
-        .music-widget { position: fixed; top: 30px; left: 30px; z-index: 2000; }
-        .music-toggle { 
-            width: 60px; height: 60px; border: 2px solid var(--accent-primary); 
-            border-radius: 20px; display: flex; align-items: center; justify-content: center; 
-            background: var(--panel-bg); color: var(--accent-primary); cursor: pointer;
-            box-shadow: 0 0 15px var(--accent-glow); transition: 0.3s;
-        }
-        .music-panel { 
-            position: absolute; top: 75px; left: 0; width: 280px; 
-            background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 20px; padding: 20px; backdrop-filter: blur(25px); 
-            opacity: 0; transform: translateX(-30px); pointer-events: none; transition: 0.4s; 
-        }
-        .music-panel.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-        .track-item { padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: 0.2s; margin-bottom: 4px; }
-        .track-item.playing { color: var(--accent-primary); background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent-primary); }
 
         /* --- HUD --- */
         .hud-panel { 
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); 
-            background: rgba(5, 5, 10, 0.95); border: 2px solid var(--accent-secondary); 
+            background: var(--panel-bg); border: 2px solid var(--accent-secondary); 
             border-radius: 30px; padding: 30px 50px; display: flex; flex-direction: column; 
             align-items: center; z-index: 5000; pointer-events: none; opacity: 0; transition: 0.4s; 
         }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        /* --- HERO & MAIN CONTENT --- */
-        .main-content { position: relative; z-index: 10; width: 100%; opacity: 0; transition: 1.5s ease; }
-        .main-content.visible { opacity: 1; }
-        .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; position: relative; }
+        /* --- MAIN CONTENT --- */
+        .main-content { position: relative; z-index: 10; width: 100%; opacity: 0; visibility: hidden; transition: 1.5s ease; transform: translateY(20px); }
+        .main-content.visible { opacity: 1; visibility: visible; transform: translateY(0); }
         
+        .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
         .animated-text { background: var(--text-gradient); background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flow 5s linear infinite; font-weight: 900; text-transform: uppercase; }
         @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
 
@@ -103,24 +99,11 @@
         .mouse::before { content: ""; position: absolute; top: 6px; left: 50%; width: 4px; height: 8px; background: var(--accent-secondary); border-radius: 2px; transform: translateX(-50%); animation: scroll-wheel 1.6s infinite; }
         @keyframes scroll-wheel { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 12px); } }
 
-        /* --- ENTER OVERLAY --- */
-        #enter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s ease-in-out; }
-        #enter-overlay.fade-out { opacity: 0; visibility: hidden; }
-        .enter-btn { padding: 20px 60px; border: 2px solid var(--accent-primary); background: transparent; color: white; font-weight: 900; font-size: 18px; letter-spacing: 5px; border-radius: 50px; cursor: pointer; transition: 0.4s; box-shadow: 0 0 20px var(--accent-glow); margin-top: 20px; }
+        /* --- FOOTER ELEMENTS --- */
+        .copyright-container { position: fixed; bottom: 20px; right: 30px; z-index: 1100; text-align: right; }
+        .copyright-text { font-size: 11px; font-weight: 900; letter-spacing: 2px; opacity: 0.6; }
+        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 1100; background: var(--glass); padding: 8px 18px; border-radius: 30px; color: var(--accent-secondary); font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
 
-        /* --- COPYRIGHT (DÜZELTİLEN KISIM) --- */
-        .copyright-container {
-            position: fixed; bottom: 20px; right: 30px; z-index: 1100;
-            text-align: right; pointer-events: none;
-        }
-        .copyright-text {
-            font-size: 11px; font-weight: 900; letter-spacing: 2px;
-            opacity: 0.6; transition: 0.3s;
-        }
-
-        /* --- VISITOR --- */
-        .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; background: var(--glass); padding: 8px 18px; border-radius: 30px; color: var(--accent-secondary); font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
-        
         /* --- PROJECTS --- */
         .projects-section { padding: 100px 20px; text-align: center; max-width: 1100px; margin: 0 auto; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 50px; }
@@ -129,6 +112,16 @@
     </style>
 </head>
 <body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="enter-overlay">
+        <div class="enter-content">
+            <h1 class="animated-text" style="font-size: 60px; margin: 0;">EZWIN STUDIO</h1>
+            <p style="letter-spacing: 10px; opacity: 0.5;">EST. 2026</p>
+            <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
+        </div>
+    </div>
 
     <div class="hud-panel" id="volumeHud">
         <i class="fas fa-volume-high" id="hudIcon" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 10px;"></i>
@@ -140,42 +133,21 @@
         <span id="songHudText" style="color: white; font-weight: 800;">NOW PLAYING</span>
     </div>
 
-    <div class="theme-controller">
+    <div class="theme-controller ui-element">
         <div class="theme-dot" style="background: #007cf0;" onclick="changeTheme('blue')"></div>
         <div class="theme-dot" style="background: #ff0080;" onclick="changeTheme('cyber')"></div>
         <div class="theme-dot" style="background: #00ff88;" onclick="changeTheme('emerald')"></div>
     </div>
 
-    <div class="announcement-bar">
-        <div class="announcement-header"><i class="fas fa-satellite-dish"></i> Broadcast</div>
-        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • SYSTEMS SECURE • THEME ENGINE ONLINE</div></div>
+    <div class="announcement-bar ui-element">
+        <div class="marquee-text">EZWIN STUDIO V3.0 • ALL SYSTEMS OPERATIONAL • THEME ENGINE READY</div>
     </div>
 
-    <div class="copyright-container">
+    <div class="copyright-container ui-element">
         <div class="copyright-text animated-text">EZWIN STUDIO © 2026</div>
     </div>
 
-    <div class="music-widget">
-        <div class="music-toggle" id="musicToggle"><i class="fas fa-compact-disc"></i></div>
-        <div class="music-panel" id="musicPanel">
-            <div style="display:flex; justify-content: space-around; font-size: 20px; color: var(--accent-primary); margin-bottom: 15px;">
-                <i class="fas fa-backward-step" id="prev" style="cursor:pointer"></i>
-                <i class="fas fa-play" id="playBtn" style="cursor:pointer"></i>
-                <i class="fas fa-forward-step" id="next" style="cursor:pointer"></i>
-            </div>
-            <div id="musicList"></div>
-            <input type="range" id="volume" min="0" max="100" value="50" style="width:100%; margin-top:15px; accent-color:var(--accent-primary);">
-        </div>
-    </div>
-
-    <div id="enter-overlay">
-        <h1 class="animated-text" style="font-size: 60px; margin: 0;">EZWIN STUDIO</h1>
-        <button class="enter-btn" onclick="startExperience()">ACCESS SYSTEM</button>
-    </div>
-
-    <canvas id="bg-canvas"></canvas>
-
-    <div class="visitor-counter"><i class="fas fa-eye"></i> <span id="vCount">...</span></div>
+    <div class="visitor-counter ui-element"><i class="fas fa-eye"></i> <span id="vCount">...</span></div>
 
     <div class="main-content" id="mainContent">
         <div class="hero-section">
@@ -213,7 +185,7 @@
                 </div>
                 <div class="project-card reveal">
                     <i class="fas fa-microchip" style="font-size: 30px; color: var(--accent-pink); margin-bottom: 15px;"></i>
-                    <h3>Infrastructure</h3>
+                    <h3>Security</h3>
                     <p>Advanced system moderation and digital community protection.</p>
                 </div>
             </div>
@@ -243,46 +215,27 @@
 
         let pColor = "#007cf0";
 
-        // --- MUSIC ENGINE ---
-        const playlistData = [{ id: '_9bw_VtMUGA', title: 'New Person' }, { id: 'KhqNTjbQ71A', title: 'Last Christmas' }, { id: '8KqcE6QSe9E', title: 'Take A Slice' }];
-        let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
+        // --- CORE EXPERIENCE ---
+        function startExperience() {
+            // Hide Overlay
+            document.getElementById('enter-overlay').classList.add('fade-out');
+            
+            // Show Main Content
+            setTimeout(() => {
+                document.getElementById('mainContent').classList.add('visible');
+                // Show UI Elements
+                document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
+            }, 500);
 
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(tag);
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: playlistData[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
-                events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } }
-            });
+            // Start Audio if possible
+            if(player && typeof player.playVideo === "function") {
+                player.playVideo();
+                showSongHud("SYSTEM INITIALIZED");
+            }
         }
 
-        function onPlayerReady() {
-            document.getElementById('musicToggle').onclick = () => document.getElementById('musicPanel').classList.toggle('active');
-            document.getElementById('playBtn').onclick = togglePlay;
-            document.getElementById('next').onclick = () => playTrack((currentTrack + 1) % playlistData.length);
-            document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
-            document.getElementById('volume').oninput = (e) => { player.setVolume(e.target.value); showVolumeHud(`VOLUME: ${e.target.value}%`, "fa-volume-high"); };
-            renderPlaylist();
-        }
-
-        function togglePlay() {
-            if(isPlaying) { player.pauseVideo(); document.getElementById('playBtn').className = "fas fa-play"; }
-            else { player.playVideo(); document.getElementById('playBtn').className = "fas fa-pause"; }
-            isPlaying = !isPlaying;
-        }
-
-        function playTrack(i) {
-            currentTrack = i; player.loadVideoById(playlistData[i].id); isPlaying = true;
-            document.getElementById('playBtn').className = "fas fa-pause"; renderPlaylist(); showSongHud(playlistData[i].title);
-        }
-
-        function renderPlaylist() {
-            document.getElementById('musicList').innerHTML = playlistData.map((t, i) => `<div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})">${t.title}</div>`).join('');
-        }
-
+        // --- HUD SYSTEM ---
+        let hudTimer, songTimer;
         function showVolumeHud(text, icon) {
             clearTimeout(hudTimer);
             const h = document.getElementById('volumeHud');
@@ -300,11 +253,18 @@
             songTimer = setTimeout(() => s.classList.remove('show'), 2500);
         }
 
-        function startExperience() {
-            document.getElementById('enter-overlay').classList.add('fade-out');
-            document.getElementById('mainContent').classList.add('visible');
-            if(player) { player.playVideo(); isPlaying = true; document.getElementById('playBtn').className = "fas fa-pause"; showSongHud(playlistData[currentTrack].title); }
+        // --- YT PLAYER ---
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '0', width: '0', videoId: '_9bw_VtMUGA',
+                playerVars: { 'autoplay': 0, 'controls': 0 },
+                events: { 'onStateChange': (e) => { if(e.data === 0) player.playVideo(); } }
+            });
         }
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
 
         // --- BACKGROUND ---
         const canvas = document.getElementById('bg-canvas');
@@ -320,10 +280,12 @@
         function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pts.forEach(p => p.draw()); requestAnimationFrame(anim); }
         anim();
 
+        // --- SCROLL REVEAL ---
         window.addEventListener("scroll", () => {
             document.querySelectorAll(".reveal").forEach(r => { if(r.getBoundingClientRect().top < window.innerHeight - 50) r.classList.add("active"); });
         });
 
+        // --- VISITOR COUNTER ---
         let count = localStorage.getItem('vCount') || 1240;
         localStorage.setItem('vCount', ++count);
         document.getElementById('vCount').innerText = count.toLocaleString();
