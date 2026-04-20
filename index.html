@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,10 +26,10 @@
             scroll-behavior: smooth;
         }
 
-        /* --- ARKA PLAN --- */
+        /* --- BACKGROUND --- */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.25; pointer-events: none; }
 
-        /* --- GİRİŞ EKRANI --- */
+        /* --- ENTER SCREEN --- */
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 9999;
@@ -47,7 +47,7 @@
         }
         .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 40px var(--accent-primary); transform: scale(1.1); }
 
-        /* --- DUYURU SİSTEMİ --- */
+        /* --- ANNOUNCEMENT SYSTEM --- */
         .announcement-bar {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
             width: 300px; background: var(--glass);
@@ -62,7 +62,7 @@
         .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; font-size: 12px; font-weight: 600; color: var(--accent-secondary); }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* --- MÜZİK SİSTEMİ (GERİ GELDİ) --- */
+        /* --- MUSIC SYSTEM --- */
         .music-widget { position: fixed; top: 30px; left: 30px; z-index: 2000; }
         .music-toggle { 
             width: 60px; height: 60px; border: 2px solid var(--accent-primary); 
@@ -84,7 +84,7 @@
         .track-item:hover { background: rgba(255,255,255,0.05); }
         .track-item.playing { border-color: var(--accent-primary); color: var(--accent-primary); background: rgba(0, 124, 240, 0.1); }
 
-        /* --- HUD PANELLERİ --- */
+        /* --- HUD PANELS --- */
         .hud-panel { 
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); 
             background: rgba(5, 5, 10, 0.9); border: 2px solid var(--accent-secondary); 
@@ -93,7 +93,7 @@
         }
         .hud-panel.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        /* --- ANA İÇERİK --- */
+        /* --- MAIN CONTENT --- */
         .main-content { position: relative; z-index: 10; width: 100%; }
         .hero-section { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; position: relative; }
         
@@ -106,7 +106,7 @@
         .links-grid { 
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; 
             width: 90%; max-width: 900px; 
-            margin-bottom: 160px; /* Scroll down ile çakışmaması için artırıldı */
+            margin-bottom: 160px;
         }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
@@ -116,7 +116,7 @@
         }
         .btn:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(0, 124, 240, 0.3); }
 
-        /* --- SCROLL DOWN (HİZALANDI) --- */
+        /* --- SCROLL DOWN --- */
         .scroll-down {
             position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 20;
@@ -131,12 +131,25 @@
         @keyframes light-drop { 0% { top: -100%; } 100% { top: 100%; } }
         @keyframes text-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        /* --- PROJELER --- */
+        /* --- PROJECTS (NEW DESIGN) --- */
         .projects-section { padding: 100px 20px; text-align: center; max-width: 1100px; margin: 0 auto; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 50px; }
-        .project-card { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; text-align: left; transition: 0.4s; opacity: 0; transform: translateY(30px); }
+        
+        .project-card { 
+            background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); 
+            padding: 30px; border-radius: 24px; text-align: left; transition: 0.4s; 
+            opacity: 0; transform: translateY(30px); position: relative; overflow: hidden;
+        }
         .project-card.active { opacity: 1; transform: translateY(0); }
-        .project-card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(0, 124, 240, 0.15); transform: translateY(-5px); }
+        .project-card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 40px rgba(0, 124, 240, 0.1); transform: translateY(-8px); }
+        
+        .card-icon { width: 50px; height: 50px; background: #ffcc00; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: #000; font-size: 22px; box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3); }
+        .card-tag { display: inline-block; padding: 4px 12px; background: rgba(255, 204, 0, 0.1); color: #ffcc00; border-radius: 20px; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
+        .project-card h3 { font-size: 20px; margin: 0 0 15px 0; color: white; }
+        .project-card p { font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.6); margin-bottom: 25px; }
+        
+        .status-indicator { display: flex; align-items: center; gap: 8px; font-size: 11px; color: rgba(255, 255, 255, 0.4); border-top: 1px solid rgba(255,255,255,0.05); pt: 15px; padding-top: 15px; }
+        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
         
         .visitor-counter { position: fixed; bottom: 20px; left: 30px; z-index: 100; background: var(--glass); padding: 8px 18px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: var(--accent-secondary); font-size: 13px; font-weight: bold; }
         .copyright-tag { position: fixed; bottom: 20px; right: 30px; z-index: 100; font-size: 11px; font-weight: 800; letter-spacing: 2px; }
@@ -146,12 +159,12 @@
 
     <div class="hud-panel" id="volumeHud">
         <i class="fas fa-volume-high" id="hudIcon" style="font-size: 30px; color: var(--accent-primary); margin-bottom: 10px;"></i>
-        <span id="hudText" style="font-weight: 900;">SES: %50</span>
+        <span id="hudText" style="font-weight: 900;">VOLUME: 50%</span>
     </div>
 
     <div class="hud-panel" id="songHud">
         <i class="fas fa-compact-disc fa-spin" style="font-size: 30px; color: var(--accent-secondary); margin-bottom: 10px;"></i>
-        <span id="songHudText" style="color: white; font-weight: 800;">OYNATILIYOR</span>
+        <span id="songHudText" style="color: white; font-weight: 800;">NOW PLAYING</span>
     </div>
 
     <div class="music-widget">
@@ -176,7 +189,7 @@
 
     <div class="announcement-bar">
         <div class="announcement-header"><i class="fas fa-satellite-dish"></i> Broadcast</div>
-        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • TÜM SİSTEMLER AKTİF • MÜZİK SİSTEMİ DÜZELTİLDİ!</div></div>
+        <div class="marquee-container"><div class="marquee-text">EZWIN STUDIO V3.0 • ALL SYSTEMS OPERATIONAL • MUSIC ENGINE FIXED • GLOBAL MODE ACTIVE</div></div>
     </div>
 
     <div class="visitor-counter"><i class="fas fa-eye"></i> <span id="vCount">...</span></div>
@@ -191,7 +204,7 @@
                 <a href="#" class="btn"><i class="fas fa-music"></i><span>JOIN MUSIC</span></a>
                 <a href="#" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
                 <a href="#" class="btn"><i class="fas fa-unlock-alt"></i><span>UNCOPYLOCKED</span></a>
-                <a href="#" class="btn"><i class="fas fa-user-shield"></i><span>HESAP HİZMETLERİ</span></a>
+                <a href="#" class="btn"><i class="fas fa-user-shield"></i><span>ACCOUNT SERVICES</span></a>
                 <a href="#" class="btn"><i class="fab fa-youtube"></i><span>MUSIC CHANNEL</span></a>
                 <a href="#" class="btn"><i class="fas fa-ghost"></i><span>CHEATS</span></a>
                 <a href="#" class="btn" style="grid-column: span 3;"><i class="fas fa-rocket"></i><span>ENTER THE ECOSYSTEM</span></a>
@@ -205,22 +218,37 @@
         </div>
 
         <div class="projects-section" id="projects">
-            <h2 class="animated-text" style="font-size: 2rem;">Projects & Skills</h2>
+            <h2 class="animated-text" style="font-size: 2.5rem; letter-spacing: 10px; margin-bottom: 50px;">PROJECTS</h2>
             <div class="projects-grid">
                 <div class="project-card reveal">
-                    <i class="fas fa-code" style="color:var(--accent-primary); font-size: 24px;"></i>
-                    <h3>Software</h3>
-                    <p>TypeScript ve Node.js ile modern çözümler.</p>
+                    <div class="card-icon"><i class="fas fa-code"></i></div>
+                    <div class="card-tag">JS / TS</div>
+                    <h3>Software & Development</h3>
+                    <p>I develop CLI tools and web projects with TypeScript. I also design Discord bots using Node.js. I keep improving myself on the coding side.</p>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span>Active Development</span>
+                    </div>
                 </div>
                 <div class="project-card reveal">
-                    <i class="fas fa-coins" style="color:var(--accent-secondary); font-size: 24px;"></i>
-                    <h3>Trading</h3>
-                    <p>Güvenilir Roblox varlık ve Robux ticareti.</p>
+                    <div class="card-icon" style="background:#00dfd8; box-shadow: 0 5px 15px rgba(0, 223, 216, 0.3);"><i class="fas fa-coins"></i></div>
+                    <div class="card-tag" style="color:#00dfd8; background: rgba(0, 223, 216, 0.1);">MARKET</div>
+                    <h3>Asset Trading</h3>
+                    <p>Professional Roblox asset management and Robux trading systems. High-security transaction protocols for digital assets.</p>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span>Market Online</span>
+                    </div>
                 </div>
                 <div class="project-card reveal">
-                    <i class="fas fa-headset" style="color:var(--accent-pink); font-size: 24px;"></i>
-                    <h3>Support</h3>
-                    <p>7/24 Teknik destek ve topluluk yönetimi.</p>
+                    <div class="card-icon" style="background:#ff0080; box-shadow: 0 5px 15px rgba(255, 0, 128, 0.3);"><i class="fas fa-shield-halved"></i></div>
+                    <div class="card-tag" style="color:#ff0080; background: rgba(255, 0, 128, 0.1);">SUPPORT</div>
+                    <h3>System Security</h3>
+                    <p>Providing 24/7 technical support and community moderation. Focused on server security and user experience optimization.</p>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span>Live Support</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,7 +264,6 @@
         ];
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
-        // YouTube API
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         document.head.appendChild(tag);
@@ -259,7 +286,7 @@
             document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
             document.getElementById('volume').oninput = (e) => {
                 player.setVolume(e.target.value);
-                showVolumeHud(`SES: %${e.target.value}`, e.target.value == 0 ? "fa-volume-mute" : "fa-volume-high");
+                showVolumeHud(`VOLUME: ${e.target.value}%`, e.target.value == 0 ? "fa-volume-mute" : "fa-volume-high");
             };
             renderPlaylist();
         }
@@ -308,7 +335,6 @@
             if(player) { player.playVideo(); isPlaying = true; document.getElementById('playBtn').className = "fas fa-pause"; showSongHud(playlistData[currentTrack].title); }
         }
 
-        // --- ARKA PLAN VE REVEAL ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -328,7 +354,6 @@
             });
         });
 
-        // Sayaç
         let count = localStorage.getItem('vCount') || 1240;
         localStorage.setItem('vCount', ++count);
         document.getElementById('vCount').innerText = count.toLocaleString();
