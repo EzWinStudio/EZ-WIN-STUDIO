@@ -46,7 +46,7 @@
         }
         .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 60px var(--accent-primary); }
 
-        /* --- STABIL VE SAKİN DUYURU SİSTEMİ --- */
+        /* --- STABIL DUYURU SİSTEMİ --- */
         .notification-wrapper {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             z-index: 10001; width: fit-content; opacity: 0; transition: 1.5s ease;
@@ -65,11 +65,11 @@
         .ios-marquee {
             display: inline-block; padding-left: 100%;
             font-size: 10px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px;
-            animation: marquee-scroll 30s linear infinite; /* HIZ 30 SANİYEYE DÜŞÜRÜLDÜ */
+            animation: marquee-scroll 30s linear infinite;
         }
         @keyframes marquee-scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-220%); } /* Yazı boyuna göre burası ayarlı */
+            100% { transform: translateX(-220%); }
         }
 
         /* --- WIDGETS --- */
@@ -92,7 +92,6 @@
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* --- PREMIUM TEMA PANELİ --- */
         #themeMenu { right: 0; width: 220px; }
         .theme-option {
             display: flex; align-items: center; gap: 12px; padding: 14px;
@@ -108,7 +107,7 @@
         }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
 
-        /* --- ANA EKRAN --- */
+        /* --- UI ELEMENTS --- */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; }
         .ui-element.show { opacity: 1; pointer-events: all; }
         
@@ -137,7 +136,6 @@
             letter-spacing: 4px; text-transform: uppercase;
         }
 
-        /* --- SCROLL & HUD --- */
         .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); cursor: pointer; transition: 0.5s; z-index: 10; }
         .scroll-down.hide { opacity: 0; pointer-events: none; }
         .scroll-down i { font-size: 26px; color: var(--accent-primary); animation: bounce 2s infinite; }
@@ -219,12 +217,12 @@
             <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;">CORE DEVELOPMENT</p>
             
             <div class="links-grid">
-                <a href="#" class="btn"><i class="fas fa-music"></i><span>MUSIC</span></a>
-                <a href="#" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
-                <a href="#" class="btn"><i class="fas fa-code"></i><span>EZWIN UNCOPYLOCKED</span></a>
-                <a href="#" class="btn"><i class="fas fa-shield-alt"></i><span>SERVICES</span></a>
-                <a href="#" class="btn"><i class="fas fa-layer-group"></i><span>CHANNELS</span></a>
-                <a href="#" class="btn"><i class="fas fa-terminal"></i><span>EZWIN CHEATS</span></a>
+                <a href="https://www.youtube.com/playlist?list=RD8KqcE6QSe9E" target="_blank" class="btn"><i class="fas fa-music"></i><span>MUSIC</span></a>
+                <a href="https://www.youtube.com/@EZWINSTUDIO" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
+                <a href="https://www.roblox.com/games/123456789/EZWIN-UNCOPYLOCKED" target="_blank" class="btn"><i class="fas fa-code"></i><span>EZWIN UNCOPYLOCKED</span></a>
+                <a href="https://discord.gg/ezwinstudio" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>SERVICES</span></a>
+                <a href="https://t.me/ezwinstudio" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>CHANNELS</span></a>
+                <a href="https://ezwin-cheats.com" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>EZWIN CHEATS</span></a>
                 
                 <a href="javascript:void(0)" onclick="scrollToTarget('projects')" class="btn btn-wide">
                     <i class="fas fa-project-diagram"></i>
@@ -254,8 +252,8 @@
     <script>
         let player, isPlaying = false, pColor = "#007cf0", currentTrack = 0;
         
-        /* MÜZİK ID'LERİNİ BURAYA EKLE */
-        const playlist = ['_9bw_VtMUGA', 'RD8KqcE6QSe9E', '7IRfZlPmmffNrJFm'];
+        /* GÜNCEL ŞARKI LİSTESİ */
+        const playlist = ['_9bw_VtMUGA', '8KqcE6QSe9E', 'KhqNTjbQ71A'];
 
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
