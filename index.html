@@ -15,7 +15,7 @@
             --accent-emerald: #00ff88;
             --accent-glow: rgba(0, 124, 240, 0.4);
             --glass: rgba(255, 255, 255, 0.03);
-            --panel-bg: rgba(5, 5, 10, 0.98);
+            --panel-bg: rgba(10, 10, 15, 0.98);
         }
 
         body, html {
@@ -46,7 +46,7 @@
         }
         .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 60px var(--accent-primary); }
 
-        /* --- iPHONE BİLDİRİM --- */
+        /* --- iPHONE BİLDİRİM (DYNAMIC ISLAND STYLE) --- */
         .notification-wrapper {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             z-index: 10001; width: fit-content; min-width: 320px;
@@ -58,32 +58,43 @@
         }
         .ios-icon { width: 10px; height: 10px; background: var(--accent-emerald); border-radius: 50%; box-shadow: 0 0 12px var(--accent-emerald); }
         .ios-marquee { font-size: 11px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; animation: marquee 18s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
+        @keyframes marquee { 0% { transform: translateX(70%); } 100% { transform: translateX(-170%); } }
 
-        /* --- WIDGETS --- */
+        /* --- WIDGETS & PANELS --- */
         .music-widget { position: fixed; top: 90px; left: 25px; z-index: 10002; }
         .theme-wrapper { position: fixed; top: 90px; right: 25px; z-index: 10002; }
+        
         .control-btn {
-            width: 50px; height: 50px; background: var(--glass); border-radius: 14px;
+            width: 54px; height: 54px; background: var(--glass); border-radius: 16px;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
         }
+        .control-btn:hover { border-color: var(--accent-primary); background: rgba(255,255,255,0.08); }
+
         .panel-flyout {
-            position: absolute; top: 65px; background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px;
-            opacity: 0; visibility: hidden; transform: translateY(-15px); transition: 0.4s;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            position: absolute; top: 70px; background: var(--panel-bg);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 20px;
+            opacity: 0; visibility: hidden; transform: translateY(-15px); 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9); backdrop-filter: blur(20px);
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* --- THEME MENU --- */
-        #themeMenu { right: 0; width: 180px; }
-        .theme-option { padding: 12px; cursor: pointer; font-family: 'Orbitron'; font-size: 10px; transition: 0.3s; }
-        .theme-option:hover { background: rgba(255,255,255,0.05); }
+        /* --- YENİ TEMA SEÇİCİ --- */
+        #themeMenu { right: 0; width: 210px; }
+        .theme-option {
+            display: flex; align-items: center; gap: 12px; padding: 12px 18px;
+            margin-bottom: 8px; border-radius: 15px; cursor: pointer;
+            font-family: 'Orbitron'; font-size: 10px; color: rgba(255,255,255,0.5);
+            transition: 0.3s; background: rgba(255,255,255,0.02);
+        }
+        .theme-option:hover { background: rgba(255,255,255,0.06); color: #fff; transform: translateX(-5px); }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
 
         /* --- MAIN UI --- */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; }
         .ui-element.show { opacity: 1; pointer-events: all; }
+        
         .animated-text { 
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink), var(--accent-emerald));
@@ -95,38 +106,39 @@
         .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 850px; margin-top: 40px; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 25px; border-radius: 12px; color: white; text-decoration: none;
+            padding: 25px; border-radius: 14px; color: white; text-decoration: none;
             font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; transition: 0.4s;
             display: flex; flex-direction: column; align-items: center; gap: 12px;
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
-        .btn i { font-size: 22px; color: var(--accent-primary); }
+        .btn i { font-size: 24px; color: var(--accent-primary); }
 
-        /* --- ÖZEL BUTON: JOIN THE ECOSYSTEM --- */
         .btn-wide {
-            grid-column: span 3;
-            margin-top: 10px;
+            grid-column: span 3; margin-top: 10px;
             border: 1px solid var(--accent-primary);
             background: linear-gradient(90deg, rgba(0, 124, 240, 0.1), transparent);
-            text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 4px; text-transform: uppercase;
         }
-        .btn-wide:hover { background: var(--accent-primary); color: #fff; }
+        .btn-wide:hover { background: var(--accent-primary); box-shadow: 0 0 40px var(--accent-primary); }
 
-        .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); cursor: pointer; transition: 0.5s; }
+        /* --- SCROLL & HUD --- */
+        .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); cursor: pointer; transition: 0.5s; z-index: 10; }
         .scroll-down.hide { opacity: 0; pointer-events: none; }
-        .scroll-down i { font-size: 24px; color: var(--accent-primary); animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } }
+        .scroll-down i { font-size: 26px; color: var(--accent-primary); animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-12px); } }
 
-        /* --- VOLUME HUD --- */
         #volume-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5);
             background: rgba(0, 0, 0, 0.85); border: 1px solid var(--accent-primary);
-            padding: 20px 40px; border-radius: 20px; z-index: 1000000;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(15px);
+            padding: 25px 50px; border-radius: 24px; z-index: 1000000;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(20px);
         }
         #volume-hud.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+        .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; }
+        .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--accent-glow); }
+        .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.4; letter-spacing: 2px; }
     </style>
 </head>
 <body class="locked">
@@ -134,48 +146,59 @@
     <canvas id="bg-canvas"></canvas>
 
     <div id="enter-overlay">
-        <h1 class="animated-text" style="font-size: clamp(40px, 8vw, 70px); margin: 0;">EZWIN STUDIO</h1>
+        <h1 class="animated-text" style="font-size: clamp(45px, 9vw, 80px); margin: 0; text-align: center;">EZWIN STUDIO</h1>
         <button class="enter-btn" onclick="startSystem()">ENTER HUB</button>
     </div>
 
     <div id="volume-hud">
-        <i class="fas fa-volume-up" style="font-size: 30px; color: white;"></i>
-        <span id="hudVal" style="font-family:'Orbitron'; font-weight:900; color:var(--accent-primary);">50%</span>
+        <i class="fas fa-volume-up" style="font-size: 35px; color: white;"></i>
+        <span id="hudVal" style="font-family:'Orbitron'; font-weight:900; color:var(--accent-primary); font-size: 24px;">50%</span>
     </div>
 
     <div class="notification-wrapper ui-element">
         <div class="ios-notification">
             <div class="ios-icon"></div>
-            <div style="overflow: hidden; width: 100%;"><div class="ios-marquee">V4.2 Status: All Systems Fixed • Join the Ecosystem Active • Premium UI • Welcome back Ezwin</div></div>
+            <div style="overflow: hidden; width: 100%;">
+                <div class="ios-marquee">V4.5 Premium Update • New Theme Engine Active • Scroll System Fixed • Ecosystem Online • Welcome Ezwin</div>
+            </div>
         </div>
     </div>
 
     <div class="music-widget ui-element">
         <div class="control-btn" onclick="togglePanel('musicPanel')"><i class="fas fa-compact-disc fa-spin"></i></div>
         <div class="panel-flyout" id="musicPanel" style="left: 0; width: 280px;">
-            <div style="font-family:'Orbitron'; font-size:9px; color:var(--accent-primary); margin-bottom:15px;" id="trackName">LOADING...</div>
-            <div style="display:flex; justify-content: space-evenly; align-items:center; margin-bottom:20px;">
-                <i class="fas fa-backward" onclick="prevTrack()" style="cursor:pointer;"></i>
-                <div style="width:45px; height:45px; background:var(--accent-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></div>
-                <i class="fas fa-forward" onclick="nextTrack()" style="cursor:pointer;"></i>
+            <div style="font-family:'Orbitron'; font-size:9px; color:var(--accent-primary); margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px;" id="trackName">LOADING TRACK...</div>
+            <div style="display:flex; justify-content: space-evenly; align-items:center; margin-bottom: 25px;">
+                <i class="fas fa-step-backward" onclick="prevTrack()" style="cursor:pointer; font-size: 20px;"></i>
+                <div style="width:50px; height:50px; background:var(--accent-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow: 0 0 15px var(--accent-glow);" onclick="togglePlay()">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </div>
+                <i class="fas fa-step-forward" onclick="nextTrack()" style="cursor:pointer; font-size: 20px;"></i>
             </div>
-            <input type="range" id="volRange" min="0" max="100" value="50" style="width:100%; accent-color: var(--accent-primary);">
+            <input type="range" id="volRange" min="0" max="100" value="50" style="width:100%; accent-color: var(--accent-primary); cursor:pointer;">
         </div>
     </div>
 
     <div class="theme-wrapper ui-element">
         <div class="control-btn" onclick="togglePanel('themeMenu')"><i class="fas fa-palette"></i></div>
         <div class="panel-flyout" id="themeMenu">
-            <div class="theme-option" onclick="changeTheme('blue')">NEON BLUE</div>
-            <div class="theme-option" onclick="changeTheme('cyber')">CYBER PINK</div>
-            <div class="theme-option" onclick="changeTheme('emerald')">EMERALD</div>
+            <div style="font-family:'Orbitron'; font-size:8px; opacity:0.3; margin-bottom:12px; letter-spacing:2px;">CHOOSE THEME</div>
+            <div class="theme-option" onclick="changeTheme('blue')">
+                <span class="dot" style="background:#007cf0; box-shadow: 0 0 10px #007cf0;"></span> NEON BLUE
+            </div>
+            <div class="theme-option" onclick="changeTheme('cyber')">
+                <span class="dot" style="background:#ff0080; box-shadow: 0 0 10px #ff0080;"></span> CYBER PINK
+            </div>
+            <div class="theme-option" onclick="changeTheme('emerald')">
+                <span class="dot" style="background:#00ff88; box-shadow: 0 0 10px #00ff88;"></span> EMERALD
+            </div>
         </div>
     </div>
 
     <div class="main-content" id="main" style="opacity:0">
         <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position: relative;">
-            <h1 class="animated-text" style="font-size: clamp(50px, 10vw, 90px); margin:0;">EZWIN STUDIO</h1>
-            <p style="font-family:'Orbitron'; letter-spacing:8px; color:var(--accent-secondary); font-size:11px;">CORE DEVELOPMENT</p>
+            <h1 class="animated-text" style="font-size: clamp(50px, 11vw, 100px); margin:0; letter-spacing:-4px;">EZWIN STUDIO</h1>
+            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;">PREMIUM ECOSYSTEM</p>
             
             <div class="links-grid">
                 <a href="#" class="btn"><i class="fas fa-music"></i><span>MUSIC</span></a>
@@ -191,20 +214,37 @@
                 </a>
             </div>
 
-            <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')"><i class="fas fa-chevron-down"></i></div>
+            <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </section>
 
-        <section id="projects" style="min-height:100vh; padding: 100px 20px; display:flex; flex-direction:column; align-items:center;">
-            <h2 class="animated-text" style="font-size: 3rem;">PROJECTS</h2>
-            <div style="width:100%; max-width:1000px; height:300px; background:var(--glass); border-radius:20px; border:1px solid rgba(255,255,255,0.05); margin-top:30px;"></div>
+        <section id="projects" style="min-height:100vh; padding: 120px 20px; display:flex; flex-direction:column; align-items:center; background: rgba(255,255,255,0.01);">
+            <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;">PROJECTS</h2>
+            <div style="width:100%; max-width:1100px; height:400px; background:var(--glass); border-radius:30px; border:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(45deg, var(--accent-primary), transparent); opacity:0.05;"></div>
+                <p style="font-family:'Orbitron'; letter-spacing:5px; opacity:0.3;">[ MODULES_READY ]</p>
+            </div>
         </section>
     </div>
+
+    <div class="v-counter ui-element">
+        <div class="logo-box"><i class="fas fa-bolt"></i></div>
+        <span id="vCount" style="font-family:'Orbitron'; font-weight:900;">0</span>
+    </div>
+    <div class="copyright ui-element">EZWIN STUDIO © 2026</div>
 
     <div id="yt-player" style="display:none"></div>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player, isPlaying = false, pColor = "#007cf0", currentTrack = 0;
-        const playlist = ['_9bw_VtMUGA', 'jfKfPfyJRdk', 'L_jWHffIx5E'];
+
+        /* --- MÜZİK LİSTESİ BURAYA (YouTube ID'lerini tırnak içine yaz) --- */
+        const playlist = [
+            '_9bw_VtMUGA', 
+            'jfKfPfyJRdk', 
+            'L_jWHffIx5E'
+        ];
 
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
@@ -214,6 +254,9 @@
                 document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
                 if(player) { player.playVideo(); isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause"; }
             }, 600);
+            let c = parseInt(localStorage.getItem('ezCount') || 5840);
+            document.getElementById('vCount').innerText = (++c).toLocaleString();
+            localStorage.setItem('ezCount', c);
         }
 
         function scrollToTarget(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
@@ -221,8 +264,14 @@
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlist[currentTrack],
-                playerVars: { 'autoplay': 0, 'controls': 0 },
-                events: { 'onStateChange': (e) => { if(e.data == YT.PlayerState.PLAYING) document.getElementById('trackName').innerText = player.getVideoData().title; } }
+                playerVars: { 'autoplay': 0, 'controls': 0, 'modestbranding': 1 },
+                events: { 
+                    'onReady': (e) => e.target.setVolume(50),
+                    'onStateChange': (e) => { 
+                        if(e.data == YT.PlayerState.PLAYING) document.getElementById('trackName').innerText = player.getVideoData().title;
+                        if(e.data == YT.PlayerState.ENDED) nextTrack();
+                    } 
+                }
             });
         }
 
@@ -253,11 +302,17 @@
         }
 
         function changeTheme(tk) {
-            const t = { blue: {p:'#007cf0', s:'#00dfd8'}, cyber: {p:'#ff0080', s:'#7928ca'}, emerald: {p:'#00ff88', s:'#00a1ff'} }[tk];
+            const t = { 
+                blue: {p:'#007cf0', s:'#00dfd8'}, 
+                cyber: {p:'#ff0080', s:'#7928ca'}, 
+                emerald: {p:'#00ff88', s:'#00a1ff'} 
+            }[tk];
             document.documentElement.style.setProperty('--accent-primary', t.p);
             document.documentElement.style.setProperty('--accent-secondary', t.s);
             pColor = t.p;
-            document.getElementById('themeMenu').classList.remove('active');
+            document.querySelector('.logo-box').style.background = t.p;
+            document.getElementById('volume-hud').style.borderColor = t.p;
+            document.querySelectorAll('.panel-flyout').forEach(el => el.classList.remove('active'));
         }
 
         window.onscroll = () => {
@@ -266,6 +321,7 @@
             else icon.classList.remove('hide');
         };
 
+        // ARKA PLAN PARÇACIKLARI
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         function res() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -275,7 +331,7 @@
             init() { this.x = Math.random()*canvas.width; this.y = canvas.height+10; this.s = Math.random()*1.5+0.5; this.o = Math.random()*0.15; }
             draw() { ctx.globalAlpha = this.o; ctx.fillStyle = pColor; ctx.font = "10px Orbitron"; ctx.fillText("EZWIN", this.x, this.y); this.y -= this.s; if(this.y < -20) this.init(); }
         }
-        const pts = Array.from({length: 40}, () => new P());
+        const pts = Array.from({length: 45}, () => new P());
         function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); pts.forEach(p => p.draw()); requestAnimationFrame(anim); }
         anim();
     </script>
