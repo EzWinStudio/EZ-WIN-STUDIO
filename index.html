@@ -15,7 +15,6 @@
             --glass: rgba(255, 255, 255, 0.03);
             --panel-bg: rgba(5, 5, 10, 0.9);
             --text-gradient: linear-gradient(to right, #007cf0, #00dfd8, #ff0080);
-            /* Yeni Scroll Rengi: Sitenin ana turkuazı */
             --scroll-color: #00dfd8; 
         }
 
@@ -69,7 +68,7 @@
 
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.25; pointer-events: none; }
 
-        /* --- SCROLL DOWN INDICATOR (SİTE RENKLERİNDE) --- */
+        /* --- SCROLL DOWN INDICATOR --- */
         .scroll-down-wrapper {
             position: absolute; bottom: 40px; left: 50%;
             transform: translateX(-50%);
@@ -244,7 +243,6 @@
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-        // --- CORE ---
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             if(player && typeof player.playVideo === 'function') {
@@ -253,22 +251,18 @@
             }
         }
 
-        // --- SCROLL REVEAL & FADE ---
         window.addEventListener("scroll", () => {
             const scrollDown = document.querySelector(".scroll-down-wrapper");
             const reveals = document.querySelectorAll(".reveal");
 
-            // Scroll Down Yazısı Kontrolü
             if (window.scrollY > 80) scrollDown.classList.add("fade-out");
             else scrollDown.classList.remove("fade-out");
 
-            // Kartların Belirmesi
             reveals.forEach(el => {
                 if (el.getBoundingClientRect().top < window.innerHeight - 150) el.classList.add("active");
             });
         });
 
-        // --- BG PARTICLES ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -297,7 +291,6 @@
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-        // --- MUSIC ENGINE ---
         const playlistData = [
             { id: '_9bw_VtMUGA', title: 'MILIARDARA' },
             { id: 'KhqNTjbQ71A', title: 'AKŞAMLAR' },
