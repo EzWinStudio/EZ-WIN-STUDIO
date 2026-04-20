@@ -86,26 +86,20 @@
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* --- MODERN THEME MENU UI --- */
-        #themeMenu { right: 0; width: 240px; padding: 15px; }
-        .theme-header { font-family: 'Orbitron'; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 3px; margin-bottom: 15px; padding-left: 5px; }
+        /* --- YENİ TEMA MENÜSÜ --- */
+        #themeMenu { right: 0; width: 220px; padding: 15px; }
+        .theme-header { font-family: 'Orbitron'; font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 2px; margin-bottom: 12px; }
         .theme-grid { display: flex; flex-direction: column; gap: 8px; }
         .theme-option {
-            display: flex; align-items: center; gap: 12px; padding: 12px;
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 14px; cursor: pointer; transition: 0.3s;
-            font-family: 'Orbitron'; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7);
+            display: flex; align-items: center; gap: 10px; padding: 10px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; cursor: pointer; transition: 0.3s;
+            font-family: 'Orbitron'; font-size: 10px; font-weight: 700;
         }
-        .theme-option:hover {
-            background: rgba(255,255,255,0.06); color: white; transform: scale(1.02);
-        }
-        .theme-option .t-dot { width: 12px; height: 12px; border-radius: 50%; }
-        /* Özel hover renkleri */
-        .theme-option.t-blue:hover { border-color: #007cf0; box-shadow: 0 0 15px rgba(0, 124, 240, 0.3); }
-        .theme-option.t-cyber:hover { border-color: #ff0080; box-shadow: 0 0 15px rgba(255, 0, 128, 0.3); }
-        .theme-option.t-emerald:hover { border-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
+        .theme-option:hover { background: rgba(255,255,255,0.08); transform: translateX(-5px); border-color: var(--accent-primary); }
+        .t-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
 
-        /* --- MÜZİK PANELİ (GÖRSELDEKİ) --- */
+        /* --- ŞARKI PANELİ (RESİMDEKİ) --- */
         #media-toast {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
             z-index: 100005; opacity: 0; pointer-events: none; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -119,10 +113,9 @@
         .toast-card i { font-size: 45px; color: var(--accent-secondary); text-shadow: 0 0 20px var(--accent-secondary); }
         .toast-card span { font-family: 'Orbitron'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: white; text-align: center; }
 
-        /* --- UI ELEMENTLERİ --- */
+        /* --- UI --- */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; }
         .ui-element.show { opacity: 1; pointer-events: all; }
-        
         .animated-text { 
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink), var(--accent-emerald));
@@ -140,13 +133,6 @@
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
-
-        .btn-wide {
-            grid-column: span 3; margin-top: 10px;
-            border: 2px solid var(--accent-primary);
-            background: linear-gradient(90deg, rgba(0, 124, 240, 0.2), transparent);
-            letter-spacing: 5px; text-transform: uppercase;
-        }
 
         .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); cursor: pointer; transition: 0.5s; z-index: 10; }
         .scroll-down.hide { opacity: 0; pointer-events: none; }
@@ -170,7 +156,7 @@
     <div id="media-toast">
         <div class="toast-card">
             <i class="fas fa-music"></i>
-            <span id="toastTrackName">PLAYING: RAUF FAIK - AKŞAMLAR</span>
+            <span id="toastTrackName">PLAYING...</span>
         </div>
     </div>
 
@@ -178,9 +164,7 @@
         <div class="ios-notification">
             <div class="ios-icon"></div>
             <div class="marquee-container">
-                <div class="ios-marquee">
-                    EZWIN STUDIO V4.8 ONLINE • STABLE PERFORMANCE • PREMIUM UI • JOIN THE ECOSYSTEM • WELCOME BACK
-                </div>
+                <div class="ios-marquee">EZWIN STUDIO V4.8 ONLINE • STABLE PERFORMANCE • PREMIUM UI • WELCOME BACK</div>
             </div>
         </div>
     </div>
@@ -188,7 +172,7 @@
     <div class="music-widget ui-element">
         <div class="control-btn" onclick="togglePanel('musicPanel')"><i class="fas fa-compact-disc fa-spin"></i></div>
         <div class="panel-flyout" id="musicPanel" style="left: 0; width: 280px;">
-            <div style="font-family:'Orbitron'; font-size:9px; color:var(--accent-primary); margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px;" id="trackName">LOADING...</div>
+            <div style="font-family:'Orbitron'; font-size:9px; color:var(--accent-primary); margin-bottom:15px;" id="trackName">LOADING...</div>
             <div style="display:flex; justify-content: space-evenly; align-items:center; margin-bottom: 25px;">
                 <i class="fas fa-backward" onclick="prevTrack()" style="cursor:pointer;"></i>
                 <div style="width:45px; height:45px; background:var(--accent-primary); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="togglePlay()">
@@ -203,20 +187,11 @@
     <div class="theme-wrapper ui-element">
         <div class="control-btn" onclick="togglePanel('themeMenu')"><i class="fas fa-palette"></i></div>
         <div class="panel-flyout" id="themeMenu">
-            <div class="theme-header">CORE ENGINE</div>
+            <div class="theme-header">SELECT CORE</div>
             <div class="theme-grid">
-                <div class="theme-option t-blue" onclick="changeTheme('blue')">
-                    <div class="t-dot" style="background:#007cf0;"></div>
-                    NEON BLUE
-                </div>
-                <div class="theme-option t-cyber" onclick="changeTheme('cyber')">
-                    <div class="t-dot" style="background:#ff0080;"></div>
-                    CYBER PINK
-                </div>
-                <div class="theme-option t-emerald" onclick="changeTheme('emerald')">
-                    <div class="t-dot" style="background:#00ff88;"></div>
-                    EMERALD
-                </div>
+                <div class="theme-option" onclick="changeTheme('blue')"><div class="t-dot" style="color:#007cf0; background:#007cf0;"></div>NEON BLUE</div>
+                <div class="theme-option" onclick="changeTheme('cyber')"><div class="t-dot" style="color:#ff0080; background:#ff0080;"></div>CYBER PINK</div>
+                <div class="theme-option" onclick="changeTheme('emerald')"><div class="t-dot" style="color:#00ff88; background:#00ff88;"></div>EMERALD</div>
             </div>
         </div>
     </div>
@@ -227,13 +202,13 @@
             <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;">CORE DEVELOPMENT</p>
             
             <div class="links-grid">
-                <a href="#" target="_blank" class="btn"><i class="fas fa-music"></i><span>MUSIC</span></a>
-                <a href="#" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
-                <a href="#" target="_blank" class="btn"><i class="fas fa-code"></i><span>PROJECTS</span></a>
-                <a href="#" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>SERVICES</span></a>
-                <a href="#" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>CHANNELS</span></a>
-                <a href="#" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>DATABASE</span></a>
-                <a href="https://discord.gg/ezwinstudio" target="_blank" class="btn btn-wide"><i class="fab fa-discord"></i><span>JOIN OFFICIAL DISCORD</span></a>
+                <a href="https://www.youtube.com/playlist?list=RD8KqcE6QSe9E" target="_blank" class="btn"><i class="fas fa-music"></i><span>MUSIC</span></a>
+                <a href="https://www.youtube.com/@EZWINSTUDIO" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
+                <a href="https://www.roblox.com/games/123456789/EZWIN-UNCOPYLOCKED" target="_blank" class="btn"><i class="fas fa-code"></i><span>EZWIN UNCOPYLOCKED</span></a>
+                <a href="https://discord.gg/ezwinstudio" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>SERVICES</span></a>
+                <a href="https://t.me/ezwinstudio" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>CHANNELS</span></a>
+                <a href="https://ezwin-cheats.com" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>EZWIN CHEATS</span></a>
+                <a href="https://discord.gg/ezwinstudio" target="_blank" class="btn" style="grid-column: span 3; margin-top: 10px; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span>JOIN OFFICIAL DISCORD</span></a>
             </div>
 
             <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')"><i class="fas fa-chevron-down"></i></div>
