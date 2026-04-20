@@ -20,11 +20,12 @@
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
-            font-family: 'Inter', sans-serif; overflow: hidden;
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; /* Scroll için y-eksenini açtık */
             user-select: none;
         }
 
-        
+        /* --- ANNOUNCEMENT --- */
         .announcement-bar {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
             width: 300px; background: var(--glass);
@@ -49,7 +50,7 @@
         }
         @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-       
+        /* --- OVERLAYS & TAGS --- */
         .copyright-tag {
             position: fixed; bottom: 20px; right: 30px; z-index: 100;
             font-size: 12px; font-weight: 800; letter-spacing: 2px;
@@ -58,7 +59,6 @@
             animation: flow 3s linear infinite;
         }
 
-      
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 9999;
@@ -85,11 +85,12 @@
         }
         @keyframes flow { 0% { background-position: 0% center; } 50% { background-position: 100% center; } 100% { background-position: 0% center; } }
 
-        .main-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; }
+        /* --- MAIN LAYOUT --- */
+        .main-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding-top: 50px; }
         .header h1 { font-size: 5rem; margin: 0; letter-spacing: -4px; filter: drop-shadow(0 0 20px rgba(0, 124, 240, 0.6)); }
         .sub-header { font-size: 12px; letter-spacing: 6px; opacity: 0.7; margin-bottom: 50px; color: var(--accent-secondary); }
 
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 900px; margin-bottom: 50px;}
         .btn {
             position: relative; background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 24px; border-radius: 15px; color: white; text-decoration: none;
@@ -99,6 +100,60 @@
         }
         .btn:hover { transform: translateY(-10px) scale(1.02); border-color: var(--accent-primary); box-shadow: 0 20px 40px rgba(0, 124, 240, 0.3); }
 
+        /* --- NEW PROJECTS SECTION --- */
+        .projects-section {
+            position: relative; z-index: 10; padding: 100px 20px;
+            max-width: 1100px; margin: 0 auto; text-align: center;
+        }
+        .section-tag {
+            display: inline-block; background: rgba(0, 223, 216, 0.1); color: var(--accent-secondary);
+            padding: 6px 16px; border-radius: 20px; font-size: 11px; font-weight: 900;
+            margin-bottom: 15px; border: 1px solid rgba(0, 223, 216, 0.2);
+        }
+        .section-title { font-size: 3.5rem; margin-bottom: 60px; letter-spacing: -2px; }
+
+        .projects-grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .project-card {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px; padding: 40px; text-align: left;
+            backdrop-filter: blur(20px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .project-card:hover {
+            transform: translateY(-15px); background: rgba(255, 255, 255, 0.04);
+            border-color: var(--accent-primary); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-icon {
+            width: 55px; height: 55px; background: rgba(0, 124, 240, 0.1); color: var(--accent-primary);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 15px; font-size: 22px; margin-bottom: 25px;
+        }
+        .project-card h3 { font-size: 24px; margin: 0 0 10px 0; font-weight: 800; }
+        .card-tag {
+            display: inline-block; background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px; border-radius: 8px; font-size: 10px; font-weight: 900;
+            color: var(--accent-secondary); margin-bottom: 20px; text-transform: uppercase;
+        }
+        .project-card p { color: #999; line-height: 1.7; font-size: 14.5px; margin-bottom: 30px; min-height: 80px; }
+
+        .status-bar {
+            font-size: 12px; color: #555; display: flex; align-items: center;
+            gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px; font-weight: 700;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #444; }
+        .dot.active { 
+            background: #00ff88; box-shadow: 0 0 12px #00ff88; 
+            animation: pulse-green 2s infinite; 
+        }
+        @keyframes pulse-green { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .reveal { opacity: 0; transform: translateY(80px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- WIDGETS --- */
         .visitor-counter {
             position: fixed; bottom: 20px; left: 30px; z-index: 100;
             display: flex; align-items: center; gap: 10px;
@@ -178,51 +233,62 @@
         </div>
     </div>
 
+    <div class="projects-section" id="projects">
+        <div class="section-tag"><span><i class="fas fa-layer-group"></i> NE YAPIYORUM?</span></div>
+        <h2 class="section-title animated-text">Projeler & Yetenekler</h2>
+        
+        <div class="projects-grid-layout">
+            <div class="project-card reveal">
+                <div class="card-icon"><i class="fas fa-code"></i></div>
+                <h3>Software & Development</h3>
+                <div class="card-tag">JS / TS</div>
+                <p>TypeScript ile gelişmiş CLI araçları ve web projeleri geliştiriyorum. Node.js kullanarak yüksek performanslı Discord botları tasarlıyorum.</p>
+                <div class="status-bar"><span class="dot active"></span> Active Development</div>
+            </div>
+
+            <div class="project-card reveal">
+                <div class="card-icon"><i class="fas fa-coins"></i></div>
+                <h3>Robux Sales & Trading</h3>
+                <div class="card-tag">ROBLOX</div>
+                <p>Güvenilir ve hızlı Robux ticareti sağlıyorum. Stok ve fiyat bilgisi için doğrudan iletişime geçebilirsiniz.</p>
+                <div class="status-bar"><span class="dot" style="background: #ff4444;"></span> Out of Stock</div>
+            </div>
+
+            <div class="project-card reveal">
+                <div class="card-icon"><i class="fas fa-headset"></i></div>
+                <h3>Communication & Support</h3>
+                <div class="card-tag">24/7</div>
+                <p>Sorularınız için çekinmeden ulaşın. Discord üzerinden bana her zaman ulaşabilirsiniz.</p>
+                <div class="status-bar"><span class="dot active"></span> Online</div>
+            </div>
+        </div>
+    </div>
+
     <div id="yt-player-container" style="display:none;"><div id="yt-player"></div></div>
 
     <script>
-     
+        // --- GÜVENLİK ---
         (function() {
             const blockConsole = () => {
-                const style = "color: #007cf0; font-size: 40px; font-weight: bold; text-shadow: 0 0 10px #007cf0; padding: 20px;";
                 console.clear();
-                console.log("%cEZWIN SECURITY", style);
-                console.log("%cConsole is locked. Script injection disabled.", "color: red; font-size: 12px;");
+                console.log("%cEZWIN SECURITY", "color: #007cf0; font-size: 40px; font-weight: bold;");
             };
-
-            const noop = () => {};
-            Object.defineProperty(window, 'console', {
-                value: {
-                    log: blockConsole,
-                    info: noop,
-                    warn: noop,
-                    error: noop,
-                    clear: noop,
-                    debug: noop
-                },
-                writable: false,
-                configurable: false
-            });
-
             setInterval(blockConsole, 2000);
         })();
 
-   
         document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = e => { 
-            if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; 
-        };
+        document.onkeydown = e => { if(e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) return false; };
 
-   
+        // --- VISITOR COUNT ---
         let visits = localStorage.getItem('visit_count') || 1240;
         visits = parseInt(visits) + 1;
         localStorage.setItem('visit_count', visits);
         document.getElementById('vCount').innerText = visits.toLocaleString();
 
-   
+        // --- BACKGROUND ANIMATION ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'WIN', 'ROOT', 'BATU', 'HZEZ', 'R-Ğ', 'DİYARBAKIRLI', 'GAY UMUT', 'ADAŞ :>', 'PARA BABASI'];
+        const words = ['EZWIN', 'SYSTEM', 'STUDIO', 'CODE', 'ROOT', 'BATU', 'PARA BABASI'];
         let particles = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
@@ -235,35 +301,40 @@
         function animate() { ctx.clearRect(0,0, canvas.width, canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-    
+        // --- SCROLL REVEAL ---
+        function handleScrollReveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < window.innerHeight - 100) el.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", handleScrollReveal);
+
+        // --- MUSIC SYSTEM ---
         const playlistData = [
             { id: '_9bw_VtMUGA', title: 'New Person' },
             { id: 'KhqNTjbQ71A', title: 'Last Christmas' },
-            { id: '8KqcE6QSe9E', title: 'Glass Animals - Take A Slice' },
+            { id: '8KqcE6QSe9E', title: 'Take A Slice' },
         ];
         let currentTrack = 0, player, isPlaying = false, hudTimer, songTimer;
 
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             if(player && typeof player.playVideo === 'function') {
-                player.setVolume(50);
-                player.playVideo();
-                isPlaying = true;
+                player.setVolume(50); player.playVideo(); isPlaying = true;
                 document.getElementById('playBtn').className = "fas fa-pause";
                 showSongHud(playlistData[currentTrack].title);
             }
+            handleScrollReveal(); // İlk yüklemede kontrol et
         }
 
         var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
-        
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlistData[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'origin': window.location.origin },
-                events: { 
-                    'onReady': onPlayerReady, 
-                    'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } 
-                }
+                playerVars: { 'autoplay': 0, 'controls': 0 },
+                events: { 'onReady': onPlayerReady, 'onStateChange': (e) => { if(e.data === 0) playTrack((currentTrack + 1) % playlistData.length); } }
             });
         }
 
@@ -276,32 +347,22 @@
             };
             document.getElementById('next').onclick = () => playTrack((currentTrack + 1) % playlistData.length);
             document.getElementById('prev').onclick = () => playTrack((currentTrack - 1 + playlistData.length) % playlistData.length);
-            
             document.getElementById('volume').oninput = (e) => {
-                let vol = e.target.value;
-                player.setVolume(vol);
+                let vol = e.target.value; player.setVolume(vol);
                 showVolumeHud(`SES: %${vol}`, vol == 0 ? "fa-volume-mute" : "fa-volume-high");
             };
             renderPlaylist();
         }
 
         function playTrack(i) {
-            currentTrack = i;
-            player.loadVideoById(playlistData[i].id);
-            isPlaying = true;
+            currentTrack = i; player.loadVideoById(playlistData[i].id); isPlaying = true;
             document.getElementById('playBtn').className = "fas fa-pause";
-            renderPlaylist();
-            showSongHud(playlistData[i].title);
+            renderPlaylist(); showSongHud(playlistData[i].title);
         }
 
         function renderPlaylist() {
             const list = document.getElementById('musicList');
-            list.innerHTML = playlistData.map((t, i) => `
-                <div class="track-item ${i === currentTrack ? 'playing' : ''}" onclick="playTrack(${i})" style="display:flex; align-items:center; gap:10px; padding:10px; cursor:pointer; border-radius:10px; margin-bottom:5px; border: 1px solid ${i === currentTrack ? 'var(--accent-primary)' : 'transparent'}">
-                    <span style="color:var(--accent-primary)">0${i+1}</span>
-                    <span style="font-size:12px">${t.title}</span>
-                </div>
-            `).join('');
+            list.innerHTML = playlistData.map((t, i) => `<div class="track-item" onclick="playTrack(${i})" style="padding:10px; cursor:pointer; font-size:12px; border-bottom:1px solid rgba(255,255,255,0.05); color:${i===currentTrack?'#007cf0':'white'}">0${i+1}. ${t.title}</div>`).join('');
         }
 
         function showVolumeHud(text, iconClass) {
