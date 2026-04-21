@@ -307,10 +307,20 @@
 
         function scrollToTarget(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
 
+        // REKLAMI AZALTAN NO-COOKIE VE PARAMETRE AYARLARI
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: playlist[currentTrack],
-                playerVars: { 'autoplay': 0, 'controls': 0 },
+                height: '0', 
+                width: '0', 
+                videoId: playlist[currentTrack],
+                host: 'https://www.youtube-nocookie.com', // Çerezsiz host reklamı azaltır
+                playerVars: { 
+                    'autoplay': 0, 
+                    'controls': 0,
+                    'rel': 0,              // Başka video önermez
+                    'iv_load_policy': 3,   // Video içi notları kapatır
+                    'modestbranding': 1    // YouTube logosunu küçültür/gizler
+                },
                 events: { 
                     'onStateChange': (e) => { 
                         if(e.data == YT.PlayerState.PLAYING) {
@@ -318,7 +328,12 @@
                             document.getElementById('trackName').innerText = t;
                             triggerToast(t);
                         }
-                    } 
+                        // Video bitince otomatik diğerine geçiş reklam ihtimalini düşürür
+                        if(e.data == YT.PlayerState.ENDED) {
+                            nextTrack();
+                        }
+                    },
+                    'onError': () => nextTrack() // Bir hata (reklam engelleyici takılması vs) olursa şarkı atla
                 }
             });
         }
