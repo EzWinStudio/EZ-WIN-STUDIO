@@ -46,26 +46,81 @@
         }
         .enter-btn:hover { background: var(--accent-primary); box-shadow: 0 0 60px var(--accent-primary); }
 
-        /* --- BİLDİRİM PANELİ --- */
+        /* --- YENİ NESİL DUYURU SİSTEMİ (DYNAMIC ISLAND STYLE) --- */
         .notification-wrapper {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 10001; opacity: 0; transition: 1.5s ease;
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            z-index: 10001; transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .notification-wrapper.show { opacity: 1; }
+        .notification-wrapper.show { top: 25px; }
 
-        .ios-notification {
-            background: rgba(10, 10, 15, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px; padding: 10px 20px; display: flex; align-items: center; gap: 15px;
-            backdrop-filter: blur(25px); box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            width: 320px; overflow: hidden;
+        .dynamic-island {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid var(--accent-primary);
+            border-radius: 50px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px var(--accent-glow);
+            min-width: 280px;
+            max-width: 450px;
         }
-        .ios-icon { width: 8px; height: 8px; background: var(--accent-emerald); border-radius: 50%; box-shadow: 0 0 12px var(--accent-emerald); }
-        .marquee-container { width: 100%; overflow: hidden; position: relative; white-space: nowrap; }
-        .ios-marquee {
-            display: inline-block; font-size: 10px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px;
-            animation: marquee-scroll 30s linear infinite;
+
+        .status-badge {
+            background: rgba(255,255,255,0.05);
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-220%); } }
+
+        .status-dot {
+            width: 6px; height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-primary);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-text {
+            font-family: 'Orbitron';
+            font-size: 8px;
+            font-weight: 900;
+            color: var(--accent-primary);
+            letter-spacing: 1px;
+        }
+
+        .marquee-box {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            font-family: 'Inter';
+            font-size: 11px;
+            font-weight: 700;
+            color: #eee;
+            letter-spacing: 0.5px;
+            animation: marquee-move 15s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200%); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
 
         /* --- WIDGETS --- */
         .music-widget { position: fixed; top: 90px; left: 25px; z-index: 10002; }
@@ -190,19 +245,22 @@
         <button class="enter-btn" onclick="startSystem()">ENTER HUB</button>
     </div>
 
+    <div class="notification-wrapper" id="statusNotify">
+        <div class="dynamic-island">
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <div class="status-text">LIVE</div>
+            </div>
+            <div class="marquee-box">
+                <div class="marquee-content">EZWIN STUDIO V4.8 ONLINE • STABLE PERFORMANCE • NEW PREMIUM UI LOADED • WELCOME BACK BOSS</div>
+            </div>
+        </div>
+    </div>
+
     <div id="media-toast">
         <div class="toast-card">
             <i class="fas fa-music"></i>
             <span id="toastTrackName">PLAYING...</span>
-        </div>
-    </div>
-
-    <div class="notification-wrapper" id="iosNotify">
-        <div class="ios-notification">
-            <div class="ios-icon"></div>
-            <div class="marquee-container">
-                <div class="ios-marquee">EZWIN STUDIO V4.8 ONLINE • STABLE PERFORMANCE • PREMIUM UI • WELCOME BACK</div>
-            </div>
         </div>
     </div>
 
@@ -289,7 +347,7 @@
             document.body.classList.remove('locked');
             setTimeout(() => {
                 document.getElementById('main').style.opacity = "1";
-                document.getElementById('iosNotify').classList.add('show');
+                document.getElementById('statusNotify').classList.add('show');
                 document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
                 if(player) { player.playVideo(); isPlaying = true; document.getElementById('playIcon').className = "fas fa-pause"; }
             }, 600);
@@ -307,20 +365,11 @@
 
         function scrollToTarget(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
 
-        // REKLAMI AZALTAN NO-COOKIE VE PARAMETRE AYARLARI
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
-                height: '0', 
-                width: '0', 
-                videoId: playlist[currentTrack],
-                host: 'https://www.youtube-nocookie.com', // Çerezsiz host reklamı azaltır
-                playerVars: { 
-                    'autoplay': 0, 
-                    'controls': 0,
-                    'rel': 0,              // Başka video önermez
-                    'iv_load_policy': 3,   // Video içi notları kapatır
-                    'modestbranding': 1    // YouTube logosunu küçültür/gizler
-                },
+                height: '0', width: '0', videoId: playlist[currentTrack],
+                host: 'https://www.youtube-nocookie.com',
+                playerVars: { 'autoplay': 0, 'controls': 0, 'rel': 0, 'iv_load_policy': 3, 'modestbranding': 1 },
                 events: { 
                     'onStateChange': (e) => { 
                         if(e.data == YT.PlayerState.PLAYING) {
@@ -328,12 +377,9 @@
                             document.getElementById('trackName').innerText = t;
                             triggerToast(t);
                         }
-                        // Video bitince otomatik diğerine geçiş reklam ihtimalini düşürür
-                        if(e.data == YT.PlayerState.ENDED) {
-                            nextTrack();
-                        }
+                        if(e.data == YT.PlayerState.ENDED) { nextTrack(); }
                     },
-                    'onError': () => nextTrack() // Bir hata (reklam engelleyici takılması vs) olursa şarkı atla
+                    'onError': () => nextTrack()
                 }
             });
         }
@@ -356,12 +402,22 @@
         }
 
         function changeTheme(tk) {
-            const themes = { blue: {p:'#007cf0', s:'#00dfd8'}, cyber: {p:'#ff0080', s:'#7928ca'}, emerald: {p:'#00ff88', s:'#00a1ff'} };
+            const themes = { 
+                blue: {p:'#007cf0', s:'#00dfd8', g:'rgba(0, 124, 240, 0.4)'}, 
+                cyber: {p:'#ff0080', s:'#7928ca', g:'rgba(255, 0, 128, 0.4)'}, 
+                emerald: {p:'#00ff88', s:'#00a1ff', g:'rgba(0, 255, 136, 0.4)'} 
+            };
             const t = themes[tk];
             document.documentElement.style.setProperty('--accent-primary', t.p);
             document.documentElement.style.setProperty('--accent-secondary', t.s);
+            document.documentElement.style.setProperty('--accent-glow', t.g);
             pColor = t.p;
             document.querySelector('.logo-box').style.background = t.p;
+            
+            // Duyuru barı rengini de güncelle
+            const island = document.querySelector('.dynamic-island');
+            if(island) island.style.borderBottomColor = t.p;
+
             document.querySelectorAll('.panel-flyout').forEach(el => el.classList.remove('active'));
         }
 
