@@ -67,7 +67,7 @@
         }
         @keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-220%); } }
 
-        /* --- WIDGETS & MODIFIED MUSIC PLAYER --- */
+        /* --- WIDGETS --- */
         .music-widget { position: fixed; top: 90px; left: 25px; z-index: 10002; }
         .theme-wrapper { position: fixed; top: 90px; right: 25px; z-index: 10002; }
         
@@ -88,51 +88,35 @@
             border: 1px solid rgba(255,255,255,0.1); border-radius: 28px; padding: 25px;
             opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 30px 60px rgba(0,0,0,0.9); backdrop-filter: blur(25px);
+            right: 0; /* Sağ tarafa yasladık */
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* YENİ MÜZİK PLAYER DETAYLARI */
-        #musicPanel { width: 300px; }
-        .player-visualizer {
-            display: flex; justify-content: center; gap: 3px; height: 30px; align-items: flex-end; margin-bottom: 15px;
+        /* --- TEMA MENÜSÜ STİLLERİ (EKSİK OLAN KISIM) --- */
+        .theme-header { font-family: 'Orbitron'; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-bottom: 15px; text-align: center; }
+        .theme-grid { display: flex; flex-direction: column; gap: 10px; width: 180px; }
+        .theme-option {
+            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; cursor: pointer; transition: 0.3s;
+            font-family: 'Orbitron'; font-size: 10px; font-weight: 700; color: white;
         }
+        .theme-option:hover { background: rgba(255,255,255,0.08); border-color: var(--accent-primary); transform: translateX(-5px); }
+        .t-dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+
+        /* MÜZİK PLAYER */
+        #musicPanel { width: 300px; left: 0; }
+        .player-visualizer { display: flex; justify-content: center; gap: 3px; height: 30px; align-items: flex-end; margin-bottom: 15px; }
         .v-bar { width: 3px; background: var(--accent-primary); border-radius: 10px; animation: v-anim 0.5s ease-in-out infinite alternate; }
         @keyframes v-anim { 0% { height: 5px; } 100% { height: 25px; } }
-
         .track-info { margin-bottom: 20px; text-align: center; }
-        .track-title { font-family: 'Orbitron'; font-size: 10px; color: var(--accent-primary); font-weight: 900; letter-spacing: 1px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; }
-        
+        .track-title { font-family: 'Orbitron'; font-size: 10px; color: var(--accent-primary); font-weight: 900; letter-spacing: 1px; }
         .player-controls { display: flex; align-items: center; justify-content: center; gap: 25px; margin-bottom: 20px; }
-        .nav-btn { font-size: 18px; color: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; }
-        .nav-btn:hover { color: var(--accent-primary); transform: scale(1.2); }
-        
-        .main-play-btn {
-            width: 60px; height: 60px; background: var(--accent-primary); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 0 25px var(--accent-glow); transition: 0.3s;
-        }
-        .main-play-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--accent-primary); }
-        .main-play-btn i { font-size: 22px; color: white; }
-
+        .main-play-btn { width: 60px; height: 60px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 25px var(--accent-glow); }
         .vol-container { display: flex; align-items: center; gap: 10px; }
-        .vol-container i { font-size: 12px; color: rgba(255,255,255,0.4); }
         #volRange { flex: 1; accent-color: var(--accent-primary); height: 4px; cursor: pointer; }
 
-        /* --- ŞARKI PANELİ TOAST --- */
-        #media-toast {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            z-index: 100005; opacity: 0; pointer-events: none; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        #media-toast.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .toast-card {
-            background: #000; border: 2.5px solid var(--accent-secondary);
-            border-radius: 35px; padding: 35px 55px; display: flex; flex-direction: column;
-            align-items: center; gap: 15px; box-shadow: 0 0 60px var(--accent-glow);
-        }
-        .toast-card i { font-size: 45px; color: var(--accent-secondary); text-shadow: 0 0 20px var(--accent-secondary); }
-        .toast-card span { font-family: 'Orbitron'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: white; text-align: center; }
-
-        /* --- UI ELEMENTS --- */
+        /* GENEL UI */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; }
         .ui-element.show { opacity: 1; pointer-events: all; }
         .animated-text { 
@@ -148,35 +132,27 @@
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 25px; border-radius: 16px; color: white; text-decoration: none;
             font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; transition: 0.4s;
-            display: flex; flex-direction: column; align-items: center; gap: 12px;
-            text-align: center;
+            display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
-
-        .scroll-down { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); cursor: pointer; transition: 0.5s; z-index: 10; }
-        .scroll-down.hide { opacity: 0; pointer-events: none; }
-        .scroll-down i { font-size: 26px; color: var(--accent-primary); animation: bounce 2s infinite; }
 
         .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; z-index: 100; }
         .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; z-index: 100; }
 
         /* PROJECTS */
-        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; padding: 20px; }
         .project-card {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 40px 30px; text-align: center;
-            transition: 0.4s; position: relative; overflow: hidden;
+            border-radius: 20px; padding: 40px 30px; text-align: center; transition: 0.4s;
         }
         .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 40px var(--accent-glow); }
         .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; }
-        .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
-        .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+        .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; }
 
         @media(max-width: 768px) {
-            .projects-grid { grid-template-columns: 1fr; }
-            .links-grid { grid-template-columns: 1fr; }
+            .projects-grid, .links-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -187,13 +163,6 @@
     <div id="enter-overlay">
         <h1 class="animated-text" style="font-size: clamp(45px, 9vw, 80px); margin: 0; text-align: center;">EZWIN STUDIO</h1>
         <button class="enter-btn" onclick="startSystem()">ENTER HUB</button>
-    </div>
-
-    <div id="media-toast">
-        <div class="toast-card">
-            <i class="fas fa-music"></i>
-            <span id="toastTrackName">PLAYING...</span>
-        </div>
     </div>
 
     <div class="notification-wrapper" id="iosNotify">
@@ -215,83 +184,51 @@
                 <div class="v-bar" style="animation-delay: 0.5s"></div>
                 <div class="v-bar" style="animation-delay: 0.4s"></div>
             </div>
-            
             <div class="track-info">
-                <div class="track-title" id="trackName">WAITING FOR SYSTEM...</div>
+                <div class="track-title" id="trackName">WAITING...</div>
             </div>
-
             <div class="player-controls">
                 <i class="fas fa-step-backward nav-btn" onclick="prevTrack()"></i>
-                <div class="main-play-btn" onclick="togglePlay()">
-                    <i class="fas fa-play" id="playIcon"></i>
-                </div>
+                <div class="main-play-btn" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></div>
                 <i class="fas fa-step-forward nav-btn" onclick="nextTrack()"></i>
             </div>
-
             <div class="vol-container">
-                <i class="fas fa-volume-down"></i>
                 <input type="range" id="volRange" min="0" max="100" value="50">
-                <i class="fas fa-volume-up"></i>
             </div>
         </div>
     </div>
 
     <div class="theme-wrapper ui-element">
         <div class="control-btn theme-btn" onclick="togglePanel('themeMenu')">
-            <i class="fas fa-palette"></i>
-            <span>THEMES</span>
+            <i class="fas fa-palette"></i> <span>THEMES</span>
         </div>
         <div class="panel-flyout" id="themeMenu">
-            <div class="theme-header">THEME MENU</div>
+            <div class="theme-header">SELECT THEME</div>
             <div class="theme-grid">
-                <div class="theme-option" onclick="changeTheme('blue')"><div class="t-dot" style="color:#007cf0; background:#007cf0;"></div>NEON BLUE</div>
-                <div class="theme-option" onclick="changeTheme('cyber')"><div class="t-dot" style="color:#ff0080; background:#ff0080;"></div>CYBER PINK</div>
-                <div class="theme-option" onclick="changeTheme('emerald')"><div class="t-dot" style="color:#00ff88; background:#00ff88;"></div>EMERALD</div>
+                <div class="theme-option" onclick="changeTheme('blue')">
+                    <div class="t-dot" style="color:#007cf0; background:#007cf0;"></div>NEON BLUE
+                </div>
+                <div class="theme-option" onclick="changeTheme('cyber')">
+                    <div class="t-dot" style="color:#ff0080; background:#ff0080;"></div>CYBER PINK
+                </div>
+                <div class="theme-option" onclick="changeTheme('emerald')">
+                    <div class="t-dot" style="color:#00ff88; background:#00ff88;"></div>EMERALD
+                </div>
             </div>
         </div>
     </div>
 
     <div class="main-content" id="main" style="opacity:0">
-        <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position: relative;">
-            <h1 class="animated-text" style="font-size: clamp(50px, 11vw, 100px); margin:0; letter-spacing:-4px;">EZWIN STUDIO</h1>
-            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;">POWERED BY EZWINSTUDIO</p>
-
+        <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <h1 class="animated-text" style="font-size: clamp(50px, 11vw, 100px); margin:0;">EZWIN STUDIO</h1>
             <div class="links-grid">
-                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span>JOIN EZWIN MUSIC</span></a>
-                <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
-                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span>JOIN EZWIN UNCOPYLOCKED</span></a>
-                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>EZWIN HESAP HIZMETLERI</span></a>
-                <a href=" https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>EZWIN MUSIC</span></a>
-                <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>EZWIN CHEATS</span></a>
-                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; margin-top: 10px; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span>JOIN EZWIN STUDIO</span></a>
-            </div>
-
-            <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')"><i class="fas fa-chevron-down"></i></div>
-        </section>
-
-        <section id="projects" style="min-height:100vh; padding: 120px 20px; display:flex; flex-direction:column; align-items:center;">
-            <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;">PROJECTS</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <i class="fas fa-gamepad"></i>
-                    <h3>EZWIN STUDIO</h3>
-                    <p>The core game development hub. Dedicated to creating immersive and high-quality experiences for the community.</p>
-                </div>
-                <div class="project-card">
-                    <i class="fas fa-terminal"></i>
-                    <h3>EZWIN CHEAT</h3>
-                    <p>Our specialized development studio focused on creating advanced scripts, exploits, and internal tools.</p>
-                </div>
-                <div class="project-card">
-                    <i class="fas fa-music"></i>
-                    <h3>EZWIN MUSIC</h3>
-                    <p>The official audio production workspace. Designed for composing, producing, and mixing original soundtracks.</p>
-                </div>
-                <div class="project-card">
-                    <i class="fas fa-user-shield"></i>
-                    <h3>EZWIN HESAP HIZMETLERI</h3>
-                    <p>Professional account boosting and management services. Providing secure, fast, and reliable grinding for players.</p>
-                </div>
+                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span>JOIN MUSIC</span></a>
+                <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
+                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span>UNCOPYLOCKED</span></a>
+                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>SERVICES</span></a>
+                <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>MUSIC YT</span></a>
+                <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>CHEATS</span></a>
+                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span>OFFICIAL DISCORD</span></a>
             </div>
         </section>
     </div>
@@ -322,15 +259,6 @@
             localStorage.setItem('ezCount', c);
         }
 
-        function triggerToast(title) {
-            const toast = document.getElementById('media-toast');
-            document.getElementById('toastTrackName').innerText = "PLAYING: " + title.toUpperCase();
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 3000);
-        }
-
-        function scrollToTarget(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlist[currentTrack],
@@ -338,12 +266,7 @@
                 events: { 
                     'onStateChange': (e) => { 
                         if(e.data == YT.PlayerState.PLAYING) {
-                            let t = player.getVideoData().title;
-                            document.getElementById('trackName').innerText = t;
-                            triggerToast(t);
-                            document.querySelectorAll('.v-bar').forEach(bar => bar.style.animationPlayState = 'running');
-                        } else {
-                            document.querySelectorAll('.v-bar').forEach(bar => bar.style.animationPlayState = 'paused');
+                            document.getElementById('trackName').innerText = player.getVideoData().title.substring(0, 25) + "...";
                         }
                     } 
                 }
@@ -358,7 +281,6 @@
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack]); }
         function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack]); }
-
         document.getElementById('volRange').oninput = (e) => player.setVolume(e.target.value);
 
         function togglePanel(id) {
@@ -369,19 +291,22 @@
         }
 
         function changeTheme(tk) {
-            const t = { blue: {p:'#007cf0', s:'#00dfd8'}, cyber: {p:'#ff0080', s:'#7928ca'}, emerald: {p:'#00ff88', s:'#00a1ff'} }[tk];
+            const themes = { 
+                blue: {p:'#007cf0', s:'#00dfd8'}, 
+                cyber: {p:'#ff0080', s:'#7928ca'}, 
+                emerald: {p:'#00ff88', s:'#00a1ff'} 
+            };
+            const t = themes[tk];
             document.documentElement.style.setProperty('--accent-primary', t.p);
             document.documentElement.style.setProperty('--accent-secondary', t.s);
             pColor = t.p;
-            document.querySelector('.logo-box').style.background = t.p;
-            document.querySelectorAll('.panel-flyout').forEach(el => el.classList.remove('active'));
+            
+            const logo = document.querySelector('.logo-box');
+            if(logo) logo.style.background = t.p;
+            
+            // Paneli kapat
+            document.getElementById('themeMenu').classList.remove('active');
         }
-
-        window.onscroll = () => {
-            const icon = document.getElementById('scrollIcon');
-            if(window.scrollY > 50) icon.classList.add('hide');
-            else icon.classList.remove('hide');
-        };
 
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
