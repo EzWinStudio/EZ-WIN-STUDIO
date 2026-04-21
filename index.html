@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EZWIN STUDIO | Premium Official</title>
+    <title>EZWIN STUDIO | Golden Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;800&display=swap" rel="stylesheet">
     <style>
@@ -13,10 +13,13 @@
             --accent-secondary: #00dfd8;
             --accent-pink: #ff0080;
             --accent-emerald: #00ff88;
+            /* YENİ: Altın Rengi Değişkenleri */
+            --accent-gold: #ffcc00;
+            --accent-gold-dark: #d4af37;
+            
             --accent-glow: rgba(0, 124, 240, 0.4);
             --glass: rgba(255, 255, 255, 0.04);
             --panel-bg: rgba(10, 10, 18, 0.95);
-            /* Aktif durumu için başlangıç rengi (Yeşil) */
             --status-active: #00ff88; 
         }
 
@@ -136,7 +139,6 @@
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* TEMA MENÜSÜ */
         .theme-header { font-family: 'Orbitron'; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-bottom: 15px; text-align: center; }
         .theme-grid { display: flex; flex-direction: column; gap: 10px; width: 180px; }
         .theme-option {
@@ -191,7 +193,7 @@
         .ui-element.show { opacity: 1; pointer-events: all; }
         .animated-text { 
             font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink), var(--accent-emerald));
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink), var(--accent-emerald), var(--accent-gold));
             background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: textFlow 5s ease infinite;
         }
@@ -211,77 +213,42 @@
         .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; z-index: 100; }
 
-        /* PROJECTS GENERAL STYLES */
+        /* PROJECTS */
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
         .project-card {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 40px 30px 60px 30px; /* Alttan boşluk ACTIVE barı için arttı */
+            border-radius: 20px; padding: 40px 30px 60px 30px; 
             text-align: center; transition: 0.4s; 
-            position: relative; /* ACTIVE barının konumlanması için gerekli */
+            position: relative; 
             overflow: hidden;
         }
         .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 40px var(--accent-glow); }
         .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; }
         .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
-        .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 0;}
+        .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
-        /* --- YENİ EKLENEN ACTIVE STATUS STİLLERİ --- */
         .card-status-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 35px; /* Bar yüksekliği */
-            background: rgba(0, 0, 0, 0.5); /* Hafif karartı */
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; /* Sola yasla */
-            padding-left: 20px; /* Soldan içerik boşluğu */
-            box-sizing: border-box;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 35px;
+            background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; align-items: center; justify-content: flex-start;
+            padding-left: 20px; box-sizing: border-box;
         }
 
-        .active-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px; /* Nokta ve yazı arası */
-        }
-
+        .active-indicator { display: flex; align-items: center; gap: 8px; }
         .active-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--status-active); /* Değişken renk */
-            border-radius: 50%;
-            position: relative;
-            box-shadow: 0 0 10px var(--status-active);
+            width: 8px; height: 8px; background-color: var(--status-active);
+            border-radius: 50%; position: relative; box-shadow: 0 0 10px var(--status-active);
         }
-
-        /* Noktanın arkasındaki dalgalanma efekti */
         .active-dot::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: var(--status-active);
-            border-radius: 50%;
-            animation: ripple 1.5s infinite;
-            opacity: 0;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--status-active); border-radius: 50%;
+            animation: ripple 1.5s infinite; opacity: 0;
         }
-
         .active-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 900;
-            color: var(--status-active); /* Değişken renk */
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 900;
+            color: var(--status-active); letter-spacing: 2px; text-transform: uppercase;
         }
-
-        /* Dalgalanma animasyonu */
-        @keyframes ripple {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
 
         @media(max-width: 768px) { .projects-grid, .links-grid { grid-template-columns: 1fr; } }
     </style>
@@ -344,6 +311,7 @@
                 <div class="theme-option" onclick="changeTheme('blue')"><div class="t-dot" style="color:#007cf0; background:#007cf0;"></div>NEON BLUE</div>
                 <div class="theme-option" onclick="changeTheme('cyber')"><div class="t-dot" style="color:#ff0080; background:#ff0080;"></div>CYBER PINK</div>
                 <div class="theme-option" onclick="changeTheme('emerald')"><div class="t-dot" style="color:#00ff88; background:#00ff88;"></div>EMERALD</div>
+                <div class="theme-option" onclick="changeTheme('gold')"><div class="t-dot" style="color:#ffcc00; background:#ffcc00;"></div>GOLDEN VIP</div>
             </div>
         </div>
     </div>
@@ -373,48 +341,20 @@
             <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;">PROJECTS</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <i class="fas fa-gamepad"></i>
-                    <h3>EZWIN STUDIO</h3>
-                    <p>The core game development hub. Dedicated to creating immersive and high-quality experiences for the community.</p>
-                    <div class="card-status-bar">
-                        <div class="active-indicator">
-                            <div class="active-dot"></div>
-                            <span class="active-text">ACTIVE</span>
-                        </div>
-                    </div>
+                    <i class="fas fa-gamepad"></i><h3>EZWIN STUDIO</h3><p>The core game development hub.</p>
+                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
                 </div>
                 <div class="project-card">
-                    <i class="fas fa-terminal"></i>
-                    <h3>EZWIN CHEAT</h3>
-                    <p>Our specialized development studio focused on creating advanced scripts, exploits, and internal tools.</p>
-                    <div class="card-status-bar">
-                        <div class="active-indicator">
-                            <div class="active-dot"></div>
-                            <span class="active-text">ACTIVE</span>
-                        </div>
-                    </div>
+                    <i class="fas fa-terminal"></i><h3>EZWIN CHEAT</h3><p>Our specialized development studio.</p>
+                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
                 </div>
                 <div class="project-card">
-                    <i class="fas fa-music"></i>
-                    <h3>EZWIN MUSIC</h3>
-                    <p>The official audio production workspace. Designed for composing, producing, and mixing original soundtracks.</p>
-                    <div class="card-status-bar">
-                        <div class="active-indicator">
-                            <div class="active-dot"></div>
-                            <span class="active-text">ACTIVE</span>
-                        </div>
-                    </div>
+                    <i class="fas fa-music"></i><h3>EZWIN MUSIC</h3><p>The official audio production workspace.</p>
+                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
                 </div>
                 <div class="project-card">
-                    <i class="fas fa-user-shield"></i>
-                    <h3>HESAP HIZMETLERI</h3>
-                    <p>Professional account boosting and management services. Providing secure, fast, and reliable grinding for players.</p>
-                    <div class="card-status-bar">
-                        <div class="active-indicator">
-                            <div class="active-dot"></div>
-                            <span class="active-text">ACTIVE</span>
-                        </div>
-                    </div>
+                    <i class="fas fa-user-shield"></i><h3>HESAP HIZMETLERI</h3><p>Professional account boosting services.</p>
+                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
                 </div>
             </div>
         </section>
@@ -491,29 +431,19 @@
             if(!wasActive) p.classList.add('active');
         }
 
-        // TEMA DEĞİŞTİRME FONKSİYONU - GÜNCELLENDİ
+        // TEMA DEĞİŞTİRME FONKSİYONU - GOLDEN EKLENDİ
         function changeTheme(tk) {
             const themes = { 
-                // Yeşil tonunu ACTIVE durumu için saklıyoruz, ana renk olarak kullanmıyoruz
-                blue: {p:'#007cf0', s:'#00dfd8', g:'rgba(0, 124, 240, 0.4)'}, 
-                cyber: {p:'#ff0080', s:'#7928ca', g:'rgba(255, 0, 128, 0.4)'}, 
-                emerald: {p:'#00ff88', s:'#00a1ff', g:'rgba(0, 255, 136, 0.4)'} 
+                blue: {p:'#007cf0', s:'#00dfd8', g:'rgba(0, 124, 240, 0.4)', active: '#00dfd8'}, 
+                cyber: {p:'#ff0080', s:'#7928ca', g:'rgba(255, 0, 128, 0.4)', active: '#ff0080'}, 
+                emerald: {p:'#00ff88', s:'#00a1ff', g:'rgba(0, 255, 136, 0.4)', active: '#00ff88'},
+                gold: {p:'#ffcc00', s:'#d4af37', g:'rgba(255, 204, 0, 0.4)', active: '#ffcc00'} // YENİ TEMA
             };
             const t = themes[tk];
             document.documentElement.style.setProperty('--accent-primary', t.p);
             document.documentElement.style.setProperty('--accent-secondary', t.s);
             document.documentElement.style.setProperty('--accent-glow', t.g);
-            
-            // --- YENİ: Tema değişince ACTIVE barının rengini güncelle ---
-            // 'EMERALD' seçildiyse zaten yeşil kalacak, diğerlerinde ana temayla uyumlu renk yapalım
-            if (tk === 'cyber') {
-                document.documentElement.style.setProperty('--status-active', '#ff0080'); // Pembeye dönüştür
-            } else if (tk === 'blue') {
-                document.documentElement.style.setProperty('--status-active', '#00dfd8'); // Turkuaza dönüştür
-            } else {
-                document.documentElement.style.setProperty('--status-active', '#00ff88'); // Varsayılan Yeşil
-            }
-            // ------------------------------------------------------------
+            document.documentElement.style.setProperty('--status-active', t.active);
 
             pColor = t.p;
             document.querySelector('.logo-box').style.background = t.p;
