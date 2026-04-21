@@ -8,8 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Arka planı zifiri karanlıktan bir tık açığa aldık */
-            --bg: #0a0a0f; 
+            var--bg: #0a0a0f; 
             --accent-primary: #007cf0;
             --accent-secondary: #00dfd8;
             --accent-pink: #ff0080;
@@ -27,7 +26,6 @@
         }
         body.locked { overflow: hidden; }
 
-        /* Arka plan yazılarının görünürlüğünü (opacity) artırdık (0.15'ten 0.4'e) */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; pointer-events: none; }
 
         /* --- GİRİŞ EKRANI --- */
@@ -80,7 +78,6 @@
         }
         .control-btn:hover { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); }
 
-        /* THEME BUTONUNU BELİRGİNLEŞTİRDİK */
         .theme-btn {
             width: auto; padding: 0 20px; gap: 10px;
             font-family: 'Orbitron'; font-weight: 800; font-size: 11px; letter-spacing: 2px;
@@ -138,6 +135,7 @@
             padding: 25px; border-radius: 16px; color: white; text-decoration: none;
             font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; transition: 0.4s;
             display: flex; flex-direction: column; align-items: center; gap: 12px;
+            text-align: center;
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
@@ -165,8 +163,8 @@
         }
         .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; transition: 0.4s; }
         .project-card:hover i { transform: scale(1.1); color: white; text-shadow: 0 0 20px var(--accent-primary); }
-        .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin: 0 0 10px 0; color: white; letter-spacing: 2px; }
-        .project-card p { font-size: 13px; color: rgba(255,255,255,0.6); margin: 0; line-height: 1.5; }
+        .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin: 0 0 15px 0; color: white; letter-spacing: 2px; }
+        .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.6; }
 
         @media(max-width: 768px) {
             .projects-grid { grid-template-columns: 1fr; }
@@ -254,22 +252,22 @@
                 <div class="project-card">
                     <i class="fas fa-gamepad"></i>
                     <h3>EZWIN STUDIO</h3>
-                    <p>Ana Oyun Stüdyomuz.</p>
+                    <p>The core game development hub. Dedicated to creating immersive and high-quality experiences for the community.</p>
                 </div>
                 <div class="project-card">
                     <i class="fas fa-terminal"></i>
                     <h3>EZWIN CHEAT</h3>
-                    <p>Hile Geliştirme Stüdyosu.</p>
+                    <p>Our specialized development studio focused on creating advanced scripts, exploits, and internal tools.</p>
                 </div>
                 <div class="project-card">
                     <i class="fas fa-music"></i>
                     <h3>EZWIN MUSIC</h3>
-                    <p>Müzik için kullandığım stüdyo.</p>
+                    <p>The official audio production workspace. Designed for composing, producing, and mixing original soundtracks.</p>
                 </div>
                 <div class="project-card">
                     <i class="fas fa-user-shield"></i>
                     <h3>EZWIN HESAP HIZMETLERI</h3>
-                    <p>Roblox'ta hesap kasma gibi hizmetlerin olduğu stüdyo.</p>
+                    <p>Professional account boosting and management services. Providing secure, fast, and reliable grinding for players.</p>
                 </div>
             </div>
         </section>
