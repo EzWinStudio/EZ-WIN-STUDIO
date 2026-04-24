@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,16 +97,11 @@
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        .theme-header { font-family: 'Orbitron'; font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-bottom: 15px; text-align: center; }
-        .theme-grid { display: flex; flex-direction: column; gap: 10px; width: 180px; }
         .theme-option {
-            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; cursor: pointer; transition: 0.3s;
-            font-family: 'Orbitron'; font-size: 10px; font-weight: 700; color: white;
+            padding: 12px 15px; background: rgba(255,255,255,0.03); margin-bottom: 8px;
+            border-radius: 10px; cursor: pointer; font-family: 'Orbitron'; font-size: 10px; transition: 0.3s;
         }
-        .theme-option:hover { background: rgba(255,255,255,0.08); border-color: var(--accent-primary); }
-        .t-dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+        .theme-option:hover { background: var(--accent-primary); }
 
         /* MÜZİK PLAYER */
         #musicPanel { width: 300px; left: 0; }
@@ -125,7 +120,7 @@
         #media-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); z-index: 100005; opacity: 0; pointer-events: none; transition: 0.5s; }
         #media-toast.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .toast-card { background: #000; border: 2.5px solid var(--accent-secondary); border-radius: 35px; padding: 35px 55px; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 0 60px var(--accent-glow); }
-        .toast-card span { font-family: 'Orbitron'; font-weight: 900; font-size: 14px; color: white; }
+        .toast-card span { font-family: 'Orbitron'; font-weight: 900; font-size: 14px; color: white; text-align: center; }
 
         /* SCROLL DOWN */
         .scroll-down { 
@@ -160,7 +155,7 @@
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
 
-        /* PROJECTS GRID - SENİN ORİJİNAL YAPIN */
+        /* PROJECTS GRID */
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
         .project-card {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
@@ -171,22 +166,19 @@
         .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
         .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
-        /* ACTIVE STATUS BAR */
         .card-status-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 35px; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding-left: 20px; box-sizing: border-box; }
-        .active-indicator { display: flex; align-items: center; gap: 8px; }
         .active-dot { width: 8px; height: 8px; background-color: var(--status-active); border-radius: 50%; position: relative; box-shadow: 0 0 10px var(--status-active); }
         .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
-        .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; }
+        .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; margin-left: 8px; }
         @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
 
-        /* CONTACT SECTION CSS */
+        /* CONTACT SECTION */
         .contact-container {
             width: 100%; max-width: 700px; background: var(--glass); 
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; 
             padding: 40px; box-sizing: border-box; backdrop-filter: blur(10px);
             transition: 0.4s;
         }
-        .contact-container:hover { border-color: var(--accent-primary); box-shadow: 0 15px 40px var(--accent-glow); }
         .contact-input {
             width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px; padding: 18px 20px; color: white; font-family: 'Orbitron', sans-serif;
@@ -199,13 +191,13 @@
             font-weight: 900; font-size: 14px; letter-spacing: 4px; cursor: pointer;
             transition: 0.4s; display: flex; align-items: center; justify-content: center; gap: 12px;
         }
-        .send-btn:hover { background: var(--accent-primary); box-shadow: 0 0 30px var(--accent-primary); transform: translateY(-3px); }
+        .send-btn:hover { background: var(--accent-primary); box-shadow: 0 0 30px var(--accent-primary); }
 
         .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; z-index: 100; }
         .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; z-index: 100; }
 
-        @media(max-width: 768px) { .projects-grid, .links-grid { grid-template-columns: 1fr; } }
+        @media(max-width: 768px) { .projects-grid, .links-grid { grid-template-columns: 1fr; } .links-grid .btn { grid-column: span 1 !important; } }
     </style>
 </head>
 <body class="locked">
@@ -224,16 +216,13 @@
                 <div class="status-text">LIVE</div>
             </div>
             <div class="marquee-box">
-                <div class="marquee-content">EZWIN STUDIO V4.8 ONLINE • NEW THEMES LOADED • LIL PEEP - NUTS ADDED</div>
+                <div class="marquee-content">EZWIN STUDIO V4.8 ONLINE • DATA SECURED BY EZWIN SECURITY • SYSTEM STABLE</div>
             </div>
         </div>
     </div>
 
     <div id="media-toast">
-        <div class="toast-card">
-            <i class="fas fa-music"></i>
-            <span id="toastTrackName">PLAYING...</span>
-        </div>
+        <div class="toast-card"><i class="fas fa-music"></i><span id="toastTrackName">PLAYING...</span></div>
     </div>
 
     <div class="music-widget ui-element">
@@ -248,9 +237,9 @@
             </div>
             <div class="track-info"><div class="track-title" id="trackName">WAITING...</div></div>
             <div class="player-controls">
-                <i class="fas fa-step-backward nav-btn" onclick="prevTrack()"></i>
+                <i class="fas fa-step-backward" onclick="prevTrack()" style="cursor:pointer"></i>
                 <div class="main-play-btn" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></div>
-                <i class="fas fa-step-forward nav-btn" onclick="nextTrack()"></i>
+                <i class="fas fa-step-forward" onclick="nextTrack()" style="cursor:pointer"></i>
             </div>
             <div class="vol-container"><input type="range" id="volRange" min="0" max="100" value="50"></div>
         </div>
@@ -259,13 +248,10 @@
     <div class="theme-wrapper ui-element">
         <div class="control-btn theme-btn" onclick="togglePanel('themeMenu')"><i class="fas fa-palette"></i> <span>THEMES</span></div>
         <div class="panel-flyout" id="themeMenu">
-            <div class="theme-header">THEME MENU</div>
-            <div class="theme-grid">
-                <div class="theme-option" onclick="changeTheme('blue')"><div class="t-dot" style="color:#007cf0; background:#007cf0;"></div>NEON BLUE</div>
-                <div class="theme-option" onclick="changeTheme('cyber')"><div class="t-dot" style="color:#ff0080; background:#ff0080;"></div>CYBER PINK</div>
-                <div class="theme-option" onclick="changeTheme('emerald')"><div class="t-dot" style="color:#00ff88; background:#00ff88;"></div>EMERALD</div>
-                <div class="theme-option" onclick="changeTheme('gold')"><div class="t-dot" style="color:#ffcc00; background:#ffcc00;"></div>GOLDEN VIP</div>
-            </div>
+            <div class="theme-option" onclick="changeTheme('blue')">NEON BLUE</div>
+            <div class="theme-option" onclick="changeTheme('cyber')">CYBER PINK</div>
+            <div class="theme-option" onclick="changeTheme('emerald')">EMERALD</div>
+            <div class="theme-option" onclick="changeTheme('gold')">GOLDEN VIP</div>
         </div>
     </div>
 
@@ -278,15 +264,14 @@
                 <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span>JOIN EZWIN MUSIC</span></a>
                 <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
                 <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span>JOIN EZWIN UNCOPYLOCKED</span></a>
-                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>EZWIN HESAP HIZMETLERI</span></a>
+                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>EZWIN ACCOUNT SERVICES</span></a>
                 <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>EZWIN MUSIC</span></a>
                 <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>EZWIN CHEATS</span></a>
                 <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span>JOIN EZWIN STUDIO</span></a>
             </div>
 
             <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
-                <span>SCROLL DOWN</span>
-                <i class="fas fa-chevron-down"></i>
+                <span>SCROLL DOWN</span><i class="fas fa-chevron-down"></i>
             </div>
         </section>
 
@@ -294,20 +279,24 @@
             <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;">PROJECTS</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <i class="fas fa-gamepad"></i><h3>EZWIN STUDIO</h3><p>The core game development hub.</p>
-                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
+                    <i class="fas fa-gamepad"></i><h3>EZWIN STUDIO</h3>
+                    <p>Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and unique map designs come to life here.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div>
                 </div>
                 <div class="project-card">
-                    <i class="fas fa-terminal"></i><h3>EZWIN CHEAT</h3><p>Our specialized development studio.</p>
-                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
+                    <i class="fas fa-terminal"></i><h3>EZWIN CHEAT</h3>
+                    <p>Technical team conducting experimental studies on game mechanics and software security. We work on software optimization and advanced scripting techniques.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div>
                 </div>
                 <div class="project-card">
-                    <i class="fas fa-music"></i><h3>EZWIN MUSIC</h3><p>The official audio production workspace.</p>
-                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
+                    <i class="fas fa-music"></i><h3>EZWIN MUSIC</h3>
+                    <p>Our digital audio processing and music production studio. We produce high-quality royalty-free audio files and atmospheric music for our projects.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div>
                 </div>
                 <div class="project-card">
-                    <i class="fas fa-user-shield"></i><h3>HESAP HIZMETLERI</h3><p>Professional account boosting services.</p>
-                    <div class="card-status-bar"><div class="active-indicator"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div></div>
+                    <i class="fas fa-user-shield"></i><h3>ACCOUNT SERVICES</h3>
+                    <p>A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text">ACTIVE</span></div>
                 </div>
             </div>
         </section>
@@ -319,6 +308,10 @@
                 <input type="email" id="contactEmail" placeholder="DISCORD / EMAIL" class="contact-input">
                 <textarea id="contactMessage" placeholder="ENTER YOUR MESSAGE..." rows="4" class="contact-input" style="resize: vertical;"></textarea>
                 <button id="sendBtn" class="send-btn" onclick="sendToDiscord()"><i class="fas fa-paper-plane"></i> SUBMIT</button>
+                <div style="margin-top: 20px; text-align: center; opacity: 0.6; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fas fa-shield-halved" style="color: var(--accent-primary); font-size: 12px;"></i>
+                    <span style="font-family: 'Orbitron'; font-size: 9px; letter-spacing: 1px; color: white;">DATA SECURED BY EZWIN SECURITY</span>
+                </div>
             </div>
         </section>
     </div>
@@ -333,7 +326,6 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player, isPlaying = false, pColor = "#007cf0", currentTrack = 0;
-        // LIL PEEP EKLENDİ
         const playlist = ['osPq9Yb8xm8', '_9bw_VtMUGA', '8KqcE6QSe9E', 'KhqNTjbQ71A'];
 
         function startSystem() {
@@ -363,7 +355,7 @@
             player = new YT.Player('yt-player', {
                 height: '0', width: '0', videoId: playlist[currentTrack],
                 host: 'https://www.youtube-nocookie.com',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'rel': 0, 'iv_load_policy': 3, 'modestbranding': 1 },
+                playerVars: { 'autoplay': 0, 'controls': 0, 'rel': 0, 'iv_load_policy': 3 },
                 events: { 
                     'onStateChange': (e) => { 
                         if(e.data == YT.PlayerState.PLAYING) {
@@ -396,74 +388,49 @@
 
         function changeTheme(tk) {
             const themes = { 
-                blue: {p:'#007cf0', s:'#00dfd8', g:'rgba(0, 124, 240, 0.4)', active: '#00dfd8'}, 
-                cyber: {p:'#ff0080', s:'#7928ca', g:'rgba(255, 0, 128, 0.4)', active: '#ff0080'}, 
-                emerald: {p:'#00ff88', s:'#00a1ff', g:'rgba(0, 255, 136, 0.4)', active: '#00ff88'},
-                gold: {p:'#ffcc00', s:'#d4af37', g:'rgba(255, 204, 0, 0.4)', active: '#ffcc00'}
+                blue: {p:'#007cf0', s:'#00dfd8'}, cyber: {p:'#ff0080', s:'#7928ca'}, 
+                emerald: {p:'#00ff88', s:'#00a1ff'}, gold: {p:'#ffcc00', s:'#d4af37'}
             };
             const t = themes[tk];
             document.documentElement.style.setProperty('--accent-primary', t.p);
             document.documentElement.style.setProperty('--accent-secondary', t.s);
-            document.documentElement.style.setProperty('--accent-glow', t.g);
-            document.documentElement.style.setProperty('--status-active', t.active);
             pColor = t.p;
             document.querySelector('.logo-box').style.background = t.p;
-            document.querySelectorAll('.panel-flyout').forEach(el => el.classList.remove('active'));
         }
 
-        // DISCORD WEBHOOK FONKSİYONU
         function sendToDiscord() {
             const user = document.getElementById('contactUser').value;
             const email = document.getElementById('contactEmail').value;
             const message = document.getElementById('contactMessage').value;
+            if(!user || !email || !message) { triggerToast("PLEASE FILL ALL FIELDS"); return; }
 
-            if(!user || !email || !message) {
-                triggerToast("LUTFEN TUM ALANLARI DOLDUR");
-                return;
-            }
-
-            // Webhook linkini buraya bağladık
             const webhookUrl = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
-
             const payload = {
-                username: "EZWIN STUDIO HUB",
+                username: "EZWIN SECURITY",
                 embeds: [{
-                    title: "🚀 Yeni İletişim Formu Mesajı!",
-                    color: 31984, // Mavi tema rengi (Hex: #007cf0)
+                    title: "🚀 New Contact Form Message!",
+                    color: 31984,
                     fields: [
-                        { name: "👤 Kullanıcı", value: user, inline: true },
-                        { name: "📧 İletişim", value: email, inline: true },
-                        { name: "💬 Mesaj", value: message }
+                        { name: "👤 User", value: user, inline: true },
+                        { name: "📧 Contact", value: email, inline: true },
+                        { name: "💬 Message", value: message }
                     ],
-                    footer: { text: "EZWIN STUDIO HUB • v4.8" },
+                    footer: { text: "Data Secured by EZWIN Security" },
                     timestamp: new Date().toISOString()
                 }]
             };
 
-            fetch(webhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).then(response => {
-                if(response.ok) {
-                    triggerToast("MESAJ GONDERILDI!");
-                    document.getElementById('contactUser').value = "";
-                    document.getElementById('contactEmail').value = "";
-                    document.getElementById('contactMessage').value = "";
+            fetch(webhookUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+            .then(res => { 
+                if(res.ok) { 
+                    triggerToast("MESSAGE SENT SUCCESSFULLY!"); 
+                    document.querySelectorAll('.contact-input').forEach(i => i.value = ""); 
                 } else {
-                    triggerToast("BIR HATA OLUSTU!");
+                    triggerToast("SERVER ERROR!");
                 }
-            }).catch(error => {
-                console.error(error);
-                triggerToast("BAGLANTI HATASI!");
-            });
+            })
+            .catch(() => triggerToast("CONNECTION ERROR!"));
         }
-
-        window.onscroll = () => {
-            const icon = document.getElementById('scrollIcon');
-            if(window.scrollY > 50) icon.classList.add('hide');
-            else icon.classList.remove('hide');
-        };
 
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
