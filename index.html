@@ -171,7 +171,15 @@
         .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
         .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
-        /* CONTACT SECTION CSS (YENİ EKLENDİ) */
+        /* ACTIVE STATUS BAR */
+        .card-status-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 35px; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding-left: 20px; box-sizing: border-box; }
+        .active-indicator { display: flex; align-items: center; gap: 8px; }
+        .active-dot { width: 8px; height: 8px; background-color: var(--status-active); border-radius: 50%; position: relative; box-shadow: 0 0 10px var(--status-active); }
+        .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
+        .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+
+        /* CONTACT SECTION CSS */
         .contact-container {
             width: 100%; max-width: 700px; background: var(--glass); 
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; 
@@ -192,14 +200,6 @@
             transition: 0.4s; display: flex; align-items: center; justify-content: center; gap: 12px;
         }
         .send-btn:hover { background: var(--accent-primary); box-shadow: 0 0 30px var(--accent-primary); transform: translateY(-3px); }
-
-        /* ACTIVE STATUS BAR */
-        .card-status-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 35px; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding-left: 20px; box-sizing: border-box; }
-        .active-indicator { display: flex; align-items: center; gap: 8px; }
-        .active-dot { width: 8px; height: 8px; background-color: var(--status-active); border-radius: 50%; position: relative; box-shadow: 0 0 10px var(--status-active); }
-        .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
-        .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; }
-        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
 
         .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; z-index: 100; }
         .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
@@ -315,13 +315,12 @@
         <section id="contact" style="padding: 50px 20px 150px 20px; display:flex; flex-direction:column; align-items:center;">
             <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;">CONTACT US</h2>
             <div class="contact-container">
-                <input type="text" placeholder="USERNAME" class="contact-input">
-                <input type="email" placeholder="DISCORD / EMAIL" class="contact-input">
-                <textarea placeholder="ENTER YOUR MESSAGE..." rows="4" class="contact-input" style="resize: vertical;"></textarea>
-                <button class="send-btn"><i class="fas fa-paper-plane"></i> SUBMIT</button>
+                <input type="text" id="contactUser" placeholder="USERNAME" class="contact-input">
+                <input type="email" id="contactEmail" placeholder="DISCORD / EMAIL" class="contact-input">
+                <textarea id="contactMessage" placeholder="ENTER YOUR MESSAGE..." rows="4" class="contact-input" style="resize: vertical;"></textarea>
+                <button id="sendBtn" class="send-btn" onclick="sendToDiscord()"><i class="fas fa-paper-plane"></i> SUBMIT</button>
             </div>
         </section>
-
     </div>
 
     <div class="v-counter ui-element">
@@ -410,6 +409,54 @@
             pColor = t.p;
             document.querySelector('.logo-box').style.background = t.p;
             document.querySelectorAll('.panel-flyout').forEach(el => el.classList.remove('active'));
+        }
+
+        // DISCORD WEBHOOK FONKSİYONU
+        function sendToDiscord() {
+            const user = document.getElementById('contactUser').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if(!user || !email || !message) {
+                triggerToast("LUTFEN TUM ALANLARI DOLDUR");
+                return;
+            }
+
+            // Webhook linkini buraya bağladık
+            const webhookUrl = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
+
+            const payload = {
+                username: "EZWIN STUDIO HUB",
+                embeds: [{
+                    title: "🚀 Yeni İletişim Formu Mesajı!",
+                    color: 31984, // Mavi tema rengi (Hex: #007cf0)
+                    fields: [
+                        { name: "👤 Kullanıcı", value: user, inline: true },
+                        { name: "📧 İletişim", value: email, inline: true },
+                        { name: "💬 Mesaj", value: message }
+                    ],
+                    footer: { text: "EZWIN STUDIO HUB • v4.8" },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                if(response.ok) {
+                    triggerToast("MESAJ GONDERILDI!");
+                    document.getElementById('contactUser').value = "";
+                    document.getElementById('contactEmail').value = "";
+                    document.getElementById('contactMessage').value = "";
+                } else {
+                    triggerToast("BIR HATA OLUSTU!");
+                }
+            }).catch(error => {
+                console.error(error);
+                triggerToast("BAGLANTI HATASI!");
+            });
         }
 
         window.onscroll = () => {
