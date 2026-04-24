@@ -20,6 +20,10 @@
             --status-active: #00ff88; 
         }
 
+        /* Güvenlik: Metin seçmeyi engelle */
+        * { -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+        input, textarea { -webkit-user-select: text; -ms-user-select: text; user-select: text; }
+
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background: var(--bg); color: white;
@@ -98,66 +102,34 @@
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        .theme-option, .lang-option {
+        .theme-card, .lang-option {
             padding: 12px 15px; background: rgba(255,255,255,0.03); margin-bottom: 8px;
             border-radius: 10px; cursor: pointer; font-family: 'Orbitron'; font-size: 10px; transition: 0.3s;
             display: flex; align-items: center; gap: 10px;
         }
-        .theme-option:hover, .lang-option:hover { background: var(--accent-primary); }
-        .lang-option img { border-radius: 3px; }
+        .theme-card:hover, .lang-option:hover { background: var(--accent-primary); }
 
-        /* YENİ TEMA MENÜSÜ GÖRÜNÜMÜ */
-        #themeMenu { width: max-content; padding: 20px; border-radius: 20px; }
-        .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .theme-card { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); }
-        .theme-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); border-color: var(--t-color); box-shadow: 0 5px 20px var(--t-glow); }
-        .color-swatch { width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 0 15px var(--t-color); background: var(--t-color); }
-        .theme-name { font-family: 'Orbitron'; font-size: 9px; font-weight: 800; color: white; letter-spacing: 1px;}
-
-        /* YENİ MÜZİK PLAYER GÖRÜNÜMÜ */
-        #musicPanel { width: 320px; left: 0; border-radius: 24px; padding: 25px; }
-        .player-top { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-        .album-art { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-pink)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 20px var(--accent-glow); color: white; }
-        .track-info-container { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
-        .track-title { font-family: 'Orbitron'; font-size: 11px; color: white; font-weight: 900; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .player-visualizer { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
-        .v-bar { width: 3px; background: var(--accent-primary); border-radius: 10px; animation: v-anim 0.5s ease-in-out infinite alternate; }
-        @keyframes v-anim { 0% { height: 4px; } 100% { height: 15px; } }
-        
-        .player-controls { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 25px; }
-        .player-controls i.side-btn { font-size: 18px; color: rgba(255,255,255,0.6); cursor: pointer; transition: 0.3s; }
-        .player-controls i.side-btn:hover { color: white; transform: scale(1.1); }
-        
-        .main-play-btn { width: 65px; height: 65px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 25px var(--accent-glow); transition: 0.3s; }
-        .main-play-btn i { font-size: 20px; color: white; margin-left: 3px; }
-        .main-play-btn:hover { transform: scale(1.08); box-shadow: 0 0 40px var(--accent-primary); }
-        
-        .vol-container { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .vol-container i { font-size: 12px; color: rgba(255,255,255,0.5); }
-        #volRange { flex: 1; accent-color: var(--accent-primary); height: 4px; cursor: pointer; background: rgba(255,255,255,0.1); border-radius: 4px; }
-
-        /* TOAST */
-        #media-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); z-index: 100005; opacity: 0; pointer-events: none; transition: 0.5s; }
-        #media-toast.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .toast-card { background: #000; border: 2.5px solid var(--accent-secondary); border-radius: 35px; padding: 35px 55px; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 0 60px var(--accent-glow); }
-        .toast-card span { font-family: 'Orbitron'; font-weight: 900; font-size: 14px; color: white; text-align: center; }
-
-        /* SCROLL DOWN */
-        .scroll-down { 
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
-            cursor: pointer; transition: 0.5s; z-index: 10;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            animation: bounce 2s infinite;
+        /* CONTACT SECTION */
+        .contact-container {
+            width: 100%; max-width: 700px; background: var(--glass); 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; 
+            padding: 40px; box-sizing: border-box; backdrop-filter: blur(10px);
         }
-        .scroll-down.hide { opacity: 0; pointer-events: none; }
-        .scroll-down i { font-size: 22px; color: var(--accent-primary); }
-        .scroll-down span { font-family: 'Orbitron'; font-size: 9px; font-weight: 900; letter-spacing: 4px; color: var(--accent-primary); opacity: 0.7; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
+        .contact-input {
+            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 18px 20px; color: white; font-family: 'Orbitron', sans-serif;
+            font-size: 12px; outline: none; transition: 0.3s; box-sizing: border-box; margin-bottom: 20px;
+        }
+        .contact-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); }
+        
+        .send-btn {
+            width: 100%; background: transparent; border: 2px solid var(--accent-primary);
+            color: white; padding: 18px; border-radius: 12px; font-family: 'Orbitron', sans-serif;
+            font-weight: 900; font-size: 14px; letter-spacing: 4px; cursor: pointer;
+            transition: 0.4s; display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .send-btn.success { border-color: var(--accent-emerald); color: var(--accent-emerald); }
 
-        /* UI ELEMENTS */
-        .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; }
-        .ui-element.show { opacity: 1; pointer-events: all; }
         .animated-text { 
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink), var(--accent-emerald), var(--accent-gold));
@@ -176,467 +148,177 @@
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
 
-        /* PROJECTS GRID */
-        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
-        .project-card {
-            background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 40px 30px 60px 30px; text-align: center; transition: 0.4s; position: relative; overflow: hidden;
-        }
-        .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 40px var(--accent-glow); }
-        .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; }
-        .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
-        .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+        .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; }
+        .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; }
 
-        .card-status-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 35px; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding-left: 20px; box-sizing: border-box; }
-        .active-dot { width: 8px; height: 8px; background-color: var(--status-active); border-radius: 50%; position: relative; box-shadow: 0 0 10px var(--status-active); }
-        .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
-        .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; margin-left: 8px; }
-        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
-
-        /* CONTACT SECTION */
-        .contact-container {
-            width: 100%; max-width: 700px; background: var(--glass); 
-            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; 
-            padding: 40px; box-sizing: border-box; backdrop-filter: blur(10px);
-            transition: 0.4s;
-        }
-        .contact-input {
-            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; padding: 18px 20px; color: white; font-family: 'Orbitron', sans-serif;
-            font-size: 12px; outline: none; transition: 0.3s; box-sizing: border-box; margin-bottom: 20px;
-        }
-        .contact-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); }
-        .send-btn {
-            width: 100%; background: transparent; border: 2px solid var(--accent-primary);
-            color: white; padding: 18px; border-radius: 12px; font-family: 'Orbitron', sans-serif;
-            font-weight: 900; font-size: 14px; letter-spacing: 4px; cursor: pointer;
-            transition: 0.4s; display: flex; align-items: center; justify-content: center; gap: 12px;
-        }
-        .send-btn:hover:not(:disabled) { background: var(--accent-primary); box-shadow: 0 0 30px var(--accent-primary); }
-        .send-btn:disabled { border-color: rgba(255,255,255,0.2); }
-
-        .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; z-index: 100; }
-        .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; z-index: 100; }
-
-        @media(max-width: 768px) { .projects-grid, .links-grid { grid-template-columns: 1fr; } .links-grid .btn { grid-column: span 1 !important; } }
+        @media(max-width: 768px) { .links-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body class="locked">
-
-    <canvas id="bg-canvas"></canvas>
+<body class="locked" oncontextmenu="return false;"> <canvas id="bg-canvas"></canvas>
 
     <div id="enter-overlay">
-        <h1 class="animated-text" style="font-size: clamp(45px, 9vw, 80px); margin: 0; text-align: center;">EZWIN STUDIO</h1>
-        <button class="enter-btn" onclick="startSystem()" data-i18n="enter_hub">ENTER HUB</button>
+        <h1 class="animated-text" style="font-size: 60px;">EZWIN STUDIO</h1>
+        <button class="enter-btn" onclick="startSystem()">ENTER HUB</button>
     </div>
 
     <div id="statusNotify" class="notification-wrapper">
         <div class="dynamic-island">
-            <div class="status-badge">
-                <div class="status-dot"></div>
-                <div class="status-text" data-i18n="live_text">LIVE</div>
-            </div>
-            <div class="marquee-box">
-                <div class="marquee-content" data-i18n="marquee_text">EZWIN STUDIO V4.8 ONLINE • DATA SECURED BY EZWIN SECURITY • SYSTEM STABLE</div>
-            </div>
+            <div class="status-badge"><div class="status-dot"></div><div class="status-text">LIVE</div></div>
+            <div class="marquee-box"><div class="marquee-content">EZWIN STUDIO V4.8 ONLINE • DATA SECURED</div></div>
         </div>
     </div>
 
-    <div id="media-toast">
-        <div class="toast-card"><i class="fas fa-music"></i><span id="toastTrackName">PLAYING...</span></div>
-    </div>
-
-    <div class="lang-wrapper ui-element">
-        <div class="control-btn lang-btn" onclick="togglePanel('langMenu')">
-            <img id="currentLangImg" src="https://flagcdn.com/w20/gb.png" alt="Flag" width="16"> 
-            <span id="currentLangText">EN</span> 
-            <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
-        </div>
-        <div class="panel-flyout" id="langMenu" style="top: 65px; min-width: 120px; padding: 15px;">
-            <div class="lang-option" onclick="changeLang('en')">
-                <img src="https://flagcdn.com/w20/gb.png" alt="EN" width="16"> ENGLISH
-            </div>
-            <div class="lang-option" onclick="changeLang('tr')">
-                <img src="https://flagcdn.com/w20/tr.png" alt="TR" width="16"> TÜRKÇE
-            </div>
+    <div class="lang-wrapper">
+        <div class="control-btn lang-btn" onclick="togglePanel('langMenu')"><span id="currentLangText">EN</span></div>
+        <div class="panel-flyout" id="langMenu">
+            <div class="lang-option" onclick="changeLang('en')">ENGLISH</div>
+            <div class="lang-option" onclick="changeLang('tr')">TÜRKÇE</div>
         </div>
     </div>
 
-    <div class="music-widget ui-element">
-        <div class="control-btn" onclick="togglePanel('musicPanel')"><i class="fas fa-compact-disc fa-spin"></i></div>
-        <div class="panel-flyout" id="musicPanel">
-            <div class="player-top">
-                <div class="album-art"><i class="fas fa-music"></i></div>
-                <div class="track-info-container">
-                    <div class="track-title" id="trackName" data-i18n="waiting">WAITING...</div>
-                    <div class="player-visualizer">
-                        <div class="v-bar" style="animation-delay: 0.1s"></div>
-                        <div class="v-bar" style="animation-delay: 0.3s"></div>
-                        <div class="v-bar" style="animation-delay: 0.2s"></div>
-                        <div class="v-bar" style="animation-delay: 0.5s"></div>
-                        <div class="v-bar" style="animation-delay: 0.4s"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="player-controls">
-                <i class="fas fa-backward side-btn" onclick="prevTrack()"></i>
-                <div class="main-play-btn" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></div>
-                <i class="fas fa-forward side-btn" onclick="nextTrack()"></i>
-            </div>
-            <div class="vol-container">
-                <i class="fas fa-volume-down"></i>
-                <input type="range" id="volRange" min="0" max="100" value="50">
-                <i class="fas fa-volume-up"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="theme-wrapper ui-element">
-        <div class="control-btn theme-btn" onclick="togglePanel('themeMenu')"><i class="fas fa-palette"></i> <span data-i18n="themes">THEMES</span></div>
-        <div class="panel-flyout" id="themeMenu">
-            <div class="theme-grid">
-                <div class="theme-card" style="--t-color: #007cf0; --t-glow: rgba(0, 124, 240, 0.4);" onclick="changeTheme('blue')">
-                    <div class="color-swatch"></div>
-                    <span class="theme-name">NEON BLUE</span>
-                </div>
-                <div class="theme-card" style="--t-color: #ff0080; --t-glow: rgba(255, 0, 128, 0.4);" onclick="changeTheme('cyber')">
-                    <div class="color-swatch"></div>
-                    <span class="theme-name">CYBER PINK</span>
-                </div>
-                <div class="theme-card" style="--t-color: #00ff88; --t-glow: rgba(0, 255, 136, 0.4);" onclick="changeTheme('emerald')">
-                    <div class="color-swatch"></div>
-                    <span class="theme-name">EMERALD</span>
-                </div>
-                <div class="theme-card" style="--t-color: #ffcc00; --t-glow: rgba(255, 204, 0, 0.4);" onclick="changeTheme('gold')">
-                    <div class="color-swatch"></div>
-                    <span class="theme-name">GOLDEN VIP</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-content" id="main" style="opacity:0">
-        <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position: relative;">
-            <h1 class="animated-text" style="font-size: clamp(50px, 11vw, 100px); margin:0;">EZWIN STUDIO</h1>
-            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;" data-i18n="powered_by">POWERED BY EZWINSTUDIO</p>
-
+    <div class="main-content" id="main" style="opacity:0; padding-top: 100px;">
+        <center>
+            <h1 class="animated-text" style="font-size: 80px;">EZWIN STUDIO</h1>
             <div class="links-grid">
-                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
-                <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span data-i18n="btn_yt">EZWIN STUDIO</span></a>
-                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">JOIN EZWIN UNCOPYLOCKED</span></a>
-                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">EZWIN ACCOUNT SERVICES</span></a>
-                <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span data-i18n="btn_music_yt">EZWIN MUSIC</span></a>
-                <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span data-i18n="btn_cheats">EZWIN CHEATS</span></a>
-                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
+                <a href="#" class="btn"><i class="fab fa-discord"></i><span>DISCORD</span></a>
+                <a href="#" class="btn"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
+                <a href="#" class="btn"><i class="fas fa-code"></i><span>PROJECTS</span></a>
             </div>
 
-            <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
-                <span data-i18n="scroll_down">SCROLL DOWN</span><i class="fas fa-chevron-down"></i>
-            </div>
-        </section>
-
-        <section id="projects" style="padding: 100px 20px 50px 20px; display:flex; flex-direction:column; align-items:center;">
-            <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;" data-i18n="projects_title">PROJECTS</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <i class="fas fa-gamepad"></i><h3>EZWIN STUDIO</h3>
-                    <p data-i18n="proj1_desc">Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and unique map designs come to life here.</p>
-                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+            <section id="contact" style="margin-top: 100px; padding-bottom: 100px;">
+                <h2 class="animated-text" style="font-size: 40px;">CONTACT US</h2>
+                <div class="contact-container">
+                    <input type="text" id="contactUser" placeholder="USERNAME" class="contact-input">
+                    <input type="text" id="contactEmail" placeholder="DISCORD / EMAIL" class="contact-input">
+                    <textarea id="contactMessage" placeholder="ENTER YOUR MESSAGE..." rows="4" class="contact-input"></textarea>
+                    <button id="sendBtn" class="send-btn" onclick="sendToDiscord()">
+                        <i class="fas fa-paper-plane"></i> <span id="btnText">SUBMIT</span>
+                    </button>
                 </div>
-                <div class="project-card">
-                    <i class="fas fa-terminal"></i><h3>EZWIN CHEAT</h3>
-                    <p data-i18n="proj2_desc">Technical team conducting experimental studies on game mechanics and software security. We work on software optimization and advanced scripting techniques.</p>
-                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
-                </div>
-                <div class="project-card">
-                    <i class="fas fa-music"></i><h3>EZWIN MUSIC</h3>
-                    <p data-i18n="proj3_desc">Our digital audio processing and music production studio. We produce high-quality royalty-free audio files and atmospheric music for our projects.</p>
-                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
-                </div>
-                <div class="project-card">
-                    <i class="fas fa-user-shield"></i><h3>ACCOUNT SERVICES</h3>
-                    <p data-i18n="proj4_desc">A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.</p>
-                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" style="padding: 50px 20px 150px 20px; display:flex; flex-direction:column; align-items:center;">
-            <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;" data-i18n="contact_title">CONTACT US</h2>
-            <div class="contact-container">
-                <input type="text" id="contactUser" data-i18n="ph_user" placeholder="USERNAME" class="contact-input">
-                <input type="email" id="contactEmail" data-i18n="ph_email" placeholder="DISCORD / EMAIL" class="contact-input">
-                <textarea id="contactMessage" data-i18n="ph_msg" placeholder="ENTER YOUR MESSAGE..." rows="4" class="contact-input" style="resize: vertical;"></textarea>
-                <button id="sendBtn" class="send-btn" onclick="sendToDiscord()"><i class="fas fa-paper-plane"></i> <span data-i18n="submit" id="btnSpan">SUBMIT</span></button>
-                <div style="margin-top: 20px; text-align: center; opacity: 0.6; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <i class="fas fa-shield-halved" style="color: var(--accent-primary); font-size: 12px;"></i>
-                    <span style="font-family: 'Orbitron'; font-size: 9px; letter-spacing: 1px; color: white;" data-i18n="data_secured">DATA SECURED BY EZWIN SECURITY</span>
-                </div>
-            </div>
-        </section>
+            </center>
+        </center>
     </div>
 
-    <div class="v-counter ui-element">
-        <div class="logo-box"><i class="fas fa-bolt"></i></div>
-        <span id="vCount" style="font-family:'Orbitron'; font-weight:900;">0</span>
+    <div class="v-counter">
+        <span style="font-family:'Orbitron';">V4.8</span>
     </div>
-    <div class="copyright ui-element">EZWIN STUDIO © 2026</div>
+    <div class="copyright">EZWIN STUDIO © 2026</div>
 
-    <div id="yt-player" style="display:none"></div>
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // DİL ÇEVİRİ SÖZLÜĞÜ (i18n)
-        const translations = {
-            en: {
-                enter_hub: "ENTER HUB",
-                live_text: "LIVE",
-                marquee_text: "EZWIN STUDIO V4.8 ONLINE • DATA SECURED BY EZWIN SECURITY • SYSTEM STABLE",
-                waiting: "WAITING...",
-                themes: "THEMES",
-                powered_by: "POWERED BY EZWINSTUDIO",
-                scroll_down: "SCROLL DOWN",
-                projects_title: "PROJECTS",
-                contact_title: "CONTACT US",
-                proj1_desc: "Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and unique map designs come to life here.",
-                proj2_desc: "Technical team conducting experimental studies on game mechanics and software security. We work on software optimization and advanced scripting techniques.",
-                proj3_desc: "Our digital audio processing and music production studio. We produce high-quality royalty-free audio files and atmospheric music for our projects.",
-                proj4_desc: "A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.",
-                active: "ACTIVE",
-                ph_user: "USERNAME",
-                ph_email: "DISCORD / EMAIL",
-                ph_msg: "ENTER YOUR MESSAGE...",
-                submit: "SUBMIT",
-                data_secured: "DATA SECURED BY EZWIN SECURITY",
-                btn_music: "JOIN EZWIN MUSIC",
-                btn_yt: "EZWIN STUDIO",
-                btn_uncopy: "JOIN EZWIN UNCOPYLOCKED",
-                btn_acc: "EZWIN ACCOUNT SERVICES",
-                btn_music_yt: "EZWIN MUSIC",
-                btn_cheats: "EZWIN CHEATS",
-                btn_studio: "JOIN EZWIN STUDIO"
-            },
-            tr: {
-                enter_hub: "MERKEZE GİRİŞ",
-                live_text: "CANLI",
-                marquee_text: "EZWIN STUDIO V4.8 AKTİF • VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR • SİSTEM STABİL",
-                waiting: "BEKLENİYOR...",
-                themes: "TEMALAR",
-                powered_by: "EZWINSTUDIO TARAFINDAN DESTEKLENMEKTEDİR",
-                scroll_down: "AŞAĞI KAYDIR",
-                projects_title: "PROJELER",
-                contact_title: "BİZE ULAŞIN",
-                proj1_desc: "Profesyonel Roblox oyun geliştirme ve sistem mimarisi için ana merkezimiz. Gelişmiş script çözümleri ve eşsiz harita tasarımları burada hayat buluyor.",
-                proj2_desc: "Oyun mekanikleri ve yazılım güvenliği üzerine deneysel çalışmalar yürüten teknik ekip. Yazılım optimizasyonu ve gelişmiş script teknikleri üzerinde çalışıyoruz.",
-                proj3_desc: "Dijital ses işleme ve müzik prodüksiyon stüdyomuz. Projelerimiz için yüksek kaliteli telifsiz ses dosyaları ve atmosferik müzikler üretiyoruz.",
-                proj4_desc: "Dijital varlık güvenliği ve hesap yönetimine odaklanan bir hizmet. Kullanıcılarımıza güvenli ticaret desteği ve profesyonel hesap gelişimi sağlıyoruz.",
-                active: "AKTİF",
-                ph_user: "KULLANICI ADI",
-                ph_email: "DISCORD / E-POSTA",
-                ph_msg: "MESAJINIZI GİRİN...",
-                submit: "GÖNDER",
-                data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR",
-                btn_music: "EZWIN MUSIC'E KATIL",
-                btn_yt: "EZWIN STUDIO",
-                btn_uncopy: "EZWIN UNCOPYLOCKED'A KATIL",
-                btn_acc: "EZWIN HESAP HİZMETLERİ",
-                btn_music_yt: "EZWIN MÜZİK",
-                btn_cheats: "EZWIN HİLELERİ",
-                btn_studio: "EZWIN STUDIO'YA KATIL"
-            }
-        };
-
-        // Dil Değiştirme Fonksiyonu
-        function changeLang(lang) {
-            localStorage.setItem('ezLang', lang); 
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = translations[lang][key];
-                    } else {
-                        el.innerHTML = translations[lang][key];
-                    }
-                }
-            });
-
-            const btnText = document.getElementById('currentLangText');
-            const btnImg = document.getElementById('currentLangImg');
-            if(lang === 'tr') {
-                btnText.innerText = 'TR';
-                btnImg.src = 'https://flagcdn.com/w20/tr.png';
-            } else {
-                btnText.innerText = 'EN';
-                btnImg.src = 'https://flagcdn.com/w20/gb.png';
-            }
-
-            document.getElementById('langMenu').classList.remove('active');
+        // 1. GÜVENLİK: Klavye Kısayollarını Engelle (F12, Ctrl+Shift+I vb.)
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false; // F12
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
         }
 
-        // TEMA DEĞİŞTİRME FONKSİYONU
-        function changeTheme(themeType) {
-            const root = document.documentElement;
-            if(themeType === 'blue') {
-                root.style.setProperty('--accent-primary', '#007cf0');
-                root.style.setProperty('--accent-secondary', '#00dfd8');
-                root.style.setProperty('--accent-glow', 'rgba(0, 124, 240, 0.4)');
-            } else if(themeType === 'cyber') {
-                root.style.setProperty('--accent-primary', '#ff0080');
-                root.style.setProperty('--accent-secondary', '#7928ca');
-                root.style.setProperty('--accent-glow', 'rgba(255, 0, 128, 0.4)');
-            } else if(themeType === 'emerald') {
-                root.style.setProperty('--accent-primary', '#00ff88');
-                root.style.setProperty('--accent-secondary', '#00a8ff');
-                root.style.setProperty('--accent-glow', 'rgba(0, 255, 136, 0.4)');
-            } else if(themeType === 'gold') {
-                root.style.setProperty('--accent-primary', '#ffcc00');
-                root.style.setProperty('--accent-secondary', '#ff6600');
-                root.style.setProperty('--accent-glow', 'rgba(255, 204, 0, 0.4)');
-            }
-            document.getElementById('themeMenu').classList.remove('active');
-        }
-
-        let player, isPlaying = false, pColor = "#007cf0", currentTrack = 0;
-        const playlist = ['osPq9Yb8xm8', '_9bw_VtMUGA', '8KqcE6QSe9E', 'KhqNTjbQ71A'];
-
+        // 2. SİSTEMİ BAŞLAT
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             document.body.classList.remove('locked');
-            setTimeout(() => {
-                document.getElementById('main').style.opacity = "1";
-                document.getElementById('statusNotify').classList.add('show');
-                document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
-                if(player && typeof player.playVideo === 'function') { 
-                    player.playVideo(); 
-                    isPlaying = true; 
-                    document.getElementById('playIcon').className = "fas fa-pause"; 
-                }
-            }, 600);
-            let c = parseInt(localStorage.getItem('ezCount') || 8240);
-            document.getElementById('vCount').innerText = (++c).toLocaleString();
-            localStorage.setItem('ezCount', c);
+            document.getElementById('main').style.opacity = "1";
+            document.getElementById('statusNotify').classList.add('show');
         }
-
-        function triggerToast(title) {
-            const toast = document.getElementById('media-toast');
-            document.getElementById('toastTrackName').innerText = title.toUpperCase();
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 3000);
-        }
-
-        function scrollToTarget(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: playlist[currentTrack],
-                host: 'https://www.youtube-nocookie.com',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'rel': 0, 'iv_load_policy': 3 },
-                events: { 
-                    'onStateChange': (e) => { 
-                        if(e.data == YT.PlayerState.PLAYING) {
-                            let t = player.getVideoData().title;
-                            document.getElementById('trackName').innerText = t;
-                            triggerToast(t);
-                        }
-                        if(e.data == YT.PlayerState.ENDED) { nextTrack(); }
-                    }
-                }
-            });
-        }
-
-        function togglePlay() {
-            if(!player || typeof player.playVideo !== 'function') return;
-            if(isPlaying) { player.pauseVideo(); document.getElementById('playIcon').className = "fas fa-play"; }
-            else { player.playVideo(); document.getElementById('playIcon').className = "fas fa-pause"; }
-            isPlaying = !isPlaying;
-        }
-
-        function nextTrack() { 
-            if(!player) return;
-            currentTrack = (currentTrack + 1) % playlist.length; 
-            player.loadVideoById(playlist[currentTrack]); 
-        }
-        function prevTrack() { 
-            if(!player) return;
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; 
-            player.loadVideoById(playlist[currentTrack]); 
-        }
-        document.getElementById('volRange').oninput = (e) => { if(player) player.setVolume(e.target.value); };
 
         function togglePanel(id) {
-            const p = document.getElementById(id);
-            const wasActive = p.classList.contains('active');
-            document.querySelectorAll('.panel-flyout').forEach(el => el.classList.remove('active'));
-            if(!wasActive) p.classList.add('active');
+            document.querySelectorAll('.panel-flyout').forEach(p => {
+                if(p.id !== id) p.classList.remove('active');
+            });
+            document.getElementById(id).classList.toggle('active');
         }
 
-        // DISCORD MESAJ GÖNDERME VE 2 DAKİKA BEKLEME SÜRESİ
-        function sendToDiscord() {
+        // 3. DISCORD GÖNDERME VE TEMİZLEME FONKSİYONU
+        async function sendToDiscord() {
+            const webhookURL = "BURAYA_WEBHOOK_URL_GELECEK"; // Burayı kendi URL'nle değiştir kanka
+            const user = document.getElementById('contactUser');
+            const email = document.getElementById('contactEmail');
+            const msg = document.getElementById('contactMessage');
             const btn = document.getElementById('sendBtn');
-            const cooldownTime = 120; // 2 Dakika (120 saniye)
-            const lastSent = localStorage.getItem('ezwinLastMsgTime');
-            const now = Math.floor(Date.now() / 1000);
+            const btnText = document.getElementById('btnText');
 
-            if (lastSent && now - parseInt(lastSent) < cooldownTime) return;
-
-            const user = document.getElementById('contactUser').value;
-            const email = document.getElementById('contactEmail').value;
-            const msg = document.getElementById('contactMessage').value;
-            
-            if(!user || !email || !msg) {
-                const lang = localStorage.getItem('ezLang') || 'en';
-                alert(lang === 'tr' ? "Lütfen tüm alanları doldurun!" : "Please fill in all fields!");
+            if(!user.value || !msg.value) {
+                alert("Lütfen gerekli alanları doldur!");
                 return;
             }
 
-            // BURAYA KENDİ DISCORD WEBHOOK/FETCH KODUNU EKLEYEBİLİRSİN
-            console.log("Mesaj Gönderiliyor...", {user, email, msg});
-
-            // Başarılı gönderim simülasyonu
-            document.getElementById('contactMessage').value = "";
-            localStorage.setItem('ezwinLastMsgTime', now.toString());
-            startCooldownTimer(btn, cooldownTime);
-        }
-
-        function startCooldownTimer(btn, secondsLeft) {
+            // Butonu yükleniyor moduna al
             btn.disabled = true;
-            btn.style.opacity = "0.5";
-            btn.style.cursor = "not-allowed";
+            btnText.innerText = "SENDING...";
 
-            const interval = setInterval(() => {
-                secondsLeft--;
-                if (secondsLeft <= 0) {
-                    clearInterval(interval);
+            const payload = {
+                embeds: [{
+                    title: "🚀 New Website Message",
+                    color: 0x007cf0,
+                    fields: [
+                        { name: "👤 User", value: user.value, inline: true },
+                        { name: "📧 Contact", value: email.value || "Not provided", inline: true },
+                        { name: "💬 Message", value: msg.value }
+                    ],
+                    footer: { text: "EZWIN Security System" },
+                    timestamp: new Date()
+                }]
+            };
+
+            try {
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // BAŞARILI: Kutuları temizle ve butonu güncelle
+                user.value = "";
+                email.value = "";
+                msg.value = "";
+                
+                btn.classList.add('success');
+                btnText.innerText = "MESSAGE SENT! ✓";
+
+                // 3 saniye sonra butonu eski haline döndür
+                setTimeout(() => {
                     btn.disabled = false;
-                    btn.style.opacity = "1";
-                    btn.style.cursor = "pointer";
-                    
-                    // Metni eski haline ve dile geri döndür
-                    const lang = localStorage.getItem('ezLang') || 'en';
-                    btn.innerHTML = `<i class="fas fa-paper-plane"></i> <span data-i18n="submit" id="btnSpan">${translations[lang].submit}</span>`;
-                } else {
-                    const m = Math.floor(secondsLeft / 60);
-                    const s = secondsLeft % 60;
-                    btn.innerHTML = `<i class="fas fa-hourglass-half"></i> <span style="font-family: 'Orbitron'; font-weight:900;">${m}:${s < 10 ? '0' : ''}${s}</span>`;
-                }
-            }, 1000);
+                    btn.classList.remove('success');
+                    btnText.innerText = "SUBMIT";
+                }, 3000);
+
+            } catch (err) {
+                alert("Hata oluştu!");
+                btn.disabled = false;
+                btnText.innerText = "SUBMIT";
+            }
         }
 
-        // Sayfa Yüklendiğinde
-        window.addEventListener('load', () => {
-            const savedLang = localStorage.getItem('ezLang') || 'en';
-            changeLang(savedLang);
+        // Arka plan animasyonu (Basit yıldızlar)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let stars = [];
+        for(let i=0; i<100; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 0.5
+            });
+        }
 
-            // Cooldown kontrolü (Eğer kullanıcı sayfayı yenilerse süre devam etsin)
-            const lastSent = localStorage.getItem('ezwinLastMsgTime');
-            const now = Math.floor(Date.now() / 1000);
-            const cooldownTime = 120;
-            if (lastSent && now - parseInt(lastSent) < cooldownTime) {
-                startCooldownTimer(document.getElementById('sendBtn'), cooldownTime - (now - parseInt(lastSent)));
-            }
-        });
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#fff";
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+                ctx.fill();
+                s.y -= s.speed;
+                if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
 </body>
 </html>
