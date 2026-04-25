@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,41 +98,62 @@
         }
         .panel-flyout.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        .lang-option {
+        .theme-option, .lang-option {
             padding: 12px 15px; background: rgba(255,255,255,0.03); margin-bottom: 8px;
             border-radius: 10px; cursor: pointer; font-family: 'Orbitron'; font-size: 10px; transition: 0.3s;
             display: flex; align-items: center; gap: 10px;
         }
-        .lang-option:hover { background: var(--accent-primary); }
+        .theme-option:hover, .lang-option:hover { background: var(--accent-primary); }
         .lang-option img { border-radius: 3px; }
 
-        /* TEMA MENÜSÜ */
+        /* YENİ TEMA MENÜSÜ GÖRÜNÜMÜ */
+        #themeMenu { width: max-content; padding: 20px; border-radius: 20px; }
         .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .theme-card { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); }
-        .theme-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
-        .color-swatch { width: 35px; height: 35px; border-radius: 50%; }
+        .theme-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); border-color: var(--t-color); box-shadow: 0 5px 20px var(--t-glow); }
+        .color-swatch { width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 0 15px var(--t-color); background: var(--t-color); }
+        .theme-name { font-family: 'Orbitron'; font-size: 9px; font-weight: 800; color: white; letter-spacing: 1px;}
 
-        /* MÜZİK PLAYER */
+        /* YENİ MÜZİK PLAYER GÖRÜNÜMÜ */
         #musicPanel { width: 320px; left: 0; border-radius: 24px; padding: 25px; }
         .player-top { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
         .album-art { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-pink)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 20px var(--accent-glow); color: white; }
         .track-info-container { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
         .track-title { font-family: 'Orbitron'; font-size: 11px; color: white; font-weight: 900; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
         .player-visualizer { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
         .v-bar { width: 3px; background: var(--accent-primary); border-radius: 10px; animation: v-anim 0.5s ease-in-out infinite alternate; }
         @keyframes v-anim { 0% { height: 4px; } 100% { height: 15px; } }
+        
         .player-controls { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 25px; }
         .player-controls i.side-btn { font-size: 18px; color: rgba(255,255,255,0.6); cursor: pointer; transition: 0.3s; }
+        .player-controls i.side-btn:hover { color: white; transform: scale(1.1); }
+        
         .main-play-btn { width: 65px; height: 65px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 25px var(--accent-glow); transition: 0.3s; }
         .main-play-btn i { font-size: 20px; color: white; margin-left: 3px; }
+        .main-play-btn:hover { transform: scale(1.08); box-shadow: 0 0 40px var(--accent-primary); }
+        
         .vol-container { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        #volRange { flex: 1; accent-color: var(--accent-primary); cursor: pointer; }
+        .vol-container i { font-size: 12px; color: rgba(255,255,255,0.5); }
+        #volRange { flex: 1; accent-color: var(--accent-primary); height: 4px; cursor: pointer; background: rgba(255,255,255,0.1); border-radius: 4px; }
 
         /* TOAST */
         #media-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); z-index: 100005; opacity: 0; pointer-events: none; transition: 0.5s; }
         #media-toast.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .toast-card { background: #000; border: 2.5px solid var(--accent-secondary); border-radius: 35px; padding: 35px 55px; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 0 60px var(--accent-glow); }
         .toast-card span { font-family: 'Orbitron'; font-weight: 900; font-size: 14px; color: white; text-align: center; }
+
+        /* SCROLL DOWN */
+        .scroll-down { 
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            cursor: pointer; transition: 0.5s; z-index: 10;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            animation: bounce 2s infinite;
+        }
+        .scroll-down.hide { opacity: 0; pointer-events: none; }
+        .scroll-down i { font-size: 22px; color: var(--accent-primary); }
+        .scroll-down span { font-family: 'Orbitron'; font-size: 9px; font-weight: 900; letter-spacing: 4px; color: var(--accent-primary); opacity: 0.7; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
 
         /* UI ELEMENTS */
         .ui-element { opacity: 0; pointer-events: none; transition: 1s ease; }
@@ -155,17 +176,36 @@
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
 
+        /* PROJECTS GRID */
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
+        .project-card {
+            background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px; padding: 40px 30px 60px 30px; text-align: center; transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 40px var(--accent-glow); }
+        .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; }
+        .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
+        .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+        .card-status-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 35px; background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding-left: 20px; box-sizing: border-box; }
+        .active-dot { width: 8px; height: 8px; background-color: var(--status-active); border-radius: 50%; position: relative; box-shadow: 0 0 10px var(--status-active); }
+        .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
+        .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; margin-left: 8px; }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+
         /* CONTACT SECTION */
         .contact-container {
             width: 100%; max-width: 700px; background: var(--glass); 
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; 
             padding: 40px; box-sizing: border-box; backdrop-filter: blur(10px);
+            transition: 0.4s;
         }
         .contact-input {
             width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px; padding: 18px 20px; color: white; font-family: 'Orbitron', sans-serif;
-            font-size: 12px; outline: none; margin-bottom: 20px; box-sizing: border-box;
+            font-size: 12px; outline: none; transition: 0.3s; box-sizing: border-box; margin-bottom: 20px;
         }
+        .contact-input:focus { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); }
         .send-btn {
             width: 100%; background: transparent; border: 2px solid var(--accent-primary);
             color: white; padding: 18px; border-radius: 12px; font-family: 'Orbitron', sans-serif;
@@ -173,12 +213,13 @@
             transition: 0.4s; display: flex; align-items: center; justify-content: center; gap: 12px;
         }
         .send-btn:hover:not(:disabled) { background: var(--accent-primary); box-shadow: 0 0 30px var(--accent-primary); }
+        .send-btn:disabled { border-color: rgba(255,255,255,0.2); cursor: not-allowed; opacity: 0.7; }
 
         .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; z-index: 100; }
         .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; z-index: 100; }
 
-        @media(max-width: 768px) { .links-grid { grid-template-columns: 1fr; } .links-grid .btn { grid-column: span 1 !important; } }
+        @media(max-width: 768px) { .projects-grid, .links-grid { grid-template-columns: 1fr; } .links-grid .btn { grid-column: span 1 !important; } }
     </style>
 </head>
 <body class="locked">
@@ -209,11 +250,16 @@
     <div class="lang-wrapper ui-element">
         <div class="control-btn lang-btn" onclick="togglePanel('langMenu')">
             <img id="currentLangImg" src="https://flagcdn.com/w20/gb.png" alt="Flag" width="16"> 
-            <span id="currentLangText">EN</span> <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
+            <span id="currentLangText">EN</span> 
+            <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
         </div>
         <div class="panel-flyout" id="langMenu" style="top: 65px; min-width: 120px; padding: 15px;">
-            <div class="lang-option" onclick="changeLang('en')"><img src="https://flagcdn.com/w20/gb.png" width="16"> ENGLISH</div>
-            <div class="lang-option" onclick="changeLang('tr')"><img src="https://flagcdn.com/w20/tr.png" width="16"> TÜRKÇE</div>
+            <div class="lang-option" onclick="changeLang('en')">
+                <img src="https://flagcdn.com/w20/gb.png" alt="EN" width="16"> ENGLISH
+            </div>
+            <div class="lang-option" onclick="changeLang('tr')">
+                <img src="https://flagcdn.com/w20/tr.png" alt="TR" width="16"> TÜRKÇE
+            </div>
         </div>
     </div>
 
@@ -233,6 +279,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="player-controls">
                 <i class="fas fa-backward side-btn" onclick="prevTrack()"></i>
                 <div class="main-play-btn" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></div>
@@ -246,29 +293,83 @@
         </div>
     </div>
 
+    <div class="theme-wrapper ui-element">
+        <div class="control-btn theme-btn" onclick="togglePanel('themeMenu')"><i class="fas fa-palette"></i> <span data-i18n="themes">THEMES</span></div>
+        <div class="panel-flyout" id="themeMenu">
+            <div class="theme-grid">
+                <div class="theme-card" style="--t-color: #007cf0; --t-glow: rgba(0, 124, 240, 0.4);" onclick="changeTheme('blue')">
+                    <div class="color-swatch"></div>
+                    <span class="theme-name">NEON BLUE</span>
+                </div>
+                <div class="theme-card" style="--t-color: #ff0080; --t-glow: rgba(255, 0, 128, 0.4);" onclick="changeTheme('cyber')">
+                    <div class="color-swatch"></div>
+                    <span class="theme-name">CYBER PINK</span>
+                </div>
+                <div class="theme-card" style="--t-color: #00ff88; --t-glow: rgba(0, 255, 136, 0.4);" onclick="changeTheme('emerald')">
+                    <div class="color-swatch"></div>
+                    <span class="theme-name">EMERALD</span>
+                </div>
+                <div class="theme-card" style="--t-color: #ffcc00; --t-glow: rgba(255, 204, 0, 0.4);" onclick="changeTheme('gold')">
+                    <div class="color-swatch"></div>
+                    <span class="theme-name">GOLDEN VIP</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="main-content" id="main" style="opacity:0; transition: opacity 1s ease;">
-        <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <section style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position: relative;">
             <h1 class="animated-text" style="font-size: clamp(50px, 11vw, 100px); margin:0;">EZWIN STUDIO</h1>
-            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px;" data-i18n="powered_by">POWERED BY EZWINSTUDIO</p>
+            <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;" data-i18n="powered_by">POWERED BY EZWINSTUDIO</p>
 
             <div class="links-grid">
-                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span>JOIN EZWIN MUSIC</span></a>
-                <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span>EZWIN STUDIO</span></a>
-                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span>JOIN EZWIN UNCOPYLOCKED</span></a>
-                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span>EZWIN ACCOUNT SERVICES</span></a>
-                <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span>EZWIN MUSIC</span></a>
-                <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span>EZWIN CHEATS</span></a>
-                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span>JOIN EZWIN STUDIO</span></a>
+                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
+                <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span data-i18n="btn_yt">EZWIN STUDIO</span></a>
+                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">JOIN EZWIN UNCOPYLOCKED</span></a>
+                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">EZWIN ACCOUNT SERVICES</span></a>
+                <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span data-i18n="btn_music_yt">EZWIN MUSIC</span></a>
+                <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span data-i18n="btn_cheats">EZWIN CHEATS</span></a>
+                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
+            </div>
+
+            <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
+                <span data-i18n="scroll_down">SCROLL DOWN</span><i class="fas fa-chevron-down"></i>
             </div>
         </section>
 
-        <section id="contact" style="padding: 100px 20px; display:flex; flex-direction:column; align-items:center;">
+        <section id="projects" style="padding: 100px 20px 50px 20px; display:flex; flex-direction:column; align-items:center;">
+            <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;" data-i18n="projects_title">PROJECTS</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <i class="fas fa-gamepad"></i><h3>EZWIN STUDIO</h3>
+                    <p data-i18n="proj1_desc">Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and unique map designs come to life here.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+                </div>
+                <div class="project-card">
+                    <i class="fas fa-terminal"></i><h3>EZWIN CHEAT</h3>
+                    <p data-i18n="proj2_desc">Technical team conducting experimental studies on game mechanics and software security. We work on software optimization and advanced scripting techniques.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+                </div>
+                <div class="project-card">
+                    <i class="fas fa-music"></i><h3>EZWIN MUSIC</h3>
+                    <p data-i18n="proj3_desc">Our digital audio processing and music production studio. We produce high-quality royalty-free audio files and atmospheric music for our projects.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+                </div>
+                <div class="project-card">
+                    <i class="fas fa-user-shield"></i><h3>ACCOUNT SERVICES</h3>
+                    <p data-i18n="proj4_desc">A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.</p>
+                    <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" style="padding: 50px 20px 150px 20px; display:flex; flex-direction:column; align-items:center;">
             <h2 class="animated-text" style="font-size: 3.5rem; margin-bottom: 50px;" data-i18n="contact_title">CONTACT US</h2>
             <div class="contact-container">
                 <input type="text" id="contactUser" data-i18n="ph_user" placeholder="USERNAME" class="contact-input">
                 <input type="email" id="contactEmail" data-i18n="ph_email" placeholder="DISCORD / EMAIL" class="contact-input">
                 <textarea id="contactMessage" data-i18n="ph_msg" placeholder="ENTER YOUR MESSAGE..." rows="4" class="contact-input" style="resize: vertical;"></textarea>
-                <button id="sendBtn" class="send-btn" onclick="sendContactForm()"><i class="fas fa-paper-plane"></i> <span data-i18n="submit" id="btnSpan">SUBMIT</span></button>
+                <button id="sendBtn" class="send-btn" onclick="sendToDiscord()"><i class="fas fa-paper-plane"></i> <span data-i18n="submit" id="btnSpan">SUBMIT</span></button>
                 <div style="margin-top: 20px; text-align: center; opacity: 0.6; display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <i class="fas fa-shield-halved" style="color: var(--accent-primary); font-size: 12px;"></i>
                     <span style="font-family: 'Orbitron'; font-size: 9px; letter-spacing: 1px; color: white;" data-i18n="data_secured">DATA SECURED BY EZWIN SECURITY</span>
@@ -285,185 +386,281 @@
 
     <div id="yt-player" style="display:none"></div>
     <script src="https://www.youtube.com/iframe_api"></script>
+    
     <script>
-        // WEBHOOK URLS
-        const WEBHOOK_CONTACT = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
-        const WEBHOOK_SECURITY = "https://discord.com/api/webhooks/1497590469981376714/N_JPd6djPElovxC3npnvfZGppLM-FLkbdslCADvA3RTUkv6RbxkGQ1qNIYXqXyts3j6I";
-
-        // PLAYLIST
-        const tracks = [
-            { name: "SAD SVX - PHONK", id: "KhqNTjbQ71A" },
-            { name: "RAVE - DXRK", id: "_9bw_VtMUGA" },
-            { name: "METAMORPHOSIS", id: "osPq9Yb8xm8" }
-        ];
-
-        let player;
-        let isPlaying = false;
-        let currentTrackIdx = 0;
-
-        // DİL
+        // DİL ÇEVİRİ SÖZLÜĞÜ (i18n)
         const translations = {
-            en: { 
-                enter_hub: "ENTER HUB", live_text: "LIVE", marquee_text: "EZWIN STUDIO V4.8 ONLINE • DATA SECURED BY EZWIN SECURITY • SYSTEM STABLE",
-                waiting: "WAITING...", powered_by: "POWERED BY EZWINSTUDIO", contact_title: "CONTACT US", 
-                ph_user: "USERNAME", ph_email: "DISCORD / EMAIL", ph_msg: "ENTER YOUR MESSAGE...", submit: "SUBMIT",
-                data_secured: "DATA SECURED BY EZWIN SECURITY"
+            en: {
+                enter_hub: "ENTER HUB", live_text: "LIVE",
+                marquee_text: "EZWIN STUDIO V4.8 ONLINE • DATA SECURED BY EZWIN SECURITY • SYSTEM STABLE",
+                waiting: "WAITING...", themes: "THEMES", powered_by: "POWERED BY EZWINSTUDIO",
+                scroll_down: "SCROLL DOWN", projects_title: "PROJECTS", contact_title: "CONTACT US",
+                proj1_desc: "Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and unique map designs come to life here.",
+                proj2_desc: "Technical team conducting experimental studies on game mechanics and software security. We work on software optimization and advanced scripting techniques.",
+                proj3_desc: "Our digital audio processing and music production studio. We produce high-quality royalty-free audio files and atmospheric music for our projects.",
+                proj4_desc: "A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.",
+                active: "ACTIVE", ph_user: "USERNAME", ph_email: "DISCORD / EMAIL", ph_msg: "ENTER YOUR MESSAGE...",
+                submit: "SUBMIT", data_secured: "DATA SECURED BY EZWIN SECURITY",
+                btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "JOIN EZWIN UNCOPYLOCKED",
+                btn_acc: "EZWIN ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
+                btn_studio: "JOIN EZWIN STUDIO", wait_msg: "WAIT: "
             },
-            tr: { 
-                enter_hub: "MERKEZE GİRİŞ", live_text: "CANLI", marquee_text: "EZWIN STUDIO V4.8 AKTİF • VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR • SİSTEM STABİL",
-                waiting: "BEKLENİYOR...", powered_by: "EZWINSTUDIO TARAFINDAN DESTEKLENMEKTEDİR", contact_title: "BİZE ULAŞIN", 
-                ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI GİRİN...", submit: "GÖNDER",
-                data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR"
+            tr: {
+                enter_hub: "MERKEZE GİRİŞ", live_text: "CANLI",
+                marquee_text: "EZWIN STUDIO V4.8 AKTİF • VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR • SİSTEM STABİL",
+                waiting: "BEKLENİYOR...", themes: "TEMALAR", powered_by: "EZWINSTUDIO TARAFINDAN DESTEKLENMEKTEDİR",
+                scroll_down: "AŞAĞI KAYDIR", projects_title: "PROJELER", contact_title: "BİZE ULAŞIN",
+                proj1_desc: "Profesyonel Roblox oyun geliştirme ve sistem mimarisi için ana merkezimiz. Gelişmiş script çözümleri ve eşsiz harita tasarımları burada hayat buluyor.",
+                proj2_desc: "Oyun mekanikleri ve yazılım güvenliği üzerine deneysel çalışmalar yürüten teknik ekip. Yazılım optimizasyonu ve gelişmiş script teknikleri üzerinde çalışıyoruz.",
+                proj3_desc: "Dijital ses işleme ve müzik prodüksiyon stüdyomuz. Projelerimiz için yüksek kaliteli telifsiz ses dosyaları ve atmosferik müzikler üretiyoruz.",
+                proj4_desc: "Dijital varlık güvenliği ve hesap yönetimine odaklanan bir hizmet. Kullanıcılarımıza güvenli ticaret desteği ve profesyonel hesap gelişimi sağlıyoruz.",
+                active: "AKTİF", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI GİRİN...",
+                submit: "GÖNDER", data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR",
+                btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED'A KATIL",
+                btn_acc: "EZWIN HESAP HİZMETLERİ", btn_music_yt: "EZWIN MÜZİK", btn_cheats: "EZWIN HİLELERİ",
+                btn_studio: "EZWIN STUDIO'YA KATIL", wait_msg: "BEKLEYİN: "
             }
         };
 
-        // GÜVENLİK KONSOL MESAJI
-        function initConsoleSecurity() {
-            const styleHeader = `
-                background: #007cf0;
-                color: white;
-                font-family: 'Orbitron', sans-serif;
-                font-size: 25px;
-                font-weight: bold;
-                padding: 10px 20px;
-                border-radius: 5px;
-                text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            `;
-            const styleBody = `
-                color: #ff0080;
-                font-size: 16px;
-                font-weight: bold;
-                font-family: sans-serif;
-                line-height: 1.5;
-            `;
-            console.log("%c EZWIN SECURITY ", styleHeader);
-            console.log("%c⚠️ DUR! BU ALAN GELİŞTİRİCİLER İÇİNDİR.\n🔒 Bu site EzWin Security tarafından 7/24 korunmaktadır.\n🚫 Kod kopyalamak veya izinsiz erişim denemeleri IP adresinizin loglanmasına neden olabilir.", styleBody);
+        // --- GÜVENLİK (SECURITY) KONSOL YAZISI ---
+        function printSecurityConsole() {
+            console.log(
+                "%c EZWIN SECURITY %c\n\n🛡️ Sistem güvenliği aktif.\n🔒 Tüm izinsiz işlemler kayıt altındadır.\n💻 EzWın Studıos Systems",
+                "background: #00ff88; color: #000; font-size: 24px; font-weight: bold; border-radius: 5px; padding: 5px; font-family: sans-serif;",
+                "color: #00ff88; font-size: 14px; font-weight: bold; font-family: sans-serif; line-height: 1.5;"
+            );
         }
 
-        // SİSTEM BAŞLATMA
+        // --- GÜVENLİK (SECURITY) WEBHOOK BİLDİRİMİ ---
+        function notifySecurityWebhook() {
+            const securityHook = "https://discord.com/api/webhooks/1497590469981376714/N_JPd6djPElovxC3npnvfZGppLM-FLkbdslCADvA3RTUkv6RbxkGQ1qNIYXqXyts3j6I";
+            fetch(securityHook, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "🛡️ EZWIN SECURITY LOG",
+                        description: "Sisteme giriş yapıldı (Enter Hub kullanıldı).",
+                        color: 65399,
+                        fields: [
+                            { name: "Zaman", value: new Date().toLocaleString(), inline: true },
+                            { name: "Platform", value: navigator.platform || "Bilinmiyor", inline: true }
+                        ]
+                    }]
+                })
+            }).catch(() => {});
+        }
+
+        // UI VE ANİMASYON FONKSİYONLARI
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             document.body.classList.remove('locked');
             document.getElementById('main').style.opacity = '1';
-            setTimeout(() => { document.getElementById('statusNotify').classList.add('show'); }, 800);
+            
+            // Güvenlik sistemlerini tetikle
+            printSecurityConsole();
+            notifySecurityWebhook();
+            
+            setTimeout(() => {
+                document.getElementById('statusNotify').classList.add('show');
+            }, 800);
+            
             document.querySelectorAll('.ui-element').forEach((el, index) => {
                 setTimeout(() => { el.classList.add('show'); }, 500 + (index * 200));
             });
-            if (player && player.playVideo) togglePlay();
+
+            // Müzik çaları başlat
+            if (player && player.playVideo) {
+                player.playVideo();
+            }
         }
 
-        // YOUTUBE API
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: tracks[0].id,
-                events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
-            });
-        }
-        function onPlayerReady() { 
-            document.getElementById('trackName').innerText = tracks[0].name;
-            player.setVolume(50);
-        }
-        function onPlayerStateChange(e) { if (e.data == YT.PlayerState.ENDED) nextTrack(); }
+        function scrollToTarget(targetId) { document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' }); }
+        function togglePanel(panelId) { document.getElementById(panelId).classList.toggle('active'); }
 
-        function togglePlay() {
-            const icon = document.getElementById('playIcon');
-            if (isPlaying) { player.pauseVideo(); icon.classList.replace('fa-pause', 'fa-play'); isPlaying = false; }
-            else { player.playVideo(); icon.classList.replace('fa-play', 'fa-pause'); isPlaying = true; showToast(tracks[currentTrackIdx].name); }
-        }
-        function nextTrack() { currentTrackIdx = (currentTrackIdx + 1) % tracks.length; loadTrack(); }
-        function prevTrack() { currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length; loadTrack(); }
-        function loadTrack() {
-            player.loadVideoById(tracks[currentTrackIdx].id);
-            document.getElementById('trackName').innerText = tracks[currentTrackIdx].name;
-            if (isPlaying) { player.playVideo(); showToast(tracks[currentTrackIdx].name); }
-        }
-        function showToast(name) {
-            const t = document.getElementById('media-toast');
-            document.getElementById('toastTrackName').innerText = "PLAYING: " + name;
-            t.classList.add('active');
-            setTimeout(() => t.classList.remove('active'), 3000);
-        }
-
-        // İLETİŞİM FORMU (WEBHOOK 1)
-        async function sendContactForm() {
-            const user = document.getElementById('contactUser').value;
-            const email = document.getElementById('contactEmail').value;
-            const msg = document.getElementById('contactMessage').value;
-            const btn = document.getElementById('btnSpan');
-
-            if(!user || !msg) return alert("Lütfen formu doldurun!");
-            btn.innerText = "GÖNDERİLİYOR...";
-
-            const embed = {
-                title: "📩 Yeni İletişim Mesajı",
-                color: 0x00dfd8,
-                fields: [
-                    { name: "👤 Kullanıcı", value: `\`${user}\``, inline: true },
-                    { name: "📧 İletişim", value: `\`${email}\``, inline: true },
-                    { name: "📝 Mesaj", value: `\`\`\`${msg}\`\`\`` }
-                ],
-                timestamp: new Date().toISOString()
-            };
-
-            await fetch(WEBHOOK_CONTACT, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ embeds: [embed] })
-            });
-
-            btn.innerText = "GÖNDERİLDİ!";
-            setTimeout(() => { btn.innerText = "GÖNDER"; }, 3000);
-        }
-
-        // GÜVENLİK LOG (WEBHOOK 2)
-        async function sendSecurityLog() {
-            try {
-                const ipReq = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipReq.json();
-                
-                const embed = {
-                    title: "🚨 EzWin Security - Ziyaretçi Logu",
-                    color: 0xff0080,
-                    fields: [
-                        { name: "🌐 IP Adresi", value: `||${ipData.ip}||`, inline: true },
-                        { name: "💻 Cihaz", value: navigator.platform, inline: true },
-                        { name: "🌍 Tarayıcı", value: navigator.userAgent }
-                    ],
-                    timestamp: new Date().toISOString()
-                };
-
-                fetch(WEBHOOK_SECURITY, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ embeds: [embed] })
-                });
-            } catch (e) {}
-        }
-
-        // DİĞER FONKSİYONLAR
-        function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
-        function changeLang(l) {
+        // DİL DEĞİŞTİRİCİ
+        function changeLang(lang) {
+            localStorage.setItem('ezLang', lang); 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[l][key];
-                else el.innerText = translations[l][key];
+                if (translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
             });
-            document.getElementById('currentLangText').innerText = l.toUpperCase();
-            document.getElementById('currentLangImg').src = l === 'tr' ? "https://flagcdn.com/w20/tr.png" : "https://flagcdn.com/w20/gb.png";
+            document.getElementById('currentLangText').textContent = lang.toUpperCase();
+            document.getElementById('currentLangImg').src = lang === 'en' ? 'https://flagcdn.com/w20/gb.png' : 'https://flagcdn.com/w20/tr.png';
+            document.getElementById('langMenu').classList.remove('active');
         }
 
-        window.onload = () => {
-            initConsoleSecurity();
-            sendSecurityLog();
-            // Sayaç
-            let v = localStorage.getItem('ez_v') || 5240;
-            v = parseInt(v) + 1;
-            localStorage.setItem('ez_v', v);
-            document.getElementById('vCount').innerText = v.toLocaleString();
+        // TEMA DEĞİŞTİRİCİ
+        function changeTheme(theme) {
+            const root = document.documentElement;
+            if(theme === 'blue') {
+                root.style.setProperty('--accent-primary', '#007cf0');
+                root.style.setProperty('--accent-secondary', '#00dfd8');
+                root.style.setProperty('--accent-glow', 'rgba(0, 124, 240, 0.4)');
+            } else if(theme === 'cyber') {
+                root.style.setProperty('--accent-primary', '#ff0080');
+                root.style.setProperty('--accent-secondary', '#7928ca');
+                root.style.setProperty('--accent-glow', 'rgba(255, 0, 128, 0.4)');
+            } else if(theme === 'emerald') {
+                root.style.setProperty('--accent-primary', '#00ff88');
+                root.style.setProperty('--accent-secondary', '#00b8ff');
+                root.style.setProperty('--accent-glow', 'rgba(0, 255, 136, 0.4)');
+            } else if(theme === 'gold') {
+                root.style.setProperty('--accent-primary', '#ffcc00');
+                root.style.setProperty('--accent-secondary', '#ff6600');
+                root.style.setProperty('--accent-glow', 'rgba(255, 204, 0, 0.4)');
+            }
+            document.getElementById('themeMenu').classList.remove('active');
+        }
+
+        // --- YOUTUBE MÜZİK OYNATICI ---
+        let player;
+        const videoIds = ['KhqNTjbQ71A', '_9bw_VtMUGA', 'osPq9Yb8xm8'];
+        const trackNames = ['TRACK #1 - PHONK', 'TRACK #2 - BEAT', 'TRACK #3 - VIBE'];
+        let currentVideoIndex = 0;
+        let isPlaying = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '0',
+                width: '0',
+                videoId: videoIds[currentVideoIndex],
+                playerVars: { 'autoplay': 0, 'controls': 0 },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            updateTrackInfo();
+            const volRange = document.getElementById('volRange');
+            player.setVolume(volRange.value);
+            volRange.addEventListener('input', (e) => {
+                player.setVolume(e.target.value);
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                nextTrack();
+            } else if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                document.getElementById('playIcon').className = 'fas fa-pause';
+                updateTrackInfo();
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                isPlaying = false;
+                document.getElementById('playIcon').className = 'fas fa-play';
+            }
+        }
+
+        function togglePlay() {
+            if (!player || !player.playVideo) return;
+            if (isPlaying) { player.pauseVideo(); } 
+            else { player.playVideo(); }
+        }
+
+        function nextTrack() {
+            currentVideoIndex = (currentVideoIndex + 1) % videoIds.length;
+            player.loadVideoById(videoIds[currentVideoIndex]);
+            showToast();
+        }
+
+        function prevTrack() {
+            currentVideoIndex = (currentVideoIndex - 1 + videoIds.length) % videoIds.length;
+            player.loadVideoById(videoIds[currentVideoIndex]);
+            showToast();
+        }
+
+        function updateTrackInfo() {
+            document.getElementById('trackName').textContent = trackNames[currentVideoIndex];
+            document.getElementById('toastTrackName').textContent = "PLAYING: " + trackNames[currentVideoIndex];
+        }
+
+        function showToast() {
+            const toast = document.getElementById('media-toast');
+            toast.classList.add('active');
+            setTimeout(() => { toast.classList.remove('active'); }, 3000);
+        }
+
+        // --- İLETİŞİM (CONTACT) WEBHOOK ---
+        let lastSendTime = 0;
+        function sendToDiscord() {
+            const now = Date.now();
+            const btn = document.getElementById('sendBtn');
+            const span = document.getElementById('btnSpan');
+            const lang = localStorage.getItem('ezLang') || 'en';
             
-            // Sağ tık engeli
-            document.addEventListener('contextmenu', e => e.preventDefault());
-        };
+            if (now - lastSendTime < 60000) {
+                const waitTime = Math.ceil((60000 - (now - lastSendTime)) / 1000);
+                alert((translations[lang].wait_msg || "WAIT: ") + waitTime + "s");
+                return;
+            }
+
+            const user = document.getElementById('contactUser').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if(!user || !email || !message) {
+                alert("Please fill all fields! / Lütfen tüm alanları doldurun!");
+                return;
+            }
+
+            btn.disabled = true;
+            span.textContent = "SENDING...";
+
+            const contactHook = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
+            
+            fetch(contactHook, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "📩 YENİ İLETİŞİM MESAJI | EZWIN STUDIO",
+                        color: 31999,
+                        fields: [
+                            { name: "👤 Kullanıcı", value: user, inline: true },
+                            { name: "📧 İletişim (Discord/Mail)", value: email, inline: true },
+                            { name: "📝 Mesaj", value: message }
+                        ],
+                        timestamp: new Date().toISOString()
+                    }]
+                })
+            }).then(res => {
+                if(res.ok) {
+                    span.textContent = "SENT!";
+                    lastSendTime = Date.now();
+                    document.getElementById('contactUser').value = "";
+                    document.getElementById('contactEmail').value = "";
+                    document.getElementById('contactMessage').value = "";
+                } else {
+                    span.textContent = "ERROR";
+                }
+            }).catch(() => {
+                span.textContent = "ERROR";
+            }).finally(() => {
+                setTimeout(() => { span.textContent = translations[lang].submit; btn.disabled = false; }, 3000);
+            });
+        }
+
+        // Ziyaretçi Sayacı (Sahte)
+        let vCount = localStorage.getItem('vCount') || Math.floor(Math.random() * 1000) + 5000;
+        vCount = parseInt(vCount) + 1;
+        localStorage.setItem('vCount', vCount);
+        document.getElementById('vCount').textContent = vCount.toLocaleString();
+
+        // Sayfa Yüklendiğinde Varsayılan Dili Ayarla
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('ezLang') || 'en';
+            changeLang(savedLang);
+        });
     </script>
 </body>
 </html>
