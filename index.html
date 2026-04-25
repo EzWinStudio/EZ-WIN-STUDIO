@@ -403,7 +403,7 @@
                 submit: "SUBMIT", data_secured: "DATA SECURED BY EZWIN SECURITY",
                 btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "JOIN EZWIN UNCOPYLOCKED",
                 btn_acc: "EZWIN ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
-                btn_studio: "JOIN EZWIN STUDIO"
+                btn_studio: "JOIN EZWIN STUDIO", wait_msg: "WAIT: "
             },
             tr: {
                 enter_hub: "MERKEZE GİRİŞ", live_text: "CANLI",
@@ -418,7 +418,7 @@
                 submit: "GÖNDER", data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR",
                 btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED'A KATIL",
                 btn_acc: "EZWIN HESAP HİZMETLERİ", btn_music_yt: "EZWIN MÜZİK", btn_cheats: "EZWIN HİLELERİ",
-                btn_studio: "EZWIN STUDIO'YA KATIL"
+                btn_studio: "EZWIN STUDIO'YA KATIL", wait_msg: "BEKLEYİN: "
             }
         };
 
@@ -433,19 +433,12 @@
             }, 800);
             
             document.querySelectorAll('.ui-element').forEach((el, index) => {
-                setTimeout(() => {
-                    el.classList.add('show');
-                }, 500 + (index * 200));
+                setTimeout(() => { el.classList.add('show'); }, 500 + (index * 200));
             });
         }
 
-        function scrollToTarget(targetId) {
-            document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function togglePanel(panelId) {
-            document.getElementById(panelId).classList.toggle('active');
-        }
+        function scrollToTarget(targetId) { document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' }); }
+        function togglePanel(panelId) { document.getElementById(panelId).classList.toggle('active'); }
 
         // DİL DEĞİŞTİRME FONKSİYONU
         function changeLang(lang) {
@@ -464,56 +457,127 @@
 
             const btnText = document.getElementById('currentLangText');
             const btnImg = document.getElementById('currentLangImg');
+            
             if(lang === 'tr') {
-                btnText.innerText = 'TR';
-                btnImg.src = 'https://flagcdn.com/w20/tr.png';
+                btnText.innerText = "TR";
+                btnImg.src = "https://flagcdn.com/w20/tr.png";
             } else {
-                btnText.innerText = 'EN';
-                btnImg.src = 'https://flagcdn.com/w20/gb.png';
+                btnText.innerText = "EN";
+                btnImg.src = "https://flagcdn.com/w20/gb.png";
             }
-
             document.getElementById('langMenu').classList.remove('active');
         }
 
-        // TEMA DEĞİŞTİRME FONKSİYONU
-        function changeTheme(themeType) {
-            const root = document.documentElement;
-            if(themeType === 'blue') {
-                root.style.setProperty('--accent-primary', '#007cf0');
-                root.style.setProperty('--accent-glow', 'rgba(0, 124, 240, 0.4)');
-            } else if(themeType === 'cyber') {
-                root.style.setProperty('--accent-primary', '#ff0080');
-                root.style.setProperty('--accent-glow', 'rgba(255, 0, 128, 0.4)');
-            } else if(themeType === 'emerald') {
-                root.style.setProperty('--accent-primary', '#00ff88');
-                root.style.setProperty('--accent-glow', 'rgba(0, 255, 136, 0.4)');
-            } else if(themeType === 'gold') {
-                root.style.setProperty('--accent-primary', '#ffcc00');
-                root.style.setProperty('--accent-glow', 'rgba(255, 204, 0, 0.4)');
-            }
+        // TEMA DEĞİŞTİRME
+        function changeTheme(theme) {
+            const r = document.documentElement;
+            const colors = { blue: '#007cf0', cyber: '#ff0080', emerald: '#00ff88', gold: '#ffcc00' };
+            r.style.setProperty('--accent-primary', colors[theme]);
+            r.style.setProperty('--accent-glow', colors[theme] + '66');
             document.getElementById('themeMenu').classList.remove('active');
         }
 
-        // MÜZİK KONTROLLERİ (Arayüzde hata vermemesi için eklendi)
+        // === 1. ZİYARETÇİ SAYACI (LOKAL) ===
+        function updateVisitCounter() {
+            let visits = localStorage.getItem('ezwin_visits');
+            if (!visits) { visits = 0; }
+            visits = parseInt(visits) + 1;
+            localStorage.setItem('ezwin_visits', visits);
+            document.getElementById('vCount').innerText = visits;
+        }
+        updateVisitCounter(); // Sayfa yüklendiğinde çalıştır
+
+        // === 2. YOUTUBE MÜZİK PLAYER ===
+        let player;
         let isPlaying = false;
+        let currentTrackIndex = 0;
+
+        // Çalmak istediğin şarkıların YouTube ID'lerini buraya ekle (Linkteki v= kısmından sonrası)
+        const playlist = [
+            { id: "jfKfPfyJRdk", name: "Lofi Hip Hop Radio" }, // Örnek Lofi
+            { id: "5qap5aO4i9A", name: "Chillstep Mix" },      // Örnek Chill
+            { id: "AKej7e5bVw0", name: "Cyberpunk Ambient" }   // Örnek Cyberpunk
+        ];
+
+        // YouTube API hazır olduğunda otomatik tetiklenir
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '0', width: '0',
+                videoId: playlist[currentTrackIndex].id,
+                playerVars: { 'autoplay': 0, 'controls': 0 },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            document.getElementById('trackName').innerText = playlist[currentTrackIndex].name;
+            player.setVolume(document.getElementById('volRange').value);
+
+            // Ses Çubuğu Kontrolü
+            document.getElementById('volRange').addEventListener('input', function(e) {
+                if(player && player.setVolume) {
+                    player.setVolume(e.target.value);
+                }
+            });
+        }
+
+        // Şarkı bitince sıradakine geç
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) { nextTrack(); }
+        }
+
         function togglePlay() {
+            if (!player || !player.playVideo) return;
             const icon = document.getElementById('playIcon');
-            isPlaying = !isPlaying;
-            if(isPlaying) {
-                icon.classList.remove('fa-play');
-                icon.classList.add('fa-pause');
+            
+            if (isPlaying) {
+                player.pauseVideo();
+                icon.classList.replace('fa-pause', 'fa-play');
+                isPlaying = false;
             } else {
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
+                player.playVideo();
+                icon.classList.replace('fa-play', 'fa-pause');
+                isPlaying = true;
+                showToast(playlist[currentTrackIndex].name);
             }
         }
-        function prevTrack() { /* YouTube API eklendiğinde buralar dolacak */ }
-        function nextTrack() { /* YouTube API eklendiğinde buralar dolacak */ }
 
-        // DISCORD WEBHOOK FONKSİYONU
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7"; // <-- BURAYA DİSCORD WEBHOOK LİNKİNİ YAPIŞTIR
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack();
+        }
+
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack();
+        }
+
+        function loadTrack() {
+            if (!player) return;
+            player.loadVideoById(playlist[currentTrackIndex].id);
+            document.getElementById('trackName').innerText = playlist[currentTrackIndex].name;
+            isPlaying = true;
+            document.getElementById('playIcon').classList.replace('fa-play', 'fa-pause');
+            showToast(playlist[currentTrackIndex].name);
+        }
+
+        function showToast(name) {
+            const toast = document.getElementById('media-toast');
+            document.getElementById('toastTrackName').innerText = "PLAYING: " + name.toUpperCase();
+            toast.classList.add('active');
+            setTimeout(() => { toast.classList.remove('active'); }, 3000);
+        }
+
+        // === 3. İLETİŞİM FORMU (SPAM KORUMALI) ===
+        const WEBHOOK_URL = "BURAYA_WEBHOOK_LINKINI_YAPIŞTIR"; 
+        let isCooldown = false;
 
         async function sendToDiscord() {
+            if (isCooldown) return;
+
             const userField = document.getElementById('contactUser');
             const emailField = document.getElementById('contactEmail');
             const msgField = document.getElementById('contactMessage');
@@ -526,61 +590,74 @@
             const message = msgField.value.trim();
 
             if (!user || !email || !message) {
-                btnSpan.innerText = localStorage.getItem('ezLang') === 'tr' ? "ALANLARI DOLDURUN!" : "FILL ALL FIELDS!";
+                btnSpan.innerText = "!"; 
                 setTimeout(() => { btnSpan.innerText = originalText; }, 2000);
                 return;
             }
 
             sendBtn.disabled = true;
-            btnSpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; 
-
-            const payload = {
-                username: "EZWIN STUDIO CONTACT",
-                avatar_url: "https://i.imgur.com/AfFp7pu.png",
-                embeds: [{
-                    title: "📨 Yeni İletişim Formu Mesajı",
-                    color: 3447003,
-                    fields: [
-                        { name: "👤 Kullanıcı Adı", value: user, inline: true },
-                        { name: "📧 İletişim (Discord/Email)", value: email, inline: true },
-                        { name: "📝 Mesaj", value: message }
-                    ],
-                    timestamp: new Date().toISOString()
-                }]
-            };
+            btnSpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
             try {
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: "📨 New Message", color: 3447003,
+                            fields: [
+                                { name: "User", value: user, inline: true },
+                                { name: "Contact", value: email, inline: true },
+                                { name: "Message", value: message }
+                            ]
+                        }]
+                    })
                 });
 
                 if (response.ok) {
-                    userField.value = '';
-                    emailField.value = '';
-                    msgField.value = '';
-
-                    btnSpan.innerText = localStorage.getItem('ezLang') === 'tr' ? "GÖNDERİLDİ!" : "SENT!";
-                    sendBtn.style.borderColor = "var(--status-active)";
-                    sendBtn.style.color = "var(--status-active)";
-                } else {
-                    throw new Error('Webhook error');
-                }
-            } catch (error) {
-                console.error("Webhook Error:", error);
-                btnSpan.innerText = localStorage.getItem('ezLang') === 'tr' ? "GÖNDERİLEMEDİ!" : "FAILED!";
-                sendBtn.style.borderColor = "var(--accent-pink)";
-                sendBtn.style.color = "var(--accent-pink)";
-            }
-
-            setTimeout(() => {
-                btnSpan.innerText = originalText;
+                    userField.value = ''; emailField.value = ''; msgField.value = '';
+                    startCooldown(120); 
+                } else { throw new Error(); }
+            } catch (e) {
+                btnSpan.innerText = "ERROR";
                 sendBtn.disabled = false;
-                sendBtn.style.borderColor = "";
-                sendBtn.style.color = "";
-            }, 3000);
+                setTimeout(() => { btnSpan.innerText = originalText; }, 3000);
+            }
         }
+
+        function startCooldown(seconds) {
+            isCooldown = true;
+            const sendBtn = document.getElementById('sendBtn');
+            const btnSpan = document.getElementById('btnSpan');
+            let timeLeft = seconds;
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                const lang = localStorage.getItem('ezLang') || 'en';
+                btnSpan.innerText = `${translations[lang].wait_msg}${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    isCooldown = false;
+                    sendBtn.disabled = false;
+                    btnSpan.innerText = translations[lang].submit;
+                }
+            }, 1000);
+        }
+
+        // Arka plan animasyonu (Opsiyonel)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const stars = Array(150).fill().map(() => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 }));
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill(); });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
     </script>
 </body>
 </html>
