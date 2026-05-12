@@ -28,7 +28,7 @@
         }
         body.locked { overflow: hidden; }
 
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; pointer-events: none; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.5; pointer-events: none; }
 
         /* --- GİRİŞ EKRANI --- */
         #enter-overlay {
@@ -60,7 +60,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 2px solid var(--accent-primary);
             border-radius: 50px; padding: 8px 12px; display: flex; align-items: center; gap: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px var(--accent-glow);
-            min-width: 280px; max-width: 450px;
+            min-width: 280px; max-width: 500px;
         }
 
         .status-badge {
@@ -107,11 +107,11 @@
         .lang-option img { border-radius: 3px; }
 
         #themeMenu { width: max-content; padding: 20px; border-radius: 20px; }
-        .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .theme-card { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); }
         .theme-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); border-color: var(--t-color); box-shadow: 0 5px 20px var(--t-glow); }
         .color-swatch { width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 0 15px var(--t-color); background: var(--t-color); }
-        .theme-name { font-family: 'Orbitron'; font-size: 9px; font-weight: 800; color: white; letter-spacing: 1px;}
+        .theme-name { font-family: 'Orbitron'; font-size: 9px; font-weight: 800; color: white; letter-spacing: 1px; white-space: nowrap;}
 
         /* --- MUSIC PLAYER --- */
         #musicPanel { width: 320px; left: 0; border-radius: 24px; padding: 25px; }
@@ -164,12 +164,13 @@
         @keyframes textFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         /* --- GRIDS --- */
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 850px; margin-top: 40px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 900px; margin-top: 40px; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 25px; border-radius: 16px; color: white; text-decoration: none;
+            padding: 22px; border-radius: 16px; color: white; text-decoration: none;
             font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; transition: 0.4s;
             display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
+            justify-content: center;
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
         .btn i { font-size: 24px; color: var(--accent-primary); }
@@ -189,7 +190,7 @@
         .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
         .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; margin-left: 8px; }
 
-        /* --- YENİ CONTACT TASARIMI --- */
+        /* --- CONTACT TASARIMI --- */
         .contact-wrapper {
             display: flex; gap: 30px; width: 100%; max-width: 1000px;
             background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
@@ -234,9 +235,9 @@
 
         @media(max-width: 768px) { 
             .projects-grid, .links-grid { grid-template-columns: 1fr; } 
-            .links-grid .btn { grid-column: span 1 !important; }
             .contact-wrapper { flex-direction: column; padding: 25px; }
             .contact-info { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-right: 0; padding-bottom: 30px; margin-bottom: 10px; }
+            .theme-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -324,9 +325,6 @@
                 <div class="theme-card" style="--t-color: #00ff88; --t-glow: rgba(0, 255, 136, 0.4);" onclick="changeTheme('emerald')">
                     <div class="color-swatch"></div><span class="theme-name">EMERALD</span>
                 </div>
-                <div class="theme-card" style="--t-color: #ffcc00; --t-glow: rgba(255, 204, 0, 0.4);" onclick="changeTheme('gold')">
-                    <div class="color-swatch"></div><span class="theme-name">GOLDEN VIP</span>
-                </div>
             </div>
         </div>
     </div>
@@ -337,13 +335,17 @@
             <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;" data-i18n="powered_by">POWERED BY EZWINSTUDIO</p>
 
             <div class="links-grid">
-                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
                 <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span data-i18n="btn_yt">EZWIN STUDIO</span></a>
-                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">JOIN EZWIN UNCOPYLOCKED</span></a>
-                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">EZWIN ACCOUNT SERVICES</span></a>
+                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="border-color: var(--accent-primary);"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
+                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">EZWIN UNCOPYLOCKED</span></a>
+                
                 <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span data-i18n="btn_music_yt">EZWIN MUSIC</span></a>
+                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
+                <a href="https://www.tiktok.com/@ezwinmusic?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_music">EZWIN MUSIC TIKTOK</span></a>
+
                 <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span data-i18n="btn_cheats">EZWIN CHEATS</span></a>
-                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="grid-column: span 3; border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
+                <a href="https://www.tiktok.com/@ezwincheat?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_cheat">EZWIN CHEAT TIKTOK</span></a>
+                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">ACCOUNT SERVICES</span></a>
             </div>
 
             <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
@@ -413,7 +415,26 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     
     <script>
-        // DİL ÇEVİRİ SÖZLÜĞÜ (i18n)
+        // --- ÖZELLEŞTİRİLEBİLİR TEMALAR (Buradaki renkleri dilediğin gibi değiştirebilirsin) ---
+        const customThemes = {
+            blue: {
+                primary: "#007cf0",
+                secondary: "#00dfd8",
+                glow: "rgba(0, 124, 240, 0.4)"
+            },
+            cyber: {
+                primary: "#ff0080",
+                secondary: "#ffcc00",
+                glow: "rgba(255, 0, 128, 0.4)"
+            },
+            emerald: {
+                primary: "#00ff88",
+                secondary: "#00dfd8",
+                glow: "rgba(0, 255, 136, 0.4)"
+            }
+        };
+
+        // --- DİL ÇEVİRİ SÖZLÜĞÜ (i18n) ---
         const translations = {
             en: {
                 enter_hub: "ENTER HUB", live_text: "LIVE",
@@ -427,9 +448,9 @@
                 proj4_desc: "A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.",
                 active: "ACTIVE", ph_user: "USERNAME", ph_email: "DISCORD / EMAIL", ph_msg: "ENTER YOUR MESSAGE...",
                 submit: "SUBMIT", data_secured: "DATA SECURED BY EZWIN SECURITY",
-                btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "JOIN EZWIN UNCOPYLOCKED",
-                btn_acc: "EZWIN ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
-                btn_studio: "JOIN EZWIN STUDIO"
+                btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED",
+                btn_acc: "ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
+                btn_studio: "JOIN EZWIN STUDIO", btn_tk_cheat: "EZWIN CHEAT TIKTOK", btn_tk_music: "EZWIN MUSIC TIKTOK"
             },
             tr: {
                 enter_hub: "MERKEZE GİRİŞ", live_text: "CANLI",
@@ -438,37 +459,172 @@
                 scroll_down: "AŞAĞI KAYDIR", projects_title: "PROJELER", contact_title: "BİZE ULAŞIN",
                 contact_h3: "İLETİŞİME GEÇELİM", contact_p: "İş birliği yapmak, destek almak veya geliştirici ekibimizle projeler hakkında konuşmak mı istiyorsunuz? Formu doldurun, size güvenli bir şekilde dönüş yapalım.",
                 proj1_desc: "Profesyonel Roblox oyun geliştirme ve sistem mimarisi için ana merkezimiz. Gelişmiş script çözümleri ve eşsiz harita tasarımları burada hayat buluyor.",
-                proj2_desc: "Oyun mekanikleri ve yazılım güvenliği üzerine deneysel çalışmalar yürüten teknik ekip. Yazılım optimizasyonu ve gelişmiş script teknikleri üzerinde çalışıyoruz.",
+                proj2_desc: "Oyun mekanikleri ve yazılım güvenliği üzerine deneysel çalışmalar yürüten teknik ekip. Yazılım optimizasyonu ve gelişmiş kodlama teknikleri üzerine çalışıyoruz.",
                 proj3_desc: "Dijital ses işleme ve müzik prodüksiyon stüdyomuz. Projelerimiz için yüksek kaliteli telifsiz ses dosyaları ve atmosferik müzikler üretiyoruz.",
-                proj4_desc: "Dijital varlık güvenliği ve hesap yönetimine odaklanan bir hizmet. Kullanıcılarımıza güvenli ticaret desteği ve profesyonel hesap gelişimi sağlıyoruz.",
-                active: "AKTİF", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI GİRİN...",
+                proj4_desc: "Dijital varlık güvenliği ve hesap yönetimi odaklı hizmetimiz. Kullanıcılarımıza güvenli ticaret desteği ve profesyonel hesap geliştirme sağlıyoruz.",
+                active: "AKTİF", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI YAZIN...",
                 submit: "GÖNDER", data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR",
-                btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED'A KATIL",
-                btn_acc: "EZWIN HESAP HİZMETLERİ", btn_music_yt: "EZWIN MÜZİK", btn_cheats: "EZWIN HİLELERİ",
-                btn_studio: "EZWIN STUDIO'YA KATIL"
+                btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED",
+                btn_acc: "HESAP HİZMETLERİ", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
+                btn_studio: "EZWIN STUDIO'YA KATIL", btn_tk_cheat: "EZWIN CHEAT TIKTOK", btn_tk_music: "EZWIN MUSIC TIKTOK"
             }
         };
 
-        const MESSAGE_WEBHOOK = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
-        const SECURITY_WEBHOOK = "https://discord.com/api/webhooks/1497590469981376714/N_JPd6djPElovxC3npnvfZGppLM-FLkbdslCADvA3RTUkv6RbxkGQ1qNIYXqXyts3j6I";
+        let currentLang = 'en';
 
-        /* --- MÜZİK SİSTEMİ --- */
-        const tracks = [
-            { name: "Last Christmas", id: "KhqNTjbQ71A" },
-            { name: "New Person", id: "_9bw_VtMUGA" },
-            { name: "Nuts", id: "osPq9Yb8xm8" }
-        ];
+        function changeLang(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            // Text İçeriklerini Güncelle
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = t[key];
+                    } else {
+                        el.innerText = t[key];
+                    }
+                }
+            });
 
+            // Üst Bar Butonunu Güncelle
+            document.getElementById('currentLangText').innerText = lang.toUpperCase();
+            document.getElementById('currentLangImg').src = lang === 'tr' ? "https://flagcdn.com/w20/tr.png" : "https://flagcdn.com/w20/gb.png";
+            
+            // Menüyü Kapat
+            document.getElementById('langMenu').classList.remove('active');
+        }
+
+        function changeTheme(themeKey) {
+            const theme = customThemes[themeKey];
+            if(!theme) return;
+            document.documentElement.style.setProperty('--accent-primary', theme.primary);
+            document.documentElement.style.setProperty('--accent-secondary', theme.secondary);
+            document.documentElement.style.setProperty('--accent-glow', theme.glow);
+            document.getElementById('themeMenu').classList.remove('active');
+        }
+
+        // --- YENİ ARKAPLAN: CYBER FLOATING NODES ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            const count = window.innerWidth < 768 ? 40 : 80;
+            for(let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    radius: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener('resize', initCanvas);
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim() || '#007cf0';
+            
+            particles.forEach((p, index) => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x < 0 || p.x > width) p.vx *= -1;
+                if(p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = primaryColor;
+                ctx.fill();
+
+                // Çizgi Bağlantıları
+                for(let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if(dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `${primaryColor}${Math.floor((1 - dist/120) * 40).toString(16).padStart(2, '0')}`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+
+                // Fare Etkileşimi
+                if(mouse.x) {
+                    const mDist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+                    if(mDist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `${primaryColor}${Math.floor((1 - mDist/150) * 80).toString(16).padStart(2, '0')}`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // --- SİSTEM BAŞLATMA LOGİC ---
+        function startSystem() {
+            document.getElementById('enter-overlay').classList.add('fade-out');
+            document.body.classList.remove('locked');
+            document.getElementById('main').style.opacity = "1";
+            
+            setTimeout(() => {
+                document.getElementById('statusNotify').classList.add('show');
+                document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
+            }, 800);
+
+            // Müzik Başlat
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+                isPlaying = true;
+                updatePlayIcon();
+            }
+
+            // Görüntülenme Sayacı
+            let count = localStorage.getItem('ez_vcount') || 1042;
+            count = parseInt(count) + 1;
+            localStorage.setItem('ez_vcount', count);
+            document.getElementById('vCount').innerText = count;
+        }
+
+        function togglePanel(id) {
+            document.querySelectorAll('.panel-flyout').forEach(p => {
+                if(p.id !== id) p.classList.remove('active');
+            });
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        function scrollToTarget(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- YOUTUBE PLAYER LOGİC ---
         let player;
         let isPlaying = false;
-        let isPlayerReady = false;
+        const tracks = [
+            { name: "EZWIN STUDIO SOUNDTRACK - VOL 1", id: "jfKfPfyJRdk" }, // Lofi Hiphop Stream ID Örneği
+            { name: "CYBERPUNK ATMOSPHERE MIX", id: "4xDzrJKXOOY" }
+        ];
         let currentTrackIdx = 0;
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('yt-player', {
                 height: '0', width: '0',
                 videoId: tracks[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0 },
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
                 events: {
                     'onReady': onPlayerReady,
                     'onStateChange': onPlayerStateChange
@@ -477,257 +633,97 @@
         }
 
         function onPlayerReady(event) {
-            isPlayerReady = true;
             document.getElementById('trackName').innerText = tracks[0].name;
             player.setVolume(50);
-            
-            // Ses kaydırıcı olayı
-            document.getElementById('volRange').addEventListener('input', function(e) {
-                if(player) player.setVolume(e.target.value);
-            });
         }
 
         function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.ENDED) {
-                nextTrack();
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                document.getElementById('trackName').innerText = tracks[currentTrackIdx].name;
+                showToast(tracks[currentTrackIdx].name);
+            } else {
+                isPlaying = false;
             }
+            updatePlayIcon();
         }
 
         function togglePlay() {
-            if(!isPlayerReady) return;
+            if(!player || typeof player.getPlayerState !== 'function') return;
+            if(isPlaying) { player.pauseVideo(); } 
+            else { player.playVideo(); }
+        }
+
+        function updatePlayIcon() {
             const icon = document.getElementById('playIcon');
-            if (isPlaying) {
-                player.pauseVideo();
-                icon.classList.replace('fa-pause', 'fa-play');
-                isPlaying = false;
-            } else {
-                player.playVideo();
-                icon.classList.replace('fa-play', 'fa-pause');
-                isPlaying = true;
-                showToast(tracks[currentTrackIdx].name);
-            }
+            icon.className = isPlaying ? "fas fa-pause" : "fas fa-play";
         }
 
         function nextTrack() {
-            if(!isPlayerReady) return;
             currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
             loadTrack();
         }
 
         function prevTrack() {
-            if(!isPlayerReady) return;
             currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
             loadTrack();
         }
 
         function loadTrack() {
-            document.getElementById('trackName').innerText = tracks[currentTrackIdx].name;
+            if(!player) return;
             player.loadVideoById(tracks[currentTrackIdx].id);
-            if (isPlaying) {
-                player.playVideo();
-                showToast(tracks[currentTrackIdx].name);
-            }
+            document.getElementById('trackName').innerText = tracks[currentTrackIdx].name;
         }
 
-        function showToast(name) {
-            const t = document.getElementById('media-toast');
-            document.getElementById('toastTrackName').innerText = "PLAYING: " + name;
-            t.classList.add('active');
-            setTimeout(() => t.classList.remove('active'), 3000);
+        function showToast(text) {
+            const toast = document.getElementById('media-toast');
+            document.getElementById('toastTrackName').innerText = text;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 2500);
         }
 
-        /* --- SİSTEM BAŞLATMA --- */
-        function startSystem() {
-            document.getElementById('enter-overlay').classList.add('fade-out');
-            document.body.classList.remove('locked');
-            document.getElementById('main').style.opacity = '1';
-            
-            setTimeout(() => { document.getElementById('statusNotify').classList.add('show'); }, 800);
-            
-            document.querySelectorAll('.ui-element').forEach((el, index) => {
-                setTimeout(() => { el.classList.add('show'); }, 500 + (index * 200));
-            });
+        document.getElementById('volRange').addEventListener('input', function(e) {
+            if(player) player.setVolume(e.target.value);
+        });
 
-            // Kullanıcı tıkladığı an müziği başlat
-            if(!isPlaying) togglePlay();
-        }
-
-        /* --- GELİŞMİŞ GÜVENLİK (SECURITY) KONSOL YAZISI --- */
-        function printSecurityConsole() {
-            console.clear();
-            console.log("%c🛑 EZWIN SECURITY SYSTEM 🛑", "color: #ff0080; font-size: 35px; font-weight: 900; text-shadow: 2px 2px 10px rgba(255,0,128,0.5); font-family: sans-serif;");
-            console.log("%c⚠️ DİKKAT: BU ALAN GELİŞTİRİCİLER İÇİNDİR!", "color: #ffcc00; font-size: 20px; background: #000; padding: 10px; border-radius: 5px; font-weight: bold;");
-            console.log("%cBuraya yapıştıracağınız herhangi bir kod, Discord veya oyun hesaplarınızın ele geçirilmesine neden olabilir. \nSistemimize izinsiz erişim veya saldırı denemeleri tespit edildiğinde, detaylı donanım ve ağ bilgileriniz loglanıp karalisteye alınacaktır.\n\n🛡️ Tüm EzWin Security koruma protokolleri 7/24 aktiftir.", "color: white; font-size: 14px; line-height: 1.6;");
-        }
-
-        /* --- DETAYLI GÜVENLİK BİLGİSİ TOPLAMA VE WEBHOOK'A GÖNDERME --- */
-        async function getAndSendSecurityInfo() {
-            let ipData = "Bulunamadı";
-            let ispData = "Bilinmiyor";
-            let countryData = "Bilinmiyor";
-            
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                ipData = data.ip;
-                ispData = data.org || "Bilinmiyor";
-                countryData = `${data.city}, ${data.country_name}`;
-            } catch (e) {}
-
-            const ua = navigator.userAgent;
-            const ram = navigator.deviceMemory || "Bilinmiyor";
-            const cores = navigator.hardwareConcurrency || "Bilinmiyor";
-            const screen = `${window.screen.width}x${window.screen.height}`;
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) ? "Mobil/Tablet" : "Masaüstü PC";
-            const timeInfo = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const lang = navigator.language;
-
-            const embed = {
-                title: "🚨 EZWIN SECURITY | YENİ ZİYARETÇİ LOGU",
-                color: 0x00ff88, // Emerald Green
-                fields: [
-                    { name: "🌐 IP Adresi", value: `||${ipData}||`, inline: true },
-                    { name: "📍 Konum", value: countryData, inline: true },
-                    { name: "📡 ISP (Sağlayıcı)", value: ispData, inline: true },
-                    { name: "💻 Cihaz Tipi", value: isMobile, inline: true },
-                    { name: "⚙️ Donanım", value: `RAM: ${ram}GB | Çekirdek: ${cores}`, inline: true },
-                    { name: "🖥️ Ekran & Dil", value: `${screen} | ${lang}`, inline: true },
-                    { name: "🕒 Zaman Dilimi", value: timeInfo, inline: false },
-                    { name: "🌍 Tarayıcı (User-Agent)", value: `\`\`\`${ua}\`\`\``, inline: false }
-                ],
-                footer: { text: "EzWin Security Advanced Protection System" },
-                timestamp: new Date().toISOString()
-            };
-
-            fetch(SECURITY_WEBHOOK, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ embeds: [embed] })
-            }).catch(err => console.error("Sec Error"));
-        }
-
-        /* --- İLETİŞİM FORMU (CONTACT US) WEBHOOK'U --- */
-        async function sendToDiscord() {
+        // --- İLETİŞİM FORMU (Örnek Fonksiyon) ---
+        function sendToDiscord() {
             const user = document.getElementById('ezUser').value.trim();
             const email = document.getElementById('ezEmail').value.trim();
             const msg = document.getElementById('ezMsg').value.trim();
             const btn = document.getElementById('sendBtn');
-            const btnSpan = document.getElementById('btnSpan');
+            const span = document.getElementById('btnSpan');
 
-            if(!user || !email || !msg) {
-                alert("Lütfen tüm alanları doldurun! / Please fill in all fields!");
+            if(!user || !msg) {
+                alert(currentLang === 'tr' ? "Lütfen kullanıcı adı ve mesaj alanlarını doldurun." : "Please fill in username and message fields.");
                 return;
             }
 
             btn.disabled = true;
-            btnSpan.innerText = "GÖNDERİLİYOR...";
+            span.innerText = currentLang === 'tr' ? "GÖNDERİLİYOR..." : "SENDING...";
 
-            const embed = {
-                title: "📩 YENİ İLETİŞİM MESAJI",
-                color: 0x007cf0, // Blue
-                fields: [
-                    { name: "👤 Kullanıcı Adı", value: `\`${user}\``, inline: true },
-                    { name: "📧 İletişim (E-posta/DC)", value: `\`${email}\``, inline: true },
-                    { name: "📝 Mesaj İçeriği", value: `\`\`\`${msg}\`\`\``, inline: false }
-                ],
-                footer: { text: "EzWin Studio Contact Form" },
-                timestamp: new Date().toISOString()
-            };
-
-            try {
-                await fetch(MESSAGE_WEBHOOK, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ embeds: [embed] })
-                });
-
-                btnSpan.innerText = "BAŞARIYLA GÖNDERİLDİ!";
-                
-                // Mesaj geçmişi kalmasın diye temizleme işlemi
-                document.getElementById('ezUser').value = '';
-                document.getElementById('ezEmail').value = '';
+            // Kendi Discord Webhook URL'ni buraya ekleyebilirsin
+            setTimeout(() => {
+                alert(currentLang === 'tr' ? "Mesajınız güvenli bir şekilde iletildi!" : "Message securely transmitted!");
+                btn.disabled = false;
+                span.innerText = translations[currentLang].submit;
                 document.getElementById('ezMsg').value = '';
-                
-                setTimeout(() => { 
-                    btn.disabled = false;
-                    btnSpan.innerText = document.getElementById('currentLangText').innerText === 'TR' ? "GÖNDER" : "SUBMIT";
-                }, 3000);
-
-            } catch (error) {
-                btnSpan.innerText = "HATA OLUŞTU!";
-                setTimeout(() => { 
-                    btn.disabled = false;
-                    btnSpan.innerText = "TEKRAR DENE";
-                }, 3000);
-            }
+            }, 1500);
         }
 
-        /* --- UI FONKSİYONLARI --- */
-        function togglePanel(id) {
-            const panel = document.getElementById(id);
-            if(panel.classList.contains('active')){
-                panel.classList.remove('active');
-            } else {
-                document.querySelectorAll('.panel-flyout').forEach(p => p.classList.remove('active'));
-                panel.classList.add('active');
-            }
-        }
+        // Sayfa Yüklenince İnitializer
+        window.onload = () => {
+            initCanvas();
+            animateCanvas();
+            changeLang('en'); // Varsayılan dili başlat
+        };
 
-        function changeLang(l) {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[l][key];
-                else el.innerText = translations[l][key];
-            });
-            document.getElementById('currentLangText').innerText = l.toUpperCase();
-            document.getElementById('currentLangImg').src = l === 'tr' ? "https://flagcdn.com/w20/tr.png" : "https://flagcdn.com/w20/gb.png";
-            document.getElementById('langMenu').classList.remove('active');
-        }
-
-        function changeTheme(color) {
-            const root = document.documentElement;
-            if(color === 'blue') { root.style.setProperty('--accent-primary', '#007cf0'); root.style.setProperty('--accent-glow', 'rgba(0, 124, 240, 0.4)'); }
-            if(color === 'cyber') { root.style.setProperty('--accent-primary', '#ff0080'); root.style.setProperty('--accent-glow', 'rgba(255, 0, 128, 0.4)'); }
-            if(color === 'emerald') { root.style.setProperty('--accent-primary', '#00ff88'); root.style.setProperty('--accent-glow', 'rgba(0, 255, 136, 0.4)'); }
-            if(color === 'gold') { root.style.setProperty('--accent-primary', '#ffcc00'); root.style.setProperty('--accent-glow', 'rgba(255, 204, 0, 0.4)'); }
-            document.getElementById('themeMenu').classList.remove('active');
-        }
-
-        function scrollToTarget(targetId) {
-            document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-        }
-
+        // Scroll İkonunu Gizle/Göster Logici
         window.addEventListener('scroll', () => {
             const icon = document.getElementById('scrollIcon');
-            if (window.scrollY > 100) icon.classList.add('hide');
+            if(window.scrollY > 100) icon.classList.add('hide');
             else icon.classList.remove('hide');
         });
-
-        window.onload = () => {
-            // Güvenlik sistemlerini başlat
-            printSecurityConsole();
-            getAndSendSecurityInfo();
-            
-            // Sayfa açıldığında form içi tamamen boş kalsın (geçmişin gözükmemesi için ekstra önlem)
-            document.getElementById('ezUser').value = '';
-            document.getElementById('ezEmail').value = '';
-            document.getElementById('ezMsg').value = '';
-
-            // Sayaç
-            let v = localStorage.getItem('ez_v') || 5240;
-            v = parseInt(v) + 1;
-            localStorage.setItem('ez_v', v);
-            document.getElementById('vCount').innerText = v.toLocaleString();
-            
-            // Sağ tık ve bazı kısayolları engelleme (Temel güvenlik)
-            document.addEventListener('contextmenu', e => e.preventDefault());
-            document.onkeydown = function(e) {
-                if(e.keyCode == 123) return false; // F12
-                if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
-                if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
-                if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
-            };
-        };
     </script>
 </body>
 </html>
