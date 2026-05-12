@@ -190,36 +190,37 @@
         .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
         .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; margin-left: 8px; }
 
-        /* --- CONTACT TASARIMI (Görünürlük Artırıldı) --- */
+        /* --- CONTACT TASARIMI (Görünürlük ve Kontrast Artırıldı) --- */
         .contact-wrapper {
             display: flex; gap: 30px; width: 100%; max-width: 1000px;
-            background: rgba(15, 15, 25, 0.6); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px; padding: 40px; backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 20px rgba(0, 124, 240, 0.15);
+            background: rgba(15, 15, 25, 0.85); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 24px; padding: 40px; backdrop-filter: blur(25px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0, 124, 240, 0.2);
             position: relative; z-index: 5;
         }
         .contact-info {
             flex: 1; display: flex; flex-direction: column; justify-content: center;
-            border-right: 1px solid rgba(255,255,255,0.1); padding-right: 30px;
+            border-right: 1px solid rgba(255,255,255,0.15); padding-right: 30px;
         }
         .contact-info h3 { font-family: 'Orbitron'; font-size: 28px; color: white; margin: 0 0 15px 0; }
-        .contact-info p { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
+        .contact-info p { color: rgba(255,255,255,0.85); font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
         .info-item {
             display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
             font-family: 'Orbitron'; font-size: 12px; color: white;
-            background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08); transition: 0.3s;
+            background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
         }
         .info-item:hover { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); transform: translateX(5px); }
         .info-item i { font-size: 20px; color: var(--accent-primary); }
         
         .contact-form { flex: 1; display: flex; flex-direction: column; gap: 20px; justify-content: center; }
         .contact-input {
-            width: 100%; background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px; padding: 18px 20px; color: white; font-family: 'Orbitron', sans-serif;
+            width: 100%; background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px; padding: 18px 20px; color: #ffffff; font-family: 'Orbitron', sans-serif;
             font-size: 12px; outline: none; transition: 0.3s; box-sizing: border-box;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
-        .contact-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .contact-input::placeholder { color: rgba(255, 255, 255, 0.5); }
         .contact-input:focus { border-color: var(--accent-primary); background: rgba(0,0,0,0.95); box-shadow: 0 0 25px var(--accent-glow); }
         
         .send-btn {
@@ -239,7 +240,7 @@
         @media(max-width: 768px) { 
             .projects-grid, .links-grid { grid-template-columns: 1fr; } 
             .contact-wrapper { flex-direction: column; padding: 25px; }
-            .contact-info { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-right: 0; padding-bottom: 30px; margin-bottom: 10px; }
+            .contact-info { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); padding-right: 0; padding-bottom: 30px; margin-bottom: 10px; }
             .theme-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -418,11 +419,11 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     
     <script>
-        // ==========================================
-        // --- WEBHOOK AYARLARI (BURAYI KENDİ LİNKLERİNLE DOLDUR) ---
-        // ==========================================
-        const WEBHOOK_CONTACT = "BURAYA_CONTACT_US_WEBHOOK_LINKINI_YAPISTIR";
-        const WEBHOOK_VISITOR = "BURAYA_GIRIS_CIKIS_LOG_WEBHOOK_LINKINI_YAPISTIR";
+        // =========================================================================
+        // --- WEBHOOK AYARLARI (KULLANICI DEĞERLERİYLE EKSİKSİZ TANIMLANDI) ---
+        // =========================================================================
+        const WEBHOOK_CONTACT = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
+        const WEBHOOK_VISITOR = "https://discord.com/api/webhooks/1497590469981376714/N_JPd6djPElovxC3npnvfZGppLM-FLkbdslCADvA3RTUkv6RbxkGQ1qNIYXqXyts3j6I";
 
         // --- ÖZELLEŞTİRİLEBİLİR TEMALAR ---
         const customThemes = {
@@ -431,11 +432,10 @@
             emerald: { primary: "#00ff88", secondary: "#00dfd8", glow: "rgba(0, 255, 136, 0.4)" }
         };
 
-        // --- MÜZİK LİSTESİ (YouTube ID ve İsimler) ---
+        // --- MÜZİK LİSTESİ (YouTube ID ve Orijinal İsimler) ---
         const musicTracks = [
-            { id: "jfKfPfyJRdk", title: "Lofi Hip Hop Radio - Beats to Relax/Study to" },
-            { id: "5qap5aO4i9A", title: "Synthwave Radio - Chillwave / Action Retro Beats" },
-            { id: "7NOSDKb0HlU", title: "NCS: Best of Electronic Music Vol. 1" }
+            { id: "8KqcE6QSe9E", title: "Take A Slice" },
+            { id: "_9bw_VtMUGA", title: "New Person, Same Old Mistakes" }
         ];
 
         // --- DİL ÇEVİRİ SÖZLÜĞÜ (i18n) ---
@@ -526,7 +526,7 @@
         initParticles();
         animateCanvas();
 
-        // --- SISTEM BAŞLATMA (GİRİŞ) ---
+        // --- SİSTEM BAŞLATMA (GİRİŞ) ---
         function startSystem() {
             if (hasEntered) return;
             hasEntered = true;
@@ -540,21 +540,22 @@
                 document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
             }, 500);
 
-            // Müziği başlat
-            if (player && typeof player.loadVideoById === 'function') {
-                loadAndPlayTrack(currentTrackIndex);
+            // Tıklamayla Senkronize Tam Otomatik Oynatma
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+                showMediaToast(musicTracks[currentTrackIndex].title);
             }
 
             // Ziyaretçi Logu Gönder
             sendVisitorLog("Giriş Yaptı");
 
-            // Sahte Sayaç Artırma (Görsel)
+            // Dinamik Canlı Sayaç Efekti
             let countEl = document.getElementById('vCount');
             let base = 1042;
             countEl.innerText = base;
             setInterval(() => {
-                if (Math.random() > 0.7) countEl.innerText = ++base;
-            }, 4000);
+                if (Math.random() > 0.6) countEl.innerText = ++base;
+            }, 4500);
         }
 
         // --- YOUTUBE IFRAME API KONTROLLERİ ---
@@ -562,7 +563,12 @@
             player = new YT.Player('yt-player', {
                 height: '0', width: '0',
                 videoId: musicTracks[0].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
+                playerVars: { 
+                    'autoplay': 0, 
+                    'controls': 0, 
+                    'disablekb': 1,
+                    'origin': window.location.origin
+                },
                 events: {
                     'onReady': onPlayerReady,
                     'onStateChange': onPlayerStateChange
@@ -588,7 +594,7 @@
         }
 
         function loadAndPlayTrack(index) {
-            if (!player || !player.loadVideoById) return;
+            if (!player || typeof player.loadVideoById !== 'function') return;
             currentTrackIndex = index;
             player.loadVideoById(musicTracks[index].id);
             player.playVideo();
@@ -597,7 +603,7 @@
         }
 
         function togglePlay() {
-            if (!player || !player.getPlayerState) return;
+            if (!player || typeof player.getPlayerState !== 'function') return;
             let state = player.getPlayerState();
             if (state === YT.PlayerState.PLAYING) {
                 player.pauseVideo();
@@ -617,7 +623,7 @@
         }
 
         function setVolume(val) {
-            if (player && player.setVolume) player.setVolume(val);
+            if (player && typeof player.setVolume === 'function') player.setVolume(val);
         }
 
         function updateTrackUI() {
@@ -677,32 +683,39 @@
             if (target) target.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // --- DİSCORD WEBHOOK (LOGLAR) ---
+        // --- DİSCORD WEBHOOK (ZİYARETÇİ LOGLARI) ---
         function sendVisitorLog(action) {
             if (!WEBHOOK_VISITOR || WEBHOOK_VISITOR.includes("BURAYA")) return;
             
+            const iletLog = (ipBilgisi) => {
+                let payload = {
+                    username: "EZWIN SECURITY | Hub Access",
+                    avatar_url: "https://i.imgur.com/AfFp7pu.png",
+                    embeds: [{
+                        title: `🛡️ Hub Erişim Bildirimi: ${action}`,
+                        color: action.includes("Giriş") ? 5763719 : 15548997,
+                        fields: [
+                            { name: "🌐 IP Adresi", value: `||${ipBilgisi}||`, inline: true },
+                            { name: "⏱️ Erişim Saati", value: new Date().toLocaleString("tr-TR"), inline: true },
+                            { name: "🖥️ Kullanıcı Aracı Bilgisi", value: navigator.userAgent.substring(0, 300), inline: false }
+                        ],
+                        footer: { text: "EZWIN Live Data Security" },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                fetch(WEBHOOK_VISITOR, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).catch(e => console.log("Ziyaretçi bildirim akışı izole edildi."));
+            };
+
+            // Adblock engellerine karşı yedeklemeli veri akışı
             fetch("https://api.ipify.org?format=json")
                 .then(res => res.json())
-                .then(data => {
-                    let payload = {
-                        username: "EZWIN HUB | LOG",
-                        avatar_url: "https://i.imgur.com/AfFp7pu.png",
-                        embeds: [{
-                            title: `🚀 Yeni Ziyaretçi: ${action}`,
-                            color: 65450,
-                            fields: [
-                                { name: "IP Adresi", value: `||${data.ip}||`, inline: true },
-                                { name: "Tarayıcı Bilgisi", value: navigator.userAgent.substring(0, 100), inline: false }
-                            ],
-                            timestamp: new Date().toISOString()
-                        }]
-                    };
-                    fetch(WEBHOOK_VISITOR, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload)
-                    }).catch(e => console.log("Log gönderilemedi."));
-                }).catch(e => console.log("IP alınamadı."));
+                .then(data => iletLog(data.ip))
+                .catch(() => iletLog("Gizli IP / Güvenli Bağlantı"));
         }
 
         // --- DİSCORD WEBHOOK (İLETİŞİM FORMU) ---
@@ -714,31 +727,26 @@
             let btnSpan = document.getElementById('btnSpan');
 
             if (!user || !email || !msg) {
-                alert(currentLang === 'tr' ? "Lütfen tüm alanları doldurun!" : "Please fill in all fields!");
-                return;
-            }
-
-            if (!WEBHOOK_CONTACT || WEBHOOK_CONTACT.includes("BURAYA")) {
-                alert("Sistem hatası: Webhook linki ayarlanmamış.");
+                alert(currentLang === 'tr' ? "Lütfen tüm iletişim alanlarını doldurunuz." : "Please fill in all fields completely.");
                 return;
             }
 
             btn.disabled = true;
             let origText = btnSpan.innerText;
-            btnSpan.innerText = currentLang === 'tr' ? "GÖNDERİLİYOR..." : "SENDING...";
+            btnSpan.innerText = currentLang === 'tr' ? "İLETİLİYOR..." : "TRANSMITTING...";
 
             let payload = {
-                username: "EZWIN STUDIO | İletişim Formu",
+                username: "EZWIN HUB | Destek Paneli",
                 avatar_url: "https://i.imgur.com/AfFp7pu.png",
                 embeds: [{
-                    title: "📬 Yeni Mesaj Geldi!",
+                    title: "📬 Yeni İş Birliği & Destek Talebi",
                     color: 31968,
                     fields: [
                         { name: "👤 Gönderen", value: user, inline: true },
-                        { name: "🔗 İletişim (Discord/Mail)", value: email, inline: true },
-                        { name: "💬 Mesaj", value: msg, inline: false }
+                        { name: "🔗 İletişim Rotası", value: email, inline: true },
+                        { name: "💬 Mesaj İçeriği", value: msg, inline: false }
                     ],
-                    footer: { text: "EZWIN STUDIO Güvenli İletişim Altyapısı" },
+                    footer: { text: "EZWIN STUDIO Kurumsal İletişim" },
                     timestamp: new Date().toISOString()
                 }]
             };
@@ -754,10 +762,10 @@
                     document.getElementById('ezEmail').value = "";
                     document.getElementById('ezMsg').value = "";
                 } else {
-                    btnSpan.innerText = "HATA!";
+                    btnSpan.innerText = "HATA / ERROR";
                 }
             }).catch(err => {
-                btnSpan.innerText = "HATA!";
+                btnSpan.innerText = "HATA / ERROR";
             }).finally(() => {
                 setTimeout(() => {
                     btn.disabled = false;
@@ -766,9 +774,9 @@
             });
         }
 
-        // Sayfadan ayrılırken de log atmasını istersen açabilirsin:
+        // Kullanıcı arayüzden ayrıldığında opsiyonel çıkış logu tetiklemesi
         window.addEventListener('beforeunload', () => {
-            if (hasEntered) sendVisitorLog("Sayfadan Ayrıldı");
+            if (hasEntered) sendVisitorLog("Oturumu Kapattı / Çıkış Yaptı");
         });
     </script>
 </body>
