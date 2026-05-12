@@ -28,7 +28,7 @@
         }
         body.locked { overflow: hidden; }
 
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.6; pointer-events: none; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.5; pointer-events: none; }
 
         /* --- GİRİŞ EKRANI --- */
         #enter-overlay {
@@ -60,7 +60,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 2px solid var(--accent-primary);
             border-radius: 50px; padding: 8px 12px; display: flex; align-items: center; gap: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px var(--accent-glow);
-            min-width: 280px; max-width: 450px;
+            min-width: 280px; max-width: 500px;
         }
 
         .status-badge {
@@ -107,16 +107,16 @@
         .lang-option img { border-radius: 3px; }
 
         #themeMenu { width: max-content; padding: 20px; border-radius: 20px; }
-        .theme-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px; } /* Changed to list for 3 items */
-        .theme-card { display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); }
-        .theme-card:hover { background: rgba(255,255,255,0.1); transform: translateX(-5px); border-color: var(--t-color); box-shadow: 0 5px 20px var(--t-glow); }
-        .color-swatch { width: 25px; height: 25px; border-radius: 50%; box-shadow: 0 0 15px var(--t-color); background: var(--t-color); }
-        .theme-name { font-family: 'Orbitron'; font-size: 10px; font-weight: 800; color: white; letter-spacing: 1px;}
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .theme-card { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.3); }
+        .theme-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); border-color: var(--t-color); box-shadow: 0 5px 20px var(--t-glow); }
+        .color-swatch { width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 0 15px var(--t-color); background: var(--t-color); }
+        .theme-name { font-family: 'Orbitron'; font-size: 9px; font-weight: 800; color: white; letter-spacing: 1px; white-space: nowrap;}
 
         /* --- MUSIC PLAYER --- */
         #musicPanel { width: 320px; left: 0; border-radius: 24px; padding: 25px; }
         .player-top { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
-        .album-art { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 20px var(--accent-glow); color: white; transition: 0.5s; }
+        .album-art { width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-pink)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 20px var(--accent-glow); color: white; }
         .track-info-container { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
         .track-title { font-family: 'Orbitron'; font-size: 11px; color: white; font-weight: 900; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
@@ -157,22 +157,23 @@
         .ui-element.show { opacity: 1; pointer-events: all; }
         .animated-text { 
             font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary), var(--accent-pink), var(--accent-emerald), var(--accent-gold));
             background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: textFlow 5s ease infinite; transition: 0.5s;
+            animation: textFlow 5s ease infinite;
         }
         @keyframes textFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         /* --- GRIDS --- */
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 850px; margin-top: 40px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 900px; margin-top: 40px; }
         .btn {
             background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 25px; border-radius: 16px; color: white; text-decoration: none;
+            padding: 22px; border-radius: 16px; color: white; text-decoration: none;
             font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; transition: 0.4s;
             display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
+            justify-content: center;
         }
         .btn:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); }
-        .btn i { font-size: 24px; color: var(--accent-primary); transition: 0.3s; }
+        .btn i { font-size: 24px; color: var(--accent-primary); }
 
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%; max-width: 1000px; }
         .project-card {
@@ -180,7 +181,7 @@
             border-radius: 20px; padding: 40px 30px 60px 30px; text-align: center; transition: 0.4s; position: relative; overflow: hidden;
         }
         .project-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 15px 40px var(--accent-glow); }
-        .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; transition: 0.3s;}
+        .project-card i { font-size: 40px; color: var(--accent-primary); margin-bottom: 20px; }
         .project-card h3 { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 15px; color: white; }
         .project-card p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
@@ -189,7 +190,7 @@
         .active-dot::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--status-active); border-radius: 50%; animation: ripple 1.5s infinite; opacity: 0; }
         .active-text { font-family: 'Orbitron'; font-size: 10px; font-weight: 900; color: var(--status-active); letter-spacing: 2px; margin-left: 8px; }
 
-        /* --- YENİ CONTACT TASARIMI --- */
+        /* --- CONTACT TASARIMI --- */
         .contact-wrapper {
             display: flex; gap: 30px; width: 100%; max-width: 1000px;
             background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
@@ -209,7 +210,7 @@
             border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
         }
         .info-item:hover { border-color: var(--accent-primary); box-shadow: 0 0 15px var(--accent-glow); transform: translateX(5px); }
-        .info-item i { font-size: 20px; color: var(--accent-primary); transition: 0.3s;}
+        .info-item i { font-size: 20px; color: var(--accent-primary); }
         
         .contact-form { flex: 1; display: flex; flex-direction: column; gap: 20px; justify-content: center; }
         .contact-input {
@@ -229,14 +230,14 @@
         .send-btn:disabled { background: transparent; border: 2px solid rgba(255,255,255,0.2); cursor: not-allowed; opacity: 0.7; box-shadow: none; }
 
         .v-counter { position: fixed; bottom: 30px; left: 30px; display: flex; align-items: center; gap: 12px; z-index: 100; }
-        .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.5s;}
+        .logo-box { width: 40px; height: 40px; background: var(--accent-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .copyright { position: fixed; bottom: 30px; right: 30px; font-family: 'Orbitron'; font-size: 9px; opacity: 0.3; letter-spacing: 2px; z-index: 100; }
 
         @media(max-width: 768px) { 
             .projects-grid, .links-grid { grid-template-columns: 1fr; } 
-            .links-grid .btn { grid-column: span 1 !important; }
             .contact-wrapper { flex-direction: column; padding: 25px; }
             .contact-info { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-right: 0; padding-bottom: 30px; margin-bottom: 10px; }
+            .theme-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -315,13 +316,13 @@
         <div class="control-btn theme-btn" onclick="togglePanel('themeMenu')"><i class="fas fa-palette"></i> <span data-i18n="themes">THEMES</span></div>
         <div class="panel-flyout" id="themeMenu">
             <div class="theme-grid">
-                <div class="theme-card" style="--t-color: #007cf0; --t-glow: rgba(0, 124, 240, 0.4);" onclick="changeTheme('#007cf0', '#00dfd8', 'rgba(0, 124, 240, 0.4)')">
+                <div class="theme-card" style="--t-color: #007cf0; --t-glow: rgba(0, 124, 240, 0.4);" onclick="changeTheme('blue')">
                     <div class="color-swatch"></div><span class="theme-name">NEON BLUE</span>
                 </div>
-                <div class="theme-card" style="--t-color: #ff0080; --t-glow: rgba(255, 0, 128, 0.4);" onclick="changeTheme('#ff0080', '#ff8800', 'rgba(255, 0, 128, 0.4)')">
+                <div class="theme-card" style="--t-color: #ff0080; --t-glow: rgba(255, 0, 128, 0.4);" onclick="changeTheme('cyber')">
                     <div class="color-swatch"></div><span class="theme-name">CYBER PINK</span>
                 </div>
-                <div class="theme-card" style="--t-color: #00ff88; --t-glow: rgba(0, 255, 136, 0.4);" onclick="changeTheme('#00ff88', '#007cf0', 'rgba(0, 255, 136, 0.4)')">
+                <div class="theme-card" style="--t-color: #00ff88; --t-glow: rgba(0, 255, 136, 0.4);" onclick="changeTheme('emerald')">
                     <div class="color-swatch"></div><span class="theme-name">EMERALD</span>
                 </div>
             </div>
@@ -334,17 +335,17 @@
             <p style="font-family:'Orbitron'; letter-spacing:10px; color:var(--accent-secondary); font-size:12px; margin-top: -10px;" data-i18n="powered_by">POWERED BY EZWINSTUDIO</p>
 
             <div class="links-grid">
-                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
                 <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span data-i18n="btn_yt">EZWIN STUDIO</span></a>
-                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">JOIN EZWIN UNCOPYLOCKED</span></a>
-                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">EZWIN ACCOUNT SERVICES</span></a>
+                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="border-color: var(--accent-primary);"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
+                <a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">EZWIN UNCOPYLOCKED</span></a>
+                
                 <a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span data-i18n="btn_music_yt">EZWIN MUSIC</span></a>
+                <a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
+                <a href="https://www.tiktok.com/@ezwinmusic?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_music">EZWIN MUSIC TIKTOK</span></a>
+
                 <a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span data-i18n="btn_cheats">EZWIN CHEATS</span></a>
-                
-                <a href="https://www.tiktok.com/@ezwincheat?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tiktok_cheat">EZWIN CHEAT TIKTOK</span></a>
-                <a href="https://www.tiktok.com/@ezwinmusic?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tiktok_music">EZWIN MUSIC TIKTOK</span></a>
-                
-                <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn" style="border: 2px solid var(--accent-primary);"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
+                <a href="https://www.tiktok.com/@ezwincheat?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_cheat">EZWIN CHEAT TIKTOK</span></a>
+                <a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">ACCOUNT SERVICES</span></a>
             </div>
 
             <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
@@ -410,8 +411,30 @@
     </div>
     <div class="copyright ui-element">EZWIN STUDIO © 2026</div>
 
+    <div id="yt-player" style="display:none"></div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    
     <script>
-        // DİL ÇEVİRİ SÖZLÜĞÜ (TAMAMLANMIŞ VE EKSİKSİZ)
+        // --- ÖZELLEŞTİRİLEBİLİR TEMALAR (Buradaki renkleri dilediğin gibi değiştirebilirsin) ---
+        const customThemes = {
+            blue: {
+                primary: "#007cf0",
+                secondary: "#00dfd8",
+                glow: "rgba(0, 124, 240, 0.4)"
+            },
+            cyber: {
+                primary: "#ff0080",
+                secondary: "#ffcc00",
+                glow: "rgba(255, 0, 128, 0.4)"
+            },
+            emerald: {
+                primary: "#00ff88",
+                secondary: "#00dfd8",
+                glow: "rgba(0, 255, 136, 0.4)"
+            }
+        };
+
+        // --- DİL ÇEVİRİ SÖZLÜĞÜ (i18n) ---
         const translations = {
             en: {
                 enter_hub: "ENTER HUB", live_text: "LIVE",
@@ -425,9 +448,9 @@
                 proj4_desc: "A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.",
                 active: "ACTIVE", ph_user: "USERNAME", ph_email: "DISCORD / EMAIL", ph_msg: "ENTER YOUR MESSAGE...",
                 submit: "SUBMIT", data_secured: "DATA SECURED BY EZWIN SECURITY",
-                btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "JOIN EZWIN UNCOPYLOCKED",
-                btn_acc: "EZWIN ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
-                btn_studio: "JOIN EZWIN STUDIO", btn_tiktok_cheat: "EZWIN CHEAT TIKTOK", btn_tiktok_music: "EZWIN MUSIC TIKTOK"
+                btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED",
+                btn_acc: "ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
+                btn_studio: "JOIN EZWIN STUDIO", btn_tk_cheat: "EZWIN CHEAT TIKTOK", btn_tk_music: "EZWIN MUSIC TIKTOK"
             },
             tr: {
                 enter_hub: "MERKEZE GİRİŞ", live_text: "CANLI",
@@ -435,201 +458,272 @@
                 waiting: "BEKLENİYOR...", themes: "TEMALAR", powered_by: "EZWINSTUDIO TARAFINDAN DESTEKLENMEKTEDİR",
                 scroll_down: "AŞAĞI KAYDIR", projects_title: "PROJELER", contact_title: "BİZE ULAŞIN",
                 contact_h3: "İLETİŞİME GEÇELİM", contact_p: "İş birliği yapmak, destek almak veya geliştirici ekibimizle projeler hakkında konuşmak mı istiyorsunuz? Formu doldurun, size güvenli bir şekilde dönüş yapalım.",
-                proj1_desc: "Profesyonel Roblox oyun geliştirme ve sistem mimarisi için ana merkezimiz. Gelişmiş script çözümleri ve eşsiz harita tasarımları burada hayat bulur.",
-                proj2_desc: "Oyun mekanikleri ve yazılım güvenliği üzerine deneysel çalışmalar yürüten teknik ekip. Yazılım optimizasyonu ve ileri düzey betik teknikleri üzerinde çalışıyoruz.",
+                proj1_desc: "Profesyonel Roblox oyun geliştirme ve sistem mimarisi için ana merkezimiz. Gelişmiş script çözümleri ve eşsiz harita tasarımları burada hayat buluyor.",
+                proj2_desc: "Oyun mekanikleri ve yazılım güvenliği üzerine deneysel çalışmalar yürüten teknik ekip. Yazılım optimizasyonu ve gelişmiş kodlama teknikleri üzerine çalışıyoruz.",
                 proj3_desc: "Dijital ses işleme ve müzik prodüksiyon stüdyomuz. Projelerimiz için yüksek kaliteli telifsiz ses dosyaları ve atmosferik müzikler üretiyoruz.",
-                proj4_desc: "Dijital varlık güvenliği ve hesap yönetimine odaklanan bir hizmet. Kullanıcılarımıza güvenli ticaret desteği ve profesyonel hesap geliştirme sunuyoruz.",
-                active: "AKTİF", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI GİRİN...",
+                proj4_desc: "Dijital varlık güvenliği ve hesap yönetimi odaklı hizmetimiz. Kullanıcılarımıza güvenli ticaret desteği ve profesyonel hesap geliştirme sağlıyoruz.",
+                active: "AKTİF", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI YAZIN...",
                 submit: "GÖNDER", data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR",
-                btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED'A KATIL",
-                btn_acc: "EZWIN HESAP HİZMETLERİ", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
-                btn_studio: "EZWIN STUDIO'YA KATIL", btn_tiktok_cheat: "EZWIN CHEAT TIKTOK", btn_tiktok_music: "EZWIN MUSIC TIKTOK"
+                btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED",
+                btn_acc: "HESAP HİZMETLERİ", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
+                btn_studio: "EZWIN STUDIO'YA KATIL", btn_tk_cheat: "EZWIN CHEAT TIKTOK", btn_tk_music: "EZWIN MUSIC TIKTOK"
             }
         };
 
         let currentLang = 'en';
 
-        // GÜNCELLENMİŞ VE DÜZELTİLMİŞ DİL DEĞİŞTİRME SİSTEMİ
         function changeLang(lang) {
             currentLang = lang;
+            const t = translations[lang];
+            
+            // Text İçeriklerini Güncelle
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    // Eğer element bir input veya textarea ise placeholder'ı değiştir
+                if (t[key]) {
                     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = translations[lang][key];
+                        el.placeholder = t[key];
                     } else {
-                        // Diğer HTML elementleri için içeriği değiştir
-                        el.textContent = translations[lang][key];
+                        el.innerText = t[key];
                     }
                 }
             });
 
-            // Üstteki buton içeriğini güncelle
-            const flags = { en: 'gb', tr: 'tr' };
-            document.getElementById('currentLangImg').src = `https://flagcdn.com/w20/${flags[lang]}.png`;
-            document.getElementById('currentLangText').textContent = lang.toUpperCase();
+            // Üst Bar Butonunu Güncelle
+            document.getElementById('currentLangText').innerText = lang.toUpperCase();
+            document.getElementById('currentLangImg').src = lang === 'tr' ? "https://flagcdn.com/w20/tr.png" : "https://flagcdn.com/w20/gb.png";
             
-            // Menüyü kapat
+            // Menüyü Kapat
             document.getElementById('langMenu').classList.remove('active');
         }
 
-        // TEMA DEĞİŞTİRME SİSTEMİ (Dinamik CSS Variables)
-        function changeTheme(primary, secondary, glow) {
-            document.documentElement.style.setProperty('--accent-primary', primary);
-            document.documentElement.style.setProperty('--accent-secondary', secondary);
-            document.documentElement.style.setProperty('--accent-glow', glow);
+        function changeTheme(themeKey) {
+            const theme = customThemes[themeKey];
+            if(!theme) return;
+            document.documentElement.style.setProperty('--accent-primary', theme.primary);
+            document.documentElement.style.setProperty('--accent-secondary', theme.secondary);
+            document.documentElement.style.setProperty('--accent-glow', theme.glow);
             document.getElementById('themeMenu').classList.remove('active');
         }
 
-        function togglePanel(id) {
-            const panel = document.getElementById(id);
-            if(panel.classList.contains('active')) {
-                panel.classList.remove('active');
-            } else {
-                // Diğer açık panelleri kapat
-                document.querySelectorAll('.panel-flyout').forEach(p => p.classList.remove('active'));
-                panel.classList.add('active');
+        // --- YENİ ARKAPLAN: CYBER FLOATING NODES ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            const count = window.innerWidth < 768 ? 40 : 80;
+            for(let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: (Math.random() - 0.5) * 0.8,
+                    radius: Math.random() * 2 + 1
+                });
             }
         }
 
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener('resize', initCanvas);
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim() || '#007cf0';
+            
+            particles.forEach((p, index) => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x < 0 || p.x > width) p.vx *= -1;
+                if(p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = primaryColor;
+                ctx.fill();
+
+                // Çizgi Bağlantıları
+                for(let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if(dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `${primaryColor}${Math.floor((1 - dist/120) * 40).toString(16).padStart(2, '0')}`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+
+                // Fare Etkileşimi
+                if(mouse.x) {
+                    const mDist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+                    if(mDist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `${primaryColor}${Math.floor((1 - mDist/150) * 80).toString(16).padStart(2, '0')}`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // --- SİSTEM BAŞLATMA LOGİC ---
         function startSystem() {
             document.getElementById('enter-overlay').classList.add('fade-out');
             document.body.classList.remove('locked');
-            document.getElementById('main').style.opacity = '1';
+            document.getElementById('main').style.opacity = "1";
             
             setTimeout(() => {
                 document.getElementById('statusNotify').classList.add('show');
                 document.querySelectorAll('.ui-element').forEach(el => el.classList.add('show'));
-                
-                // Demo visitor count animation
-                let count = 0;
-                let target = 1420;
-                let interval = setInterval(() => {
-                    count += Math.floor(Math.random() * 50);
-                    if(count >= target) {
-                        count = target;
-                        clearInterval(interval);
-                    }
-                    document.getElementById('vCount').textContent = count.toLocaleString();
-                }, 30);
             }, 800);
+
+            // Müzik Başlat
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+                isPlaying = true;
+                updatePlayIcon();
+            }
+
+            // Görüntülenme Sayacı
+            let count = localStorage.getItem('ez_vcount') || 1042;
+            count = parseInt(count) + 1;
+            localStorage.setItem('ez_vcount', count);
+            document.getElementById('vCount').innerText = count;
+        }
+
+        function togglePanel(id) {
+            document.querySelectorAll('.panel-flyout').forEach(p => {
+                if(p.id !== id) p.classList.remove('active');
+            });
+            document.getElementById(id).classList.toggle('active');
         }
 
         function scrollToTarget(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // DİNAMİK AĞ/PARTİKÜL ARKA PLAN ANİMASYONU
-        const canvas = document.getElementById("bg-canvas");
-        const ctx = canvas.getContext("2d");
-        let particlesArray;
+        // --- YOUTUBE PLAYER LOGİC ---
+        let player;
+        let isPlaying = false;
+        const tracks = [
+            { name: "EZWIN STUDIO SOUNDTRACK - VOL 1", id: "jfKfPfyJRdk" }, // Lofi Hiphop Stream ID Örneği
+            { name: "CYBERPUNK ATMOSPHERE MIX", id: "4xDzrJKXOOY" }
+        ];
+        let currentTrackIdx = 0;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '0', width: '0',
+                videoId: tracks[0].id,
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initCanvas();
+        function onPlayerReady(event) {
+            document.getElementById('trackName').innerText = tracks[0].name;
+            player.setVolume(50);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                document.getElementById('trackName').innerText = tracks[currentTrackIdx].name;
+                showToast(tracks[currentTrackIdx].name);
+            } else {
+                isPlaying = false;
+            }
+            updatePlayIcon();
+        }
+
+        function togglePlay() {
+            if(!player || typeof player.getPlayerState !== 'function') return;
+            if(isPlaying) { player.pauseVideo(); } 
+            else { player.playVideo(); }
+        }
+
+        function updatePlayIcon() {
+            const icon = document.getElementById('playIcon');
+            icon.className = isPlaying ? "fas fa-pause" : "fas fa-play";
+        }
+
+        function nextTrack() {
+            currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
+            loadTrack();
+        }
+
+        function prevTrack() {
+            currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
+            loadTrack();
+        }
+
+        function loadTrack() {
+            if(!player) return;
+            player.loadVideoById(tracks[currentTrackIdx].id);
+            document.getElementById('trackName').innerText = tracks[currentTrackIdx].name;
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('media-toast');
+            document.getElementById('toastTrackName').innerText = text;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 2500);
+        }
+
+        document.getElementById('volRange').addEventListener('input', function(e) {
+            if(player) player.setVolume(e.target.value);
         });
 
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x; this.y = y; this.directionX = directionX;
-                this.directionY = directionY; this.size = size; this.color = color;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim();
-                ctx.fill();
-            }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
-
-        function initCanvas() {
-            particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 15000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 2) - 1;
-                let directionY = (Math.random() * 2) - 1;
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, '#007cf0'));
-            }
-        }
-
-        function animateCanvas() {
-            requestAnimationFrame(animateCanvas);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connectParticles();
-        }
-
-        function connectParticles() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
-                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                        opacityValue = 1 - (distance / 20000);
-                        let themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim();
-                        // RGB değerini hex'ten çevirmek karmaşık olacağı için basit bir beyaz/gri bağ kullanıyoruz ama tema rengine yakınsatıyoruz
-                        ctx.strokeStyle = `rgba(255,255,255, ${opacityValue * 0.15})`; 
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        initCanvas();
-        animateCanvas();
-
-        // Basit Form Gönderme Fonksiyonu (Eğer sunucun varsa burayı doldurabilirsin)
+        // --- İLETİŞİM FORMU (Örnek Fonksiyon) ---
         function sendToDiscord() {
+            const user = document.getElementById('ezUser').value.trim();
+            const email = document.getElementById('ezEmail').value.trim();
+            const msg = document.getElementById('ezMsg').value.trim();
             const btn = document.getElementById('sendBtn');
-            const user = document.getElementById('ezUser').value;
-            const msg = document.getElementById('ezMsg').value;
-            
-            if(!user || !msg) return alert(currentLang === 'tr' ? "Lütfen gerekli alanları doldurun!" : "Please fill required fields!");
-            
+            const span = document.getElementById('btnSpan');
+
+            if(!user || !msg) {
+                alert(currentLang === 'tr' ? "Lütfen kullanıcı adı ve mesaj alanlarını doldurun." : "Please fill in username and message fields.");
+                return;
+            }
+
             btn.disabled = true;
-            document.getElementById('btnSpan').textContent = currentLang === 'tr' ? "GÖNDERİLİYOR..." : "SENDING...";
-            
+            span.innerText = currentLang === 'tr' ? "GÖNDERİLİYOR..." : "SENDING...";
+
+            // Kendi Discord Webhook URL'ni buraya ekleyebilirsin
             setTimeout(() => {
-                document.getElementById('btnSpan').textContent = currentLang === 'tr' ? "GÖNDERİLDİ" : "SENT";
-                btn.style.background = "var(--status-active)";
-                document.getElementById('ezUser').value = '';
-                document.getElementById('ezEmail').value = '';
+                alert(currentLang === 'tr' ? "Mesajınız güvenli bir şekilde iletildi!" : "Message securely transmitted!");
+                btn.disabled = false;
+                span.innerText = translations[currentLang].submit;
                 document.getElementById('ezMsg').value = '';
-                
-                setTimeout(() => {
-                    document.getElementById('btnSpan').textContent = currentLang === 'tr' ? "GÖNDER" : "SUBMIT";
-                    btn.disabled = false;
-                    btn.style.background = "var(--accent-primary)";
-                }, 3000);
             }, 1500);
         }
 
-        // Müzik player için boş fonksiyonlar (hata vermemesi için)
-        function togglePlay() {}
-        function nextTrack() {}
-        function prevTrack() {}
+        // Sayfa Yüklenince İnitializer
+        window.onload = () => {
+            initCanvas();
+            animateCanvas();
+            changeLang('en'); // Varsayılan dili başlat
+        };
+
+        // Scroll İkonunu Gizle/Göster Logici
+        window.addEventListener('scroll', () => {
+            const icon = document.getElementById('scrollIcon');
+            if(window.scrollY > 100) icon.classList.add('hide');
+            else icon.classList.remove('hide');
+        });
     </script>
 </body>
 </html>
