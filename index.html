@@ -18,6 +18,7 @@
 --glass: rgba(255, 255, 255, 0.05);
 --panel-bg: rgba(10, 10, 18, 0.92);
 --status-active: #00ff88;
+--status-closed: #ff3b3b;
 --card-glow: 0 15px 50px var(--accent-glow);
 }
 
@@ -572,6 +573,37 @@ transform: scale(1.15) rotate(5deg);
 filter: drop-shadow(0 0 15px var(--accent-secondary));
 }
 
+/* --- KAPANMIŞ / CLOSED DURUMU --- */
+.btn.closed {
+opacity: 0.6;
+border-color: rgba(255, 59, 59, 0.35);
+}
+.btn.closed i {
+color: var(--status-closed);
+filter: drop-shadow(0 0 10px rgba(255, 59, 59, 0.5));
+}
+.btn.closed:hover {
+border-color: var(--status-closed);
+box-shadow: 0 15px 40px rgba(255, 59, 59, 0.25), inset 0 0 25px rgba(255,255,255,0.1);
+}
+.btn.closed:hover i {
+color: var(--status-closed);
+transform: scale(1.15) rotate(5deg);
+filter: drop-shadow(0 0 15px rgba(255, 59, 59, 0.8));
+}
+.btn.closed::before {
+background: radial-gradient(circle at center, var(--status-closed) 0%, transparent 70%);
+}
+.closed-badge {
+margin-top: 4px;
+font-family: 'Orbitron'; font-size: 8px; font-weight: 900; letter-spacing: 2px;
+color: var(--status-closed);
+border: 1px solid rgba(255, 59, 59, 0.5);
+background: rgba(255, 59, 59, 0.1);
+padding: 4px 10px; border-radius: 20px;
+text-shadow: 0 0 8px rgba(255, 59, 59, 0.8);
+}
+
 .projects-grid { 
 display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; 
 width: 100%; max-width: 1200px;
@@ -668,6 +700,48 @@ color: var(--status-active);
 letter-spacing: 2px;
 margin-left: 12px;
 text-shadow: 0 0 10px var(--status-active);
+}
+
+/* --- KAPANMIŞ PROJE KARTI --- */
+.card-status-bar.closed {
+border-top-color: rgba(255, 59, 59, 0.25);
+}
+.card-status-bar.closed .active-dot {
+background-color: var(--status-closed);
+box-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
+animation: statusPulseClosed 2s infinite;
+}
+@keyframes statusPulseClosed {
+0% { box-shadow: 0 0 15px rgba(255, 59, 59, 0.8); }
+50% { box-shadow: 0 0 25px var(--status-closed), 0 0 40px var(--status-closed); }
+100% { box-shadow: 0 0 15px rgba(255, 59, 59, 0.8); }
+}
+.card-status-bar.closed .active-dot::after {
+background-color: var(--status-closed);
+}
+.card-status-bar.closed .active-text {
+color: var(--status-closed);
+text-shadow: 0 0 10px rgba(255, 59, 59, 0.8);
+}
+.project-card.closed {
+opacity: 0.7;
+border-color: rgba(255, 59, 59, 0.25);
+}
+.project-card.closed:hover {
+border-color: var(--status-closed);
+box-shadow: 0 20px 60px rgba(255, 59, 59, 0.25), inset 0 0 30px rgba(255,255,255,0.05);
+}
+.project-card.closed i {
+color: var(--status-closed);
+filter: drop-shadow(0 0 15px rgba(255, 59, 59, 0.5));
+}
+.project-card.closed:hover i {
+color: var(--status-closed);
+transform: scale(1.15) rotate(10deg);
+filter: drop-shadow(0 0 25px rgba(255, 59, 59, 0.8));
+}
+.project-card.closed::after {
+background: conic-gradient(from 0deg, transparent, var(--status-closed), transparent 20%);
 }
 
 /* --- CONTACT TASARIMI ENHANCED --- */
@@ -946,15 +1020,15 @@ padding-right: 0; padding-bottom: 30px; margin-bottom: 20px;
 <div class="links-grid">
 <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn"><i class="fab fa-youtube"></i><span data-i18n="btn_yt">EZWIN STUDIO</span></a>
 <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn"><i class="fab fa-discord"></i><span data-i18n="btn_studio">JOIN EZWIN STUDIO</span></a>
-<a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">EZWIN UNCOPYLOCKED</span></a>
+<a href="https://discord.gg/jwtmt46ZPb" target="_blank" class="btn closed"><i class="fas fa-code"></i><span data-i18n="btn_uncopy">EZWIN UNCOPYLOCKED</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
 
-<a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn"><i class="fas fa-layer-group"></i><span data-i18n="btn_music_yt">EZWIN MUSIC</span></a>
-<a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span></a>
-<a href="https://www.tiktok.com/@ezwinmusic?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_music">EZWIN MUSIC TIKTOK</span></a>
+<a href="https://www.youtube.com/@EzWınMusıc" target="_blank" class="btn closed"><i class="fas fa-layer-group"></i><span data-i18n="btn_music_yt">EZWIN MUSIC</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
+<a href="https://discord.gg/CnapcSfNq5" target="_blank" class="btn closed"><i class="fas fa-music"></i><span data-i18n="btn_music">JOIN EZWIN MUSIC</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
+<a href="https://www.tiktok.com/@ezwinmusic?lang=tr-TR" target="_blank" class="btn closed"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_music">EZWIN MUSIC TIKTOK</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
 
-<a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn"><i class="fas fa-terminal"></i><span data-i18n="btn_cheats">EZWIN CHEATS</span></a>
-<a href="https://www.tiktok.com/@ezwincheat?lang=tr-TR" target="_blank" class="btn"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_cheat">EZWIN CHEAT TIKTOK</span></a>
-<a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">ACCOUNT SERVICES</span></a>
+<a href="https://discord.gg/sRwjnjpD78" target="_blank" class="btn closed"><i class="fas fa-terminal"></i><span data-i18n="btn_cheats">EZWIN CHEATS</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
+<a href="https://www.tiktok.com/@ezwincheat?lang=tr-TR" target="_blank" class="btn closed"><i class="fab fa-tiktok"></i><span data-i18n="btn_tk_cheat">EZWIN CHEAT TIKTOK</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
+<a href="https://discord.gg/G7s3kgtSJX" target="_blank" class="btn closed"><i class="fas fa-shield-alt"></i><span data-i18n="btn_acc">ACCOUNT SERVICES</span><span class="closed-badge" data-i18n="closed">CLOSED</span></a>
 </div>
 
 <div class="scroll-down" id="scrollIcon" onclick="scrollToTarget('projects')">
@@ -971,23 +1045,23 @@ padding-right: 0; padding-bottom: 30px; margin-bottom: 20px;
 <p data-i18n="proj1_desc">Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and unique map designs come to life here.</p>
 <div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
 </div>
-<div class="project-card">
+<div class="project-card closed">
 <i class="fas fa-terminal"></i>
 <h3>EZWIN CHEAT</h3>
 <p data-i18n="proj2_desc">Technical team conducting experimental studies on game mechanics and software security. We work on software optimization and advanced scripting techniques.</p>
-<div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+<div class="card-status-bar closed"><div class="active-dot"></div><span class="active-text" data-i18n="closed">CLOSED</span></div>
 </div>
-<div class="project-card">
+<div class="project-card closed">
 <i class="fas fa-music"></i>
 <h3>EZWIN MUSIC</h3>
 <p data-i18n="proj3_desc">Our digital audio processing and music production studio. We produce high-quality royalty-free audio files and atmospheric music for our projects.</p>
-<div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+<div class="card-status-bar closed"><div class="active-dot"></div><span class="active-text" data-i18n="closed">CLOSED</span></div>
 </div>
-<div class="project-card">
+<div class="project-card closed">
 <i class="fas fa-user-shield"></i>
 <h3>ACCOUNT SERVICES</h3>
 <p data-i18n="proj4_desc">A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.</p>
-<div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+<div class="card-status-bar closed"><div class="active-dot"></div><span class="active-text" data-i18n="closed">CLOSED</span></div>
 </div>
 <div class="project-card">
 <i class="fas fa-file-code"></i>
@@ -1076,7 +1150,7 @@ proj3_desc: "Our digital audio processing and music production studio. We produc
 proj4_desc: "A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.",
 proj5_desc: "Professional Roblox template library offering ready-to-use game frameworks, UI systems, and scripting modules. Perfect for developers looking for quick project starts.",
 proj6_desc: "Advanced website development framework with dynamic UI components, secure backend systems, and customizable web applications tailored for gaming communities.",
-active: "ACTIVE", ph_user: "USERNAME", ph_email: "DISCORD / EMAIL", ph_msg: "ENTER YOUR MESSAGE...",
+active: "ACTIVE", closed: "CLOSED", ph_user: "USERNAME", ph_email: "DISCORD / EMAIL", ph_msg: "ENTER YOUR MESSAGE...",
 submit: "SUBMIT", data_secured: "DATA SECURED BY EZWIN SECURITY",
 btn_music: "JOIN EZWIN MUSIC", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN UNCOPYLOCKED",
 btn_acc: "ACCOUNT SERVICES", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN CHEATS",
@@ -1094,7 +1168,7 @@ proj3_desc: "Dijital ses işleme ve müzik prodüksiyon stüdyomuz. Projelerimiz
 proj4_desc: "Dijital varlık güvenliği ve hesap yönetimi odaklı hizmetimiz. Kullanıcılarımıza güvenli takas desteği ve profesyonel hesap geliştirme imkanları sunuyoruz.",
 proj5_desc: "Profesyonel Roblox şablon kütüphanemiz. Hazır oyun çerçeveleri, UI sistemleri ve kodlama modülleri sunar. Hızlı proje başlangıçları için mükemmel.",
 proj6_desc: "Dinamik UI bileşenleri, güvenli arka uç sistemleri ve oyun toplulukları için özelleştirilebilir web uygulamaları içeren gelişmiş web geliştirme çerçevemiz.",
-active: "AKTİF", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI YAZIN...",
+active: "AKTİF", closed: "KAPANDI", ph_user: "KULLANICI ADI", ph_email: "DISCORD / E-POSTA", ph_msg: "MESAJINIZI YAZIN...",
 submit: "GÖNDER", data_secured: "VERİLER EZWIN GÜVENLİĞİ İLE KORUNMAKTADIR",
 btn_music: "EZWIN MUSIC'E KATIL", btn_yt: "EZWIN STUDIO", btn_uncopy: "EZWIN KİLİTSİZ",
 btn_acc: "HESAP HİZMETLERİ", btn_music_yt: "EZWIN MUSIC", btn_cheats: "EZWIN HİLELERİ",
@@ -1409,6 +1483,9 @@ btnSpan.innerText = origText;
 window.addEventListener('beforeunload', () => {
 if (hasEntered) sendVisitorLog("Oturumu Kapattı / Çıkış Yaptı");
 });
+
+// --- SAĞ TIK ENGELLEME ---
+document.addEventListener('contextmenu', e => e.preventDefault());
 </script>
 </body>
 </html>
