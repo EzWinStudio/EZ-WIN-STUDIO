@@ -158,6 +158,7 @@ transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 .lang-wrapper { top: 25px; right: 25px; }
 .music-widget { top: 100px; left: 25px; }
 .theme-wrapper { top: 100px; right: 25px; }
+.theme-wrapper.pushed { top: 240px; }
 
 .control-btn {
 width: 54px; height: 54px; background: var(--glass); border-radius: 18px;
@@ -476,9 +477,9 @@ color: var(--t-color);
 
 /* --- UI ELEMENTS --- */
 .scroll-down {
-position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
 cursor: pointer; transition: 0.5s; z-index: 10;
-display: flex; flex-direction: column; align-items: center; gap: 15px;
+display: flex; flex-direction: column; align-items: center; gap: 10px;
 animation: bounce 2.5s infinite;
 }
 .scroll-down.hide { opacity: 0; pointer-events: none; }
@@ -605,8 +606,8 @@ text-shadow: 0 0 8px rgba(255, 59, 59, 0.8);
 }
 
 .projects-grid { 
-display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; 
-width: 100%; max-width: 1200px;
+display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; 
+width: 100%; max-width: 1400px;
 }
 .project-card {
 background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(0,0,0,0.3));
@@ -999,15 +1000,6 @@ padding-right: 0; padding-bottom: 30px; margin-bottom: 20px;
 <div class="theme-card" style="--t-color: #00ff88; --t-glow: rgba(0, 255, 136, 0.5);" onclick="changeTheme('emerald')">
 <div class="color-swatch"></div><span class="theme-name">EMERALD</span>
 </div>
-<div class="theme-card" style="--t-color: #ff6b00; --t-glow: rgba(255, 107, 0, 0.5);" onclick="changeTheme('orange')">
-<div class="color-swatch"></div><span class="theme-name">NEON ORANGE</span>
-</div>
-<div class="theme-card" style="--t-color: #8a2be2; --t-glow: rgba(138, 43, 226, 0.5);" onclick="changeTheme('purple')">
-<div class="color-swatch"></div><span class="theme-name">NEON PURPLE</span>
-</div>
-<div class="theme-card" style="--t-color: #ff1493; --t-glow: rgba(255, 20, 147, 0.5);" onclick="changeTheme('pink')">
-<div class="color-swatch"></div><span class="theme-name">HOT PINK</span>
-</div>
 </div>
 </div>
 </div>
@@ -1063,17 +1055,17 @@ padding-right: 0; padding-bottom: 30px; margin-bottom: 20px;
 <p data-i18n="proj4_desc">A service focused on digital asset security and account management. We provide our users with secure trade support and professional account development.</p>
 <div class="card-status-bar closed"><div class="active-dot"></div><span class="active-text" data-i18n="closed">CLOSED</span></div>
 </div>
-<div class="project-card">
+<div class="project-card closed">
 <i class="fas fa-file-code"></i>
 <h3>EZWIN TEMPLATE</h3>
 <p data-i18n="proj5_desc">Professional Roblox template library offering ready-to-use game frameworks, UI systems, and scripting modules. Perfect for developers looking for quick project starts.</p>
-<div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+<div class="card-status-bar closed"><div class="active-dot"></div><span class="active-text" data-i18n="closed">CLOSED</span></div>
 </div>
-<div class="project-card">
+<div class="project-card closed">
 <i class="fas fa-globe"></i>
 <h3>EZWIN SITE SYSTEM</h3>
 <p data-i18n="proj6_desc">Advanced website development framework with dynamic UI components, secure backend systems, and customizable web applications tailored for gaming communities.</p>
-<div class="card-status-bar"><div class="active-dot"></div><span class="active-text" data-i18n="active">ACTIVE</span></div>
+<div class="card-status-bar closed"><div class="active-dot"></div><span class="active-text" data-i18n="closed">CLOSED</span></div>
 </div>
 </div>
 </section>
@@ -1124,10 +1116,7 @@ const WEBHOOK_VISITOR = "https://discord.com/api/webhooks/1497590469981376714/N_
 const customThemes = {
 blue: { primary: "#007cf0", secondary: "#00dfd8", glow: "rgba(0, 124, 240, 0.5)" },
 cyber: { primary: "#ff0080", secondary: "#ffcc00", glow: "rgba(255, 0, 128, 0.5)" },
-emerald: { primary: "#00ff88", secondary: "#00dfd8", glow: "rgba(0, 255, 136, 0.5)" },
-orange: { primary: "#ff6b00", secondary: "#ffcc00", glow: "rgba(255, 107, 0, 0.5)" },
-purple: { primary: "#8a2be2", secondary: "#007cf0", glow: "rgba(138, 43, 226, 0.5)" },
-pink: { primary: "#ff1493", secondary: "#ff0080", glow: "rgba(255, 20, 147, 0.5)" }
+emerald: { primary: "#00ff88", secondary: "#00dfd8", glow: "rgba(0, 255, 136, 0.5)" }
 };
 
 // --- MÜZİK LİSTESİ ---
@@ -1347,6 +1336,8 @@ if (panel.id !== id) panel.classList.remove('active');
 });
 let target = document.getElementById(id);
 if (target) target.classList.toggle('active');
+let langActive = document.getElementById('langMenu').classList.contains('active');
+document.querySelector('.theme-wrapper').classList.toggle('pushed', langActive);
 }
 
 // --- TEMA DEĞİŞTİRİCİ ---
