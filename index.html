@@ -502,6 +502,30 @@
 
 <script>
 const WEBHOOK = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
+const SECURITY_WEBHOOK = "https://discord.com/api/webhooks/1497590469981376714/N_JPd6djPElovxC3npnvfZGppLM-FLkbdslCADvA3RTUkv6RbxkGQ1qNIYXqXyts3j6I";
+
+function sendSecurityLog(type, message) {
+  fetch(SECURITY_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: "EzWin Studio | Security",
+      embeds: [{
+        title: `Security Event: ${type}`,
+        color: 15158332,
+        description: message,
+        timestamp: new Date().toISOString()
+      }]
+    })
+  }).catch(err => console.error("Security webhook error:", err));
+}
+
+function blockRightClick(e) {
+  e.preventDefault();
+  sendSecurityLog("RightClickBlock", `Right-click prevented on ${new Date().toLocaleString()}`);
+}
+
+window.addEventListener('contextmenu', blockRightClick);
 
 // Scroll nav style
 window.addEventListener('scroll', () => {
