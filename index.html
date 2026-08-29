@@ -517,7 +517,9 @@ function sendSecurityLog(type, message) {
         timestamp: new Date().toISOString()
       }]
     })
-  }).catch(err => console.error("Security webhook error:", err));
+  }).then(r => { if (!r.ok) throw new Error("Webhook hata kodu: " + r.status); })
+    .then(() => alert("🛡️ Güvenlik logu Discord'a gönderildi!"))
+    .catch(err => { console.error("Security webhook error:", err); alert("❌ Güvenlik logu gönderilemedi."); });
 }
 
 function blockRightClick(e) {
