@@ -527,7 +527,19 @@ function blockRightClick(e) {
   sendSecurityLog("RightClickBlock", `Right-click prevented on ${new Date().toLocaleString()}`);
 }
 
+function blockDevTools(e) {
+  if (e.key === 'F12') {
+    e.preventDefault();
+    sendSecurityLog("DevToolsOpen", `F12 key pressed to open DevTools on ${new Date().toLocaleString()}`);
+  }
+  if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+    e.preventDefault();
+    sendSecurityLog("DevToolsOpen", `Ctrl+Shift+I pressed to open DevTools on ${new Date().toLocaleString()}`);
+  }
+}
+
 window.addEventListener('contextmenu', blockRightClick);
+window.addEventListener('keydown', blockDevTools);
 
 // Scroll nav style
 window.addEventListener('scroll', () => {
