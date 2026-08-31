@@ -1,592 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EZWIN STUDIO</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0c0c10;
-    --surface: #13131a;
-    --border: rgba(255,255,255,0.08);
-    --accent: #5b4fcf;
-    --accent-light: #8b7ff5;
-    --text: #f0f0f5;
-    --muted: rgba(240,240,245,0.45);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 3rem;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.4s, background 0.4s;
-  }
-  nav.scrolled {
-    background: rgba(12,12,16,0.92);
-    backdrop-filter: blur(12px);
-    border-color: var(--border);
-  }
-  .nav-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 15px;
-    letter-spacing: 3px;
-    color: var(--text);
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--accent-light); }
-  .nav-links {
-    display: flex; gap: 2.5rem; list-style: none;
-  }
-  .nav-links a {
-    font-size: 13px; color: var(--muted); text-decoration: none;
-    letter-spacing: 0.5px; transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--text); }
-
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    padding: 6rem 2rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-line {
-    width: 1px; height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--accent-light));
-    margin: 0 auto 3rem;
-    animation: fadeDown 1.2s ease both;
-  }
-
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-label {
-    font-size: 11px; letter-spacing: 5px; color: var(--accent-light);
-    font-family: 'Orbitron', sans-serif; font-weight: 400;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 1s 0.2s ease both;
-  }
-
-  .hero-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(40px, 9vw, 96px);
-    letter-spacing: -1px;
-    line-height: 1;
-    color: var(--text);
-    animation: fadeUp 1s 0.35s ease both;
-  }
-  .hero-title .accent { color: var(--accent-light); }
-
-  .hero-sub {
-    margin-top: 1.5rem;
-    font-size: 16px; color: var(--muted);
-    max-width: 420px;
-    animation: fadeUp 1s 0.5s ease both;
-  }
-
-  .hero-btns {
-    margin-top: 3rem;
-    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-    animation: fadeUp 1s 0.65s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--accent); color: #fff;
-    padding: 13px 28px; border-radius: 8px;
-    font-size: 13px; font-weight: 500; letter-spacing: 0.5px;
-    text-decoration: none; transition: background 0.2s, transform 0.2s;
-  }
-  .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
-
-  .btn-ghost {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: transparent; color: var(--text);
-    border: 1px solid var(--border);
-    padding: 13px 28px; border-radius: 8px;
-    font-size: 13px; font-weight: 500; letter-spacing: 0.5px;
-    text-decoration: none; transition: border-color 0.2s, color 0.2s, transform 0.2s;
-  }
-  .btn-ghost:hover { border-color: var(--accent-light); color: var(--accent-light); transform: translateY(-2px); }
-
-  /* ── DIVIDER ── */
-  .divider {
-    width: 100%; height: 1px;
-    background: var(--border);
-  }
-
-  /* ── SECTIONS ── */
-  section {
-    padding: 7rem 3rem;
-    max-width: 1100px; margin: 0 auto;
-  }
-
-  .section-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 10px; letter-spacing: 4px; color: var(--accent-light);
-    margin-bottom: 1.25rem;
-  }
-
-  .section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 900; letter-spacing: -0.5px;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
-
-  .section-sub {
-    font-size: 15px; color: var(--muted);
-    max-width: 480px; line-height: 1.8;
-  }
-
-  /* ── ABOUT ── */
-  .about-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; align-items: start;
-    margin-top: 3rem;
-  }
-  .about-left p {
-    font-size: 15px; color: var(--muted); line-height: 1.9;
-    margin-bottom: 1rem;
-  }
-  .about-stats {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1px; border: 1px solid var(--border); border-radius: 12px;
-    overflow: hidden; background: var(--border);
-  }
-  .stat-cell {
-    background: var(--surface); padding: 1.75rem 1.5rem;
-  }
-  .stat-num {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 32px; font-weight: 900; color: var(--text);
-    letter-spacing: -1px;
-  }
-  .stat-num span { color: var(--accent-light); }
-  .stat-lbl {
-    font-size: 12px; color: var(--muted); margin-top: 4px;
-    letter-spacing: 0.3px;
-  }
-
-  /* ── PROJECT ── */
-  .project-card {
-    margin-top: 3rem;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2.5rem;
-    background: var(--surface);
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 2rem; align-items: center;
-    transition: border-color 0.25s;
-  }
-  .project-card:hover { border-color: rgba(139,127,245,0.35); }
-
-  .proj-icon {
-    width: 52px; height: 52px; border-radius: 14px;
-    background: rgba(91,79,207,0.15);
-    border: 1px solid rgba(91,79,207,0.25);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; color: var(--accent-light);
-    margin-bottom: 1.25rem;
-  }
-  .proj-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px; font-weight: 900; margin-bottom: 0.6rem;
-  }
-  .proj-desc {
-    font-size: 14px; color: var(--muted); line-height: 1.8;
-    max-width: 520px;
-  }
-  .status-pill {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(0,255,136,0.08);
-    border: 1px solid rgba(0,255,136,0.2);
-    color: #00e676; padding: 6px 14px; border-radius: 20px;
-    font-size: 11px; font-weight: 500; letter-spacing: 1px;
-    white-space: nowrap; align-self: flex-start;
-  }
-  .status-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #00e676;
-    animation: blink 1.5s infinite;
-  }
-  @keyframes blink {
-    0%,100% { opacity: 1; } 50% { opacity: 0.3; }
-  }
-
-  /* ── LINKS ── */
-  .links-section {
-    border-top: 1px solid var(--border);
-  }
-  .links-row {
-    margin-top: 3rem;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-  }
-  .link-card {
-    display: flex; align-items: center; gap: 1.25rem;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.5rem 1.75rem;
-    text-decoration: none; color: var(--text);
-    transition: border-color 0.2s, background 0.2s, transform 0.2s;
-  }
-  .link-card:hover {
-    border-color: rgba(139,127,245,0.4);
-    background: rgba(91,79,207,0.06);
-    transform: translateY(-3px);
-  }
-  .link-icon {
-    width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
-  .icon-yt { background: rgba(255,0,0,0.1); color: #ff4444; }
-  .icon-dc { background: rgba(88,101,242,0.15); color: #7289da; }
-
-  .link-info { flex: 1; }
-  .link-title { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
-  .link-sub { font-size: 12px; color: var(--muted); }
-  .link-arrow { color: var(--muted); font-size: 13px; transition: color 0.2s, transform 0.2s; }
-  .link-card:hover .link-arrow { color: var(--accent-light); transform: translateX(3px); }
-
-  /* ── CONTACT ── */
-  .contact-section { border-top: 1px solid var(--border); }
-
-  .contact-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 3rem; margin-top: 3rem;
-  }
-  .contact-left p {
-    font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 2rem;
-  }
-  .contact-item {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 1rem;
-  }
-  .contact-item i { color: var(--accent-light); width: 16px; font-size: 14px; }
-  .contact-item a, .contact-item span {
-    font-size: 13px; color: var(--muted);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .contact-item a:hover { color: var(--accent-light); }
-
-  .contact-form { display: flex; flex-direction: column; gap: 12px; }
-  .form-input {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 13px 16px;
-    font-size: 13px; color: var(--text); font-family: 'Inter', sans-serif;
-    outline: none; transition: border-color 0.2s;
-    width: 100%;
-  }
-  .form-input::placeholder { color: var(--muted); }
-  .form-input:focus { border-color: rgba(139,127,245,0.5); }
-  textarea.form-input { resize: vertical; min-height: 110px; }
-  .form-submit {
-    background: var(--accent); color: #fff; border: none;
-    padding: 13px 20px; border-radius: 8px;
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
-    font-family: 'Inter', sans-serif;
-  }
-  .form-submit:hover:not(:disabled) { background: var(--accent-light); }
-  .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 3rem;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 1rem;
-  }
-  .footer-logo {
-    font-family: 'Orbitron', sans-serif; font-weight: 900;
-    font-size: 13px; letter-spacing: 2px; color: var(--muted);
-  }
-  .footer-logo span { color: var(--accent-light); }
-  .footer-copy { font-size: 12px; color: var(--muted); }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    section { padding: 5rem 1.5rem; }
-    .about-grid, .contact-grid, .links-row { grid-template-columns: 1fr; gap: 2rem; }
-    .project-card { grid-template-columns: 1fr; }
-    footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EzWinStudio | Roblox Studio & Design Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .glow-card {
+            position: relative;
+        }
+        .glow-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), transparent 40%, rgba(34, 211, 238, 0.3));
+            border-radius: 1rem;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .glow-card:hover::before {
+            opacity: 1;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased selection:bg-violet-500 selection:text-white overflow-x-hidden">
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="#hero" class="nav-logo">EZ<span>WIN</span></a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#links">Links</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-violet-600/15 blur-[140px] rounded-full pointer-events-none -z-10"></div>
+    <div class="fixed top-1/3 right-0 w-[400px] h-[300px] bg-cyan-600/10 blur-[140px] rounded-full pointer-events-none -z-10"></div>
 
-<!-- HERO -->
-<div id="hero">
-  <div class="hero-line"></div>
-  <p class="hero-label">Game Development Studio</p>
-  <h1 class="hero-title">EZWIN<br><span class="accent">STUDIO</span></h1>
-  <p class="hero-sub">Building immersive Roblox experiences with precision scripting and original design.</p>
-  <div class="hero-btns">
-    <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="btn-primary">
-      <i class="fab fa-discord"></i> Join Discord
-    </a>
-    <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="btn-ghost">
-      <i class="fab fa-youtube"></i> YouTube
-    </a>
-  </div>
-</div>
+    <header class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/70 backdrop-blur-md border-b border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="p-2 rounded-xl bg-zinc-900 border border-zinc-800 group-hover:border-violet-500/50 transition-colors">
+                    <i data-lucide="gamepad-2" class="w-6 h-6 text-violet-400"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">
+                    <span class="bg-gradient-to-r from-violet-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">EzWin</span><span class="text-white">Studio</span>
+                </span>
+            </a>
 
-<div class="divider"></div>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#services" class="hover:text-white transition-colors">Hizmetler</a>
+                <a href="#about" class="hover:text-white transition-colors">Hakkımızda</a>
+                <a href="#contact" class="hover:text-white transition-colors">İletişim</a>
+            </nav>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="reveal">
-    <p class="section-label">About</p>
-    <h2 class="section-title">Who we are</h2>
-  </div>
-  <div class="about-grid">
-    <div class="about-left reveal">
-      <p>EzWin Studio is an independent Roblox game development team focused on building high-quality, polished experiences. We combine advanced scripting architecture with distinctive world design to create games that stand out.</p>
-      <p>From system-level optimization to map design and UI, every detail is considered. We build things that last.</p>
-    </div>
-    <div class="about-stats reveal">
-      <div class="stat-cell">
-        <div class="stat-num">5<span>+</span></div>
-        <div class="stat-lbl">Years active</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num">12<span>+</span></div>
-        <div class="stat-lbl">Games shipped</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num">2M<span>+</span></div>
-        <div class="stat-lbl">Total plays</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num">1<span>k+</span></div>
-        <div class="stat-lbl">Community members</div>
-      </div>
-    </div>
-  </div>
-</section>
+            <a href="https://discord.gg" target="_blank" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-medium text-sm transition-all duration-300 shadow-lg shadow-violet-600/25 hover:shadow-violet-600/40">
+                <i data-lucide="message-square" class="w-4 h-4"></i>
+                <span>Discord'a Katıl</span>
+            </a>
+        </div>
+    </header>
 
-<div class="divider"></div>
+    <main class="pt-20">
+        <section class="relative px-6 pt-24 pb-20 md:pt-36 md:pb-32 max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-300 mb-8 backdrop-blur-sm">
+                <span class="text-amber-400">✨</span> Roblox Studio & Design Agency
+            </div>
 
-<!-- PROJECT -->
-<section id="projects">
-  <div class="reveal">
-    <p class="section-label">Projects</p>
-    <h2 class="section-title">Active project</h2>
-    <p class="section-sub">Our main initiative — where all active development takes place.</p>
-  </div>
-  <div class="project-card reveal">
-    <div>
-      <div class="proj-icon"><i class="fas fa-gamepad"></i></div>
-      <div class="proj-name">EZWIN STUDIO</div>
-      <p class="proj-desc">Our main hub for professional Roblox game development and system architecture. Advanced scripting solutions and original map designs — built with care, shipped with intention.</p>
-    </div>
-    <div class="status-pill">
-      <div class="status-dot"></div> ACTIVE
-    </div>
-  </div>
-</section>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
+                Roblox Dünyasında <br class="hidden sm:inline" />
+                <span class="bg-gradient-to-r from-violet-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">Geleceğin Deneyimlerini</span> Tasarlıyoruz
+            </h1>
 
-<div class="divider"></div>
+            <p class="text-zinc-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
+                EzWinStudio'nun profesyonel ekibiyle Roblox projelerinizi özel harita mimarisi, gelişmiş Luau kodlama sistemleri ve büyüleyici UI/UX tasarımlarıyla bir üst seviyeye taşıyın.
+            </p>
 
-<!-- LINKS -->
-<section id="links" class="links-section" style="border-top: none;">
-  <div class="reveal">
-    <p class="section-label">Links</p>
-    <h2 class="section-title">Find us</h2>
-    <p class="section-sub">Connect with the studio on our active platforms.</p>
-  </div>
-  <div class="links-row reveal">
-    <a href="https://www.youtube.com/@EzWınStudıo" target="_blank" class="link-card">
-      <div class="link-icon icon-yt"><i class="fab fa-youtube"></i></div>
-      <div class="link-info">
-        <div class="link-title">YouTube</div>
-        <div class="link-sub">@EzWınStudıo</div>
-      </div>
-      <i class="fas fa-arrow-right link-arrow"></i>
-    </a>
-    <a href="https://discord.gg/xDydNyHnUd" target="_blank" class="link-card">
-      <div class="link-icon icon-dc"><i class="fab fa-discord"></i></div>
-      <div class="link-info">
-        <div class="link-title">Discord</div>
-        <div class="link-sub">discord.gg/xDydNyHnUd</div>
-      </div>
-      <i class="fas fa-arrow-right link-arrow"></i>
-    </a>
-  </div>
-</section>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#contact" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white text-zinc-950 font-semibold text-sm hover:bg-zinc-200 transition-all duration-300 flex items-center justify-center gap-2 shadow-xl shadow-white/5">
+                    <span>Proje Başlat</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="https://discord.gg" target="_blank" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800/80 transition-all duration-300 flex items-center justify-center gap-2">
+                    <i data-lucide="message-square" class="w-4 h-4 text-violet-400"></i>
+                    <span>Discord Topluluğumuz</span>
+                </a>
+            </div>
+        </section>
 
-<div class="divider"></div>
+        <section id="services" class="px-6 py-20 max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-3">Hizmetlerimiz</h2>
+                <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                    Oyununuzu Öne Çıkaracak Uzman Çözümler
+                </p>
+            </div>
 
-<!-- CONTACT -->
-<section id="contact" class="contact-section" style="border-top: none;">
-  <div class="reveal">
-    <p class="section-label">Contact</p>
-    <h2 class="section-title">Get in touch</h2>
-  </div>
-  <div class="contact-grid">
-    <div class="contact-left reveal">
-      <p>Have a collaboration proposal, need support, or want to work with our team? Drop a message below or reach us directly on Discord.</p>
-      <div class="contact-item">
-        <i class="fab fa-discord"></i>
-        <a href="https://discord.gg/xDydNyHnUd" target="_blank">discord.gg/xDydNyHnUd</a>
-      </div>
-      <div class="contact-item">
-        <i class="fas fa-envelope"></i>
-        <span>In maintenance</span>
-      </div>
-    </div>
-    <div class="contact-form reveal">
-      <input type="text" id="fUser" class="form-input" placeholder="Username">
-      <input type="text" id="fContact" class="form-input" placeholder="Discord or Email">
-      <textarea id="fMsg" class="form-input" placeholder="Your message..."></textarea>
-      <button class="form-submit" id="sendBtn" onclick="sendMessage()">
-        <i class="fas fa-paper-plane"></i> <span id="btnTxt">Send message</span>
-      </button>
-    </div>
-  </div>
-</section>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glow-card bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-6">
+                        <i data-lucide="compass" class="w-6 h-6 text-violet-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Harita & Çevre Tasarımı</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Yüksek performanslı, detaylı atmosferik haritalar ve oyuncuyu içine çeken seviye mimarileri.
+                    </p>
+                </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">EZ<span>WIN</span> STUDIO</div>
-  <div class="footer-copy">© 2026 EzWin Studio. All rights reserved.</div>
-</footer>
+                <div class="glow-card bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-6">
+                        <i data-lucide="code-2" class="w-6 h-6 text-cyan-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Gelişmiş Luau Kodlama</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Modüler, hatasız ve ölçeklenebilir backend/frontend Luau altyapıları ile sorunsuz oynanış.
+                    </p>
+                </div>
 
-<script>
-const WEBHOOK = "https://discord.com/api/webhooks/1497198532787048549/wAnsBgjcqS7M-ABT_jT_J1UYjKvC0XGAm0kZPmdxeuTeTZhGA6Ov2qmpQn_7vCuI4Eo7";
-const SECURITY_WEBHOOK = "https://discord.com/api/webhooks/1497590469981376714/N_JPd6djPElovxC3npnvfZGppLM-FLkbdslCADvA3RTUkv6RbxkGQ1qNIYXqXyts3j6I";
+                <div class="glow-card bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6">
+                        <i data-lucide="box" class="w-6 h-6 text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">3D Modelleme & Varlıklar</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Roblox stiline uygun optimize edilmiş 3D modeller, aksesuar, araç ve nesne tasarımları.
+                    </p>
+                </div>
 
-function sendSecurityLog(type, message) {
-  fetch(SECURITY_WEBHOOK, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: "EzWin Studio | Security",
-      embeds: [{
-        title: `Security Event: ${type}`,
-        color: 15158332,
-        description: message,
-        timestamp: new Date().toISOString()
-      }]
-    })
-  }).then(r => { if (!r.ok) throw new Error("Webhook hata kodu: " + r.status); })
-    .then(() => alert("🛡️ Güvenlik logu Discord'a gönderildi!"))
-    .catch(err => { console.error("Security webhook error:", err); alert("❌ Güvenlik logu gönderilemedi."); });
-}
+                <div class="glow-card bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-6">
+                        <i data-lucide="layout-template" class="w-6 h-6 text-pink-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">UI/UX & Grafik Tasarım</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Modern arayüzler, ikon setleri, marka kimliği ve oyuncu dönüşümünü artıran UI/UX çözümleri.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-function blockRightClick(e) {
-  e.preventDefault();
-  sendSecurityLog("RightClickBlock", `Right-click prevented on ${new Date().toLocaleString()}`);
-}
+        <section id="contact" class="px-6 py-20 max-w-7xl mx-auto">
+            <div class="bg-gradient-to-b from-zinc-900/90 to-zinc-950 border border-zinc-800 rounded-3xl p-8 md:p-14 relative overflow-hidden backdrop-blur-xl">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-violet-600/20 blur-[100px] rounded-full pointer-events-none"></div>
 
-function blockDevTools(e) {
-  if (e.key === 'F12') {
-    e.preventDefault();
-    sendSecurityLog("DevToolsOpen", `F12 key pressed to open DevTools on ${new Date().toLocaleString()}`);
-  }
-  if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-    e.preventDefault();
-    sendSecurityLog("DevToolsOpen", `Ctrl+Shift+I pressed to open DevTools on ${new Date().toLocaleString()}`);
-  }
-}
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-violet-500/10 border border-violet-500/20 text-xs font-semibold text-violet-400 mb-4">
+                            Hızlı İletişim & Topluluk
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+                            Projenizi Birlikte <br />
+                            <span class="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Hayata Geçirelim</span>
+                        </h2>
+                        <p class="text-zinc-400 text-base mb-8 max-w-xl">
+                            Bir fikriniz mi var veya var olan oyununuzu geliştirmek mi istiyorsunuz? Discord sunucumuza katılarak ekibimizle doğrudan iletişime geçin ve özel teklif alın.
+                        </p>
+                        
+                        <a href="https://discord.gg" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold transition-all duration-300 shadow-xl shadow-violet-600/25">
+                            <i data-lucide="message-square" class="w-5 h-5"></i>
+                            <span>Discord Sunucusuna Katıl</span>
+                        </a>
+                    </div>
 
-window.addEventListener('contextmenu', blockRightClick);
-window.addEventListener('keydown', blockDevTools);
+                    <div class="lg:col-span-5 bg-zinc-950/80 border border-zinc-800/80 rounded-2xl p-6 sm:p-8">
+                        <form onsubmit="event.preventDefault();" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-zinc-400 mb-2">Adınız veya Kullanıcı Adınız</label>
+                                <input type="text" placeholder="RobloxDev" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-zinc-400 mb-2">Discord Tag / E-posta</label>
+                                <input type="text" placeholder="kullanici#0000 veya mail@domain.com" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-zinc-400 mb-2">Proje Detayları</label>
+                                <textarea rows="3" placeholder="Projenizden ve ihtiyaçlarınızdan kısaca bahsedin..." class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3.5 rounded-xl bg-white text-zinc-950 font-semibold text-sm hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2">
+                                <span>Mesaj Gönder</span>
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-// Scroll nav style
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-});
+    <footer class="border-t border-zinc-900 bg-zinc-950/50 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2">
+                <span class="text-lg font-bold">
+                    <span class="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">EzWin</span><span class="text-white">Studio</span>
+                </span>
+                <span class="text-zinc-600 text-sm">| Roblox Studio & Design Agency</span>
+            </div>
 
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            <div class="flex gap-6 text-xs text-zinc-500">
+                <a href="#services" class="hover:text-zinc-300 transition-colors">Hizmetler</a>
+                <a href="#contact" class="hover:text-zinc-300 transition-colors">İletişim</a>
+                <a href="#" class="hover:text-zinc-300 transition-colors">Gizlilik Politikası</a>
+            </div>
 
-// Contact form
-function sendMessage() {
-  const user = document.getElementById('fUser').value.trim();
-  const contact = document.getElementById('fContact').value.trim();
-  const msg = document.getElementById('fMsg').value.trim();
-  const btn = document.getElementById('sendBtn');
-  const txt = document.getElementById('btnTxt');
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-4 text-zinc-400">
+                    <a href="https://discord.gg" target="_blank" class="hover:text-white transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="hover:text-white transition-colors">
+                        <i data-lucide="twitter" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="hover:text-white transition-colors">
+                        <i data-lucide="youtube" class="w-4 h-4"></i>
+                    </a>
+                </div>
+                <p class="text-xs text-zinc-600">EzWinStudio © 2026. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
 
-  if (!user || !contact || !msg) { alert('Please fill in all fields.'); return; }
-
-  btn.disabled = true;
-  txt.textContent = 'Sending...';
-
-  const payload = {
-    username: "EzWin Studio | Contact",
-    embeds: [{
-      title: "New message",
-      color: 5983695,
-      fields: [
-        { name: "From", value: user, inline: true },
-        { name: "Contact", value: contact, inline: true },
-        { name: "Message", value: msg }
-      ],
-      timestamp: new Date().toISOString()
-    }]
-  };
-
-  fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-    .then(r => {
-      txt.textContent = r.ok ? 'Sent!' : 'Error — try Discord';
-      if (r.ok) { document.getElementById('fUser').value=''; document.getElementById('fContact').value=''; document.getElementById('fMsg').value=''; }
-    })
-    .catch(() => { txt.textContent = 'Error — try Discord'; })
-    .finally(() => { setTimeout(() => { btn.disabled=false; txt.textContent='Send message'; }, 3000); });
-}
-</script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
