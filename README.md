@@ -1,16 +1,40 @@
-## Hi there 👋
+<div align="center">
 
-<!--
-**EzWinStudio/EzWinStudio** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# ✨ EzWinStudio
 
-Here are some ideas to get you started:
+### Roblox Studio & Design Agency
+*Roblox Dünyasında Geleceğin Deneyimlerini Tasarlıyoruz.*
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+[![Discord](https://img.shields.io/badge/Discord-Topluluğa_Katıl-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg)
+[![Status](https://img.shields.io/badge/Status-Projects_Open-emerald?style=for-the-badge)](#-iletişim)
+
+---
+
+</div>
+
+### 🚀 Biz Kimiz?
+**EzWinStudio**, Roblox ekosisteminde oyun projeleri, harita mimarisi, Luau sistemleri ve UI/UX tasarımı sunan profesyonel bir ajanstır. Fikirleri yüksek performanslı, estetik ve oyuncuyu içine çeken deneyimlere dönüştürüyoruz.
+
+### 🛠️ Hizmetlerimiz
+- 🗺️ **Harita & Seviye Tasarımı:** Yüksek performanslı, detaylı atmosferik haritalar.
+- 💻 **Gelişmiş Luau Kodlama:** Modüler, güvenli ve ölçeklenebilir backend/frontend sistemleri.
+- 🎨 **UI/UX & Grafik Tasarım:** Oyuncu etkileşimini artıran modern arayüzler ve marka kimliği.
+- 🧊 **3D Modelleme & Asset Üretimi:** Roblox'a özel optimize edilmiş 3D modelleme çözümleri.
+
+### 🧰 Kullandığımız Araçlar & Teknolojiler
+`Luau` • `Roblox Studio` • `Blender` • `Figma` • `Adobe Photoshop` • `Substance Painter`
+
+---
+
+### 💬 İletişim & Proje Başlatma
+Projenizi birlikte hayata geçirmek veya teklif almak için bize ulaşın:
+
+* 🎮 **Discord:** [discord.gg/ezwinstudio](https://discord.gg)
+* 🌐 **Web Sitemiz:** [ezwinstudio.com](https://ezwinstudio.com)
+* 📩 **E-posta:** contact@ezwinstudio.com
+
+<div align="center">
+
+<sub>EzWinStudio © 2026. Tüm hakları saklıdır.</sub>
+
+</div>
