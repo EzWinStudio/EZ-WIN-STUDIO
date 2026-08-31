@@ -5,7 +5,7 @@
 ### Roblox Studio & Design Agency
 *Roblox Dünyasında Geleceğin Deneyimlerini Tasarlıyoruz.*
 
-[![Discord](https://img.shields.io/badge/Discord-Topluluğa_Katıl-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg)
+[![Discord](https://img.shields.io/badge/Discord-Topluluğa_Katıl-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/q7s5kSpVE)
 [![Status](https://img.shields.io/badge/Status-Projects_Open-emerald?style=for-the-badge)](#-iletişim)
 
 ---
@@ -29,8 +29,7 @@
 ### 💬 İletişim & Proje Başlatma
 Projenizi birlikte hayata geçirmek veya teklif almak için bize ulaşın:
 
-* 🎮 **Discord:** [discord.gg/ezwinstudio](https://discord.gg)
-* 🌐 **Web Sitemiz:** [ezwinstudio.com](https://ezwinstudio.com)
+* 🎮 **Discord:** [discord.gg/q7s5kSpVE](https://discord.gg/q7s5kSpVE)
 * 📩 **E-posta:** contact@ezwinstudio.com
 
 <div align="center">
