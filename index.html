@@ -22,21 +22,59 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; }
         
-        /* Özel Kaydırma Çubuğu (Scrollbar) */
+        /* Özel Kaydırma Çubuğu */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        /* Arka Plan Grid Deseni */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Özel Animasyonlar */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradientMove 4s ease infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .animate-float {
+            animation: float 15s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 18s ease-in-out infinite;
+            animation-delay: 2s;
+        }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-300 antialiased selection:bg-violet-500/30 selection:text-violet-200">
+<body class="bg-zinc-950 text-zinc-300 antialiased selection:bg-violet-500/30 selection:text-violet-200 relative">
+
+    <div class="fixed inset-0 z-[-1] pointer-events-none bg-grid">
+        <div class="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-violet-600/20 rounded-full blur-[120px] animate-float"></div>
+        <div class="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-cyan-600/15 rounded-full blur-[130px] animate-float-delayed"></div>
+    </div>
 
     <nav class="fixed top-0 w-full z-50 bg-zinc-950/70 backdrop-blur-md border-b border-zinc-800/50">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex-shrink-0 cursor-pointer">
                     <span class="text-2xl font-bold tracking-tighter">
-                        <span class="text-white">EzWin</span><span class="bg-gradient-to-r from-violet-500 to-cyan-400 bg-clip-text text-transparent">Studio</span>
+                        <span class="text-white">EzWin</span><span class="bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-400 bg-clip-text text-transparent animate-gradient">Studio</span>
                     </span>
                 </div>
                 <div class="hidden md:block">
@@ -46,7 +84,7 @@
                     </div>
                 </div>
                 <div class="flex items-center">
-                    <a href="#discord" class="group relative inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 bg-zinc-900 border border-zinc-800 rounded-lg hover:bg-zinc-800 hover:border-violet-500/50 hover:shadow-[0_0_15px_rgba(139,92,246,0.15)] overflow-hidden">
+                    <a href="https://discord.gg/CEPtKbmu9b" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 bg-zinc-900 border border-zinc-800 rounded-lg hover:bg-zinc-800 hover:border-violet-500/50 hover:shadow-[0_0_15px_rgba(139,92,246,0.3)] overflow-hidden">
                         <i class="fa-brands fa-discord mr-2 text-[#5865F2] group-hover:scale-110 transition-transform"></i>
                         Discord'a Katıl
                     </a>
@@ -56,21 +94,19 @@
     </nav>
 
     <section class="relative pt-40 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-        
         <div class="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm mb-8">
-                <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                    <i class="fa-solid fa-sparkles text-amber-400 mr-2"></i> Roblox Studio & Tasarım Ajansı
+            <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-zinc-700/50 bg-zinc-900/50 backdrop-blur-md mb-8 hover:border-violet-500/50 transition-colors cursor-default">
+                <span class="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center">
+                    <i class="fa-solid fa-sparkles text-amber-400 mr-2 animate-pulse"></i> Roblox Studio & Tasarım Ajansı
                 </span>
             </div>
             
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 text-white">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 text-white drop-shadow-2xl">
                 Roblox Dünyasında <br class="hidden md:block">
-                <span class="bg-gradient-to-r from-violet-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">Geleceğin Deneyimlerini</span> Tasarlıyoruz.
+                <span class="bg-gradient-to-r from-cyan-400 via-violet-500 to-fuchsia-500 bg-clip-text text-transparent animate-gradient">Geleceğin Deneyimlerini</span> Tasarlıyoruz.
             </h1>
             
-            <p class="max-w-2xl mx-auto text-lg text-zinc-400 mb-10 leading-relaxed">
+            <p class="max-w-2xl mx-auto text-lg text-zinc-400 mb-10 leading-relaxed font-light">
                 EzWinStudio'nun profesyonel ekibiyle projelerinizi hayata geçirin. İleri seviye Luau kodlamadan, büyüleyici harita tasarımlarına ve modern arayüzlere kadar oyununuzu bir üst seviyeye taşıyoruz.
             </p>
             
@@ -78,14 +114,14 @@
                 <a href="#iletisim" class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500 transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(139,92,246,0.5)]">
                     Proje Başlat
                 </a>
-                <a href="#discord" class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-zinc-300 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-white transition-all">
+                <a href="https://discord.gg/CEPtKbmu9b" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-zinc-300 rounded-lg bg-zinc-900/80 backdrop-blur-sm border border-zinc-700 hover:bg-zinc-800 hover:text-white hover:border-zinc-500 transition-all">
                     Topluluğumuza Katıl
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="hizmetler" class="py-24 bg-zinc-950 relative border-t border-zinc-900">
+    <section id="hizmetler" class="py-24 relative border-t border-zinc-800/50">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Uzmanlık Alanlarımız</h2>
@@ -93,36 +129,36 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="group relative bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 rounded-2xl p-8 hover:bg-zinc-900/80 transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] overflow-hidden">
+                <div class="group relative bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 hover:border-violet-500/50 hover:shadow-[0_10px_30px_rgba(139,92,246,0.15)] overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <i class="fa-solid fa-map text-xl text-cyan-400"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Harita & Çevre Tasarımı</h3>
                     <p class="text-sm text-zinc-400 leading-relaxed">Oyuncuları içine çeken detaylı atmosferler, optimize edilmiş dünyalar ve kusursuz seviye tasarımları.</p>
                 </div>
 
-                <div class="group relative bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 rounded-2xl p-8 hover:bg-zinc-900/80 transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] overflow-hidden">
+                <div class="group relative bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 hover:border-violet-500/50 hover:shadow-[0_10px_30px_rgba(139,92,246,0.15)] overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <i class="fa-solid fa-code text-xl text-violet-400"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Gelişmiş Luau Kodlama</h3>
                     <p class="text-sm text-zinc-400 leading-relaxed">Performans odaklı, güvenli ve karmaşık oyun sistemleri için kusursuz arka plan mimarisi (Backend/Client).</p>
                 </div>
 
-                <div class="group relative bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 rounded-2xl p-8 hover:bg-zinc-900/80 transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] overflow-hidden">
+                <div class="group relative bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 hover:border-violet-500/50 hover:shadow-[0_10px_30px_rgba(139,92,246,0.15)] overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <i class="fa-brands fa-cube text-xl text-emerald-400"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">3D Modelleme</h3>
                     <p class="text-sm text-zinc-400 leading-relaxed">Özel varlıklar (assets), silahlar, araçlar ve dekoratif öğeler ile oyununuza benzersiz bir kimlik kazandırın.</p>
                 </div>
 
-                <div class="group relative bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 rounded-2xl p-8 hover:bg-zinc-900/80 transition-all duration-300 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(139,92,246,0.1)] overflow-hidden">
+                <div class="group relative bg-zinc-900/60 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 hover:border-violet-500/50 hover:shadow-[0_10px_30px_rgba(139,92,246,0.15)] overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                         <i class="fa-solid fa-layer-group text-xl text-rose-400"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">UI/UX Tasarım</h3>
@@ -134,11 +170,11 @@
 
     <section id="iletisim" class="py-24 relative overflow-hidden">
         <div class="max-w-5xl mx-auto px-6 lg:px-8">
-            <div class="relative bg-zinc-900/80 backdrop-blur-md border border-zinc-800 rounded-3xl p-10 md:p-16 text-center overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-cyan-500/10 pointer-events-none"></div>
+            <div class="relative bg-zinc-900/60 backdrop-blur-xl border border-zinc-800/80 rounded-3xl p-10 md:p-16 text-center overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-cyan-500/10 pointer-events-none animate-pulse"></div>
                 
                 <div class="relative z-10">
-                    <div class="w-16 h-16 mx-auto bg-zinc-800 rounded-full flex items-center justify-center mb-6 border border-zinc-700 shadow-xl">
+                    <div class="w-16 h-16 mx-auto bg-zinc-950 rounded-full flex items-center justify-center mb-6 border border-zinc-700 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
                         <i class="fa-solid fa-rocket text-2xl text-white"></i>
                     </div>
                     <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">Projenizi Birlikte Hayata Geçirelim</h2>
@@ -146,8 +182,8 @@
                         Fikirlerinizi gerçeğe dönüştürmek için sadece bir mesaj uzağınızdayız. Ekibimizle tanışmak ve detayları konuşmak için Discord sunucumuza katılın.
                     </p>
                     
-                    <a id="discord" href="#" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-[#5865F2] rounded-xl hover:bg-[#4752C4] shadow-[0_0_20px_rgba(88,101,242,0.4)] hover:shadow-[0_0_40px_rgba(88,101,242,0.6)] hover:-translate-y-1">
-                        <i class="fa-brands fa-discord text-2xl mr-3"></i>
+                    <a href="https://discord.gg/CEPtKbmu9b" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-[#5865F2] rounded-xl hover:bg-[#4752C4] shadow-[0_0_20px_rgba(88,101,242,0.4)] hover:shadow-[0_0_40px_rgba(88,101,242,0.6)] hover:-translate-y-1">
+                        <i class="fa-brands fa-discord text-2xl mr-3 group-hover:rotate-12 transition-transform"></i>
                         EzWinStudio Discord'a Katıl
                     </a>
                 </div>
@@ -155,7 +191,7 @@
         </div>
     </section>
 
-    <footer class="bg-zinc-950 border-t border-zinc-900 pt-16 pb-8">
+    <footer class="bg-zinc-950/80 backdrop-blur-md border-t border-zinc-900 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
             <div class="mb-4 md:mb-0">
                 <span class="text-xl font-bold tracking-tighter">
@@ -169,11 +205,7 @@
                     <span class="sr-only">Twitter</span>
                     <i class="fa-brands fa-x-twitter text-xl"></i>
                 </a>
-                <a href="#" class="text-zinc-500 hover:text-white transition-colors">
-                    <span class="sr-only">YouTube</span>
-                    <i class="fa-brands fa-youtube text-xl"></i>
-                </a>
-                <a href="#" class="text-zinc-500 hover:text-white transition-colors">
+                <a href="https://discord.gg/CEPtKbmu9b" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-[#5865F2] transition-colors">
                     <span class="sr-only">Discord</span>
                     <i class="fa-brands fa-discord text-xl"></i>
                 </a>
